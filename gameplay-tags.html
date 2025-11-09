@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HOP Framework - Complete Gameplay Tags Reference">
+    <meta name="keywords" content="Unreal Engine, GAS, Gameplay Tags, Combat System">
+    <meta name="author" content="HOP Framework Team">
+    <title>Gameplay Tags Reference - HOP Framework</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 HOP Framework</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="weapons.html">Weapons</a></li>
+                    <li><a href="abilities.html">Abilities</a></li>
+                    <li><a href="combograph.html">ComboGraph</a></li>
+                    <li><a href="effects.html">Gameplay Effects</a></li>
+                    <li><a href="attributes.html">Attributes</a></li>
+                    <li><a href="gameplay-tags.html" class="active">Gameplay Tags</a></li>
+                    <li><a href="tutorial.html">Quick Start</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>📑 Tag Categories</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#ability-tags">Ability Tags</a></li>
+                <li><a href="#state-tags">State Tags</a></li>
+                <li><a href="#damage-tags">Damage Tags</a></li>
+                <li><a href="#input-tags">Input Tags</a></li>
+                <li><a href="#combo-tags">Combo Tags</a></li>
+                <li><a href="#data-tags">Data Tags (SetByCaller)</a></li>
+                <li><a href="#event-tags">Event Tags</a></li>
+                <li><a href="#cooldown-tags">Cooldown Tags</a></li>
+                <li><a href="#ai-tags">AI Tags</a></li>
+                <li><a href="#cue-tags">GameplayCue Tags</a></li>
+                <li><a href="#usage-examples">Usage Examples</a></li>
+            </ul>
+
+            <div class="alert alert-info" style="margin-top: 1rem; font-size: 0.85rem;">
+                <strong>💡 Quick Search:</strong> Press <kbd>Ctrl+F</kbd> to search for specific tags
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content fade-in">
+            <h1>🏷️ Gameplay Tags Complete Reference</h1>
+
+            <!-- OVERVIEW SECTION -->
+            <section id="overview">
+                <h2>📖 Overview</h2>
+                
+                <div class="alert alert-success">
+                    <strong>✨ 200+ Gameplay Tags</strong> across 3 major tag registries providing complete combat system coverage
+                </div>
+
+                <p>The HOP Framework uses Unreal Engine's native Gameplay Tag system to enable flexible, data-driven combat mechanics. Tags are organized into three C++ registries:</p>
+
+                <div class="grid">
+                    <div class="card" style="background: linear-gradient(135deg, #32CD32 0%, #228B22 100%); color: white;">
+                        <h4 style="color: white;">🌿 HopGasBuddy Tags</h4>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>150+ Tags</strong></p>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem;">Ability.*, State.*, Input.Action.*, Cooldown.*, AI.*</p>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem;">Core GAS integration, movement, combat states, AI behavior</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #D4AF37 0%, #8B7500 100%); color: white;">
+                        <h4 style="color: white;">⚔️ HopComboGraph Tags</h4>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>30+ Tags</strong></p>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem;">Event.Combo.*, State.Combo.*, Combo.Action.*, Data.*</p>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem;">Combo system, state transitions, damage scaling</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #4169E1 0%, #00008B 100%); color: white;">
+                        <h4 style="color: white;">🎮 HopInput Tags</h4>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>20+ Tags</strong></p>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem;">Tag_Input_Block_*, Tag_Input_Mode_*</p>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem;">Input blocking, mode switching, context awareness</p>
+                    </div>
+                </div>
+
+                <h3>Tag Registry Access (C++)</h3>
+                <pre><code class="language-cpp">// Include headers
+#include "HopGasGameplayTags.h"
+#include "HopComboGraphGameplayTags.h"
+#include "HopInputTags.h"
+
+// Access tags
+FGameplayTag SprintTag = FHopGasGameplayTags::Get().Ability_Movement_Sprint;
+FGameplayTag ComboHit2 = FHopComboGraphGameplayTags::Get().State_Combo_Attacking_Hit2;
+FGameplayTag BlockCombat = FHopInputTags::Get().Tag_Input_Block_Combat;</code></pre>
+
+                <h3>Tag Registry Access (Blueprint)</h3>
+                <pre><code>// Gameplay Tag assets auto-discovered in project settings
+Project Settings → Project → Gameplay Tags → Gameplay Tag List
+
+// Access in Blueprint:
+├─ Has Matching Gameplay Tags (Check if ASC has tag)
+├─ Add Loose Gameplay Tags (Grant tag to ASC)
+├─ Remove Loose Gameplay Tags (Remove tag from ASC)
+└─ Make Literal Gameplay Tag (Create tag reference)</code></pre>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- ABILITY TAGS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="ability-tags">
+                <h2>🎯 Ability Tags</h2>
+                
+                <p>Tags that identify and categorize gameplay abilities. Used in ability activation, blocking, and cancellation logic.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Movement Abilities</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Purpose</th>
+                                <th>Granted By</th>
+                                <th>Example Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Ability.Movement.Walk</code></td>
+                                <td>Basic walking movement</td>
+                                <td>GA_Walk</td>
+                                <td>Default locomotion, can be cancelled by sprint</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Movement.Sprint</code></td>
+                                <td>Fast running movement</td>
+                                <td>GA_Sprint</td>
+                                <td>Cancels Walk, blocked by State.Exhausted</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Movement.AdvancedSprint</code></td>
+                                <td>Enhanced sprint with stamina costs</td>
+                                <td>GA_AdvancedSprint</td>
+                                <td>Advanced movement, costs stamina per second</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Movement.Jump</code></td>
+                                <td>Jump action</td>
+                                <td>GA_Jump</td>
+                                <td>Can be activated while moving</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Movement.Crouch</code></td>
+                                <td>Crouch/stealth movement</td>
+                                <td>GA_Crouch</td>
+                                <td>Reduces detection range, slower speed</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Movement.Dodge</code></td>
+                                <td>Evasive dodge roll</td>
+                                <td>GA_Dodge</td>
+                                <td>I-frames, costs stamina, has cooldown</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Movement.Traversal</code></td>
+                                <td>Context-based traversal (climb, vault)</td>
+                                <td>GA_Traversal</td>
+                                <td>Automated during movement near obstacles</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Combat Abilities</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Purpose</th>
+                                <th>Granted By</th>
+                                <th>Example Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Ability.Combat.Attack</code></td>
+                                <td>Generic attack ability identifier</td>
+                                <td>All attack abilities</td>
+                                <td>Root tag for all combat attacks</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Combat.Melee</code></td>
+                                <td>Melee combat attacks</td>
+                                <td>GA_MeleeComboAttack</td>
+                                <td>Close-range weapon attacks</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Combat.Ranged</code></td>
+                                <td>Ranged weapon fire</td>
+                                <td>GA_FireWeapon</td>
+                                <td>Shooting, bow attacks, etc.</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Combat.Reload</code></td>
+                                <td>Reload weapon</td>
+                                <td>GA_Reload</td>
+                                <td>Blocks other combat during reload</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Combat.Parry</code></td>
+                                <td>Parry incoming attacks</td>
+                                <td>GA_Parry</td>
+                                <td>Timing-based defensive mechanic</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Combat.Counter</code></td>
+                                <td>Counter-attack after parry</td>
+                                <td>GA_Counter</td>
+                                <td>Activated on successful parry</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Combat.Execution</code></td>
+                                <td>Execute low-health enemies</td>
+                                <td>GA_Execution</td>
+                                <td>Instant kill when target &lt; 25% HP</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Weapon.Melee</code></td>
+                                <td>Melee weapon-specific</td>
+                                <td>Weapon grants</td>
+                                <td>Sword, axe, hammer abilities</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.Weapon.Ranged</code></td>
+                                <td>Ranged weapon-specific</td>
+                                <td>Weapon grants</td>
+                                <td>Gun, bow, crossbow abilities</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Utility Abilities</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Purpose</th>
+                                <th>Granted By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Ability.Interact</code></td>
+                                <td>Interact with objects/NPCs</td>
+                                <td>GA_Interact</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.TakeCover</code></td>
+                                <td>Enter/exit cover system</td>
+                                <td>GA_TakeCover</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.ThrowGrenade</code></td>
+                                <td>Throw throwable items</td>
+                                <td>GA_ThrowGrenade</td>
+                            </tr>
+                            <tr>
+                                <td><code>Ability.StaggerRecovery</code></td>
+                                <td>Recover from stagger state</td>
+                                <td>GA_StaggerRecovery (auto)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>💡 Ability Tag Usage:</strong><br>
+                    • <strong>Asset Tags:</strong> Identify the ability type<br>
+                    • <strong>Activation Blocked Tags:</strong> Prevent activation when these tags present<br>
+                    • <strong>Cancel Abilities With Tag:</strong> End other abilities with matching tags<br>
+                    • <strong>Block Abilities With Tag:</strong> Prevent new abilities with matching tags
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- STATE TAGS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="state-tags">
+                <h2>🎭 State Tags</h2>
+                
+                <p>Tags that represent the current state of a character. Used for conditional logic, blocking abilities, and visual feedback.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Combat States</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Meaning</th>
+                                <th>Duration</th>
+                                <th>Effects</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>State.Combat.Attacking</code></td>
+                                <td>Currently performing attack</td>
+                                <td>During attack animation</td>
+                                <td>Blocks movement abilities, allows cancels</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combat.Melee.Attacking</code></td>
+                                <td>Melee attack in progress</td>
+                                <td>Montage duration</td>
+                                <td>Specific to melee weapons</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combat.Ranged.Firing</code></td>
+                                <td>Ranged weapon firing</td>
+                                <td>Fire animation</td>
+                                <td>Blocks reload, movement</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combat.Reloading</code></td>
+                                <td>Reloading weapon</td>
+                                <td>Reload montage</td>
+                                <td>Blocks attacks, can be cancelled</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combat.InCover</code></td>
+                                <td>In cover position</td>
+                                <td>Until exit cover</td>
+                                <td>Reduces incoming damage, limits movement</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Movement States</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Meaning</th>
+                                <th>Speed Modifier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>State.Movement.Walking</code></td>
+                                <td>Walking speed</td>
+                                <td>1.0x (base)</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Movement.Sprinting</code></td>
+                                <td>Sprint speed</td>
+                                <td>1.5x (configurable)</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Movement.Crouching</code></td>
+                                <td>Crouched/sneaking</td>
+                                <td>0.5x</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Movement.Jumping</code></td>
+                                <td>In air from jump</td>
+                                <td>N/A</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Movement.Falling</code></td>
+                                <td>Falling/airborne</td>
+                                <td>N/A</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Movement.Dodging</code></td>
+                                <td>Dodge rolling</td>
+                                <td>2.0x (burst)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Debuff/CC States</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Effect</th>
+                                <th>Typical Duration</th>
+                                <th>Blocks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>State.Debuff.Stunned</code></td>
+                                <td>Cannot move or act</td>
+                                <td>1-3 seconds</td>
+                                <td>All abilities</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Debuff.KnockedDown</code></td>
+                                <td>Knocked to ground</td>
+                                <td>2-4 seconds</td>
+                                <td>All abilities except recovery</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Debuff.Slowed</code></td>
+                                <td>Movement speed reduced</td>
+                                <td>3-5 seconds</td>
+                                <td>Sprint ability</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Debuff.Rooted</code></td>
+                                <td>Cannot move at all</td>
+                                <td>2 seconds</td>
+                                <td>All movement</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Stagger.Light</code></td>
+                                <td>Light hit reaction</td>
+                                <td>0.3 seconds</td>
+                                <td>Attacks (not movement)</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Stagger.Medium</code></td>
+                                <td>Medium stagger</td>
+                                <td>0.6 seconds</td>
+                                <td>Attacks + sprint</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Stagger.Heavy</code></td>
+                                <td>Heavy stagger</td>
+                                <td>1.0 seconds</td>
+                                <td>All actions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Special States</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Meaning</th>
+                                <th>Effects</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>State.Dead</code></td>
+                                <td>Character is dead</td>
+                                <td>Blocks all abilities, triggers death logic</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Invulnerable</code></td>
+                                <td>Cannot take damage</td>
+                                <td>Damage effects ignored</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.SuperArmor</code></td>
+                                <td>Cannot be staggered</td>
+                                <td>Takes damage but no hit reactions</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Parry.Active</code></td>
+                                <td>Parry window active</td>
+                                <td>Deflects incoming attacks</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Parry.Perfect</code></td>
+                                <td>Perfect parry timing</td>
+                                <td>Opens counter window, restores stamina</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Counter.Window</code></td>
+                                <td>Counter-attack available</td>
+                                <td>Can activate counter ability</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Exhausted</code></td>
+                                <td>Stamina depleted</td>
+                                <td>Blocks stamina-costing abilities</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- DAMAGE TAGS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="damage-tags">
+                <h2>💥 Damage Tags</h2>
+                
+                <p>Tags that categorize damage types, sources, and modifiers. Used in damage calculation, resistance, and visual effects.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Damage Type Hierarchy</h3>
+                    </div>
+
+                    <pre><code>ROOT: Damage
+├─ Damage.Physical
+│  ├─ Damage.Physical.Slash (swords, axes)
+│  │  ├─ Damage.Physical.Slash.Combo1 (+10% bonus)
+│  │  ├─ Damage.Physical.Slash.Combo2 (+20% bonus)
+│  │  ├─ Damage.Physical.Slash.Combo3 (+30% bonus)
+│  │  └─ Damage.Physical.Slash.Combo4 (+40% finisher)
+│  ├─ Damage.Physical.Blunt (hammers, fists)
+│  ├─ Damage.Physical.Pierce (spears, arrows)
+│  └─ Damage.Physical.Ballistic (bullets)
+│
+├─ Damage.Elemental
+│  ├─ Damage.Elemental.Fire
+│  ├─ Damage.Elemental.Ice
+│  ├─ Damage.Elemental.Lightning
+│  └─ Damage.Elemental.Poison
+│
+├─ Damage.Magic
+│  ├─ Damage.Magic.Arcane
+│  ├─ Damage.Magic.Holy
+│  └─ Damage.Magic.Dark
+│
+└─ Damage.True (ignores armor/resistance)</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Damage Source Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Source</th>
+                                <th>Typical Damage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Damage.Source.Melee</code></td>
+                                <td>Melee weapon hit</td>
+                                <td>25-70 per hit</td>
+                            </tr>
+                            <tr>
+                                <td><code>Damage.Source.Ranged</code></td>
+                                <td>Ranged weapon projectile</td>
+                                <td>15-50 per hit</td>
+                            </tr>
+                            <tr>
+                                <td><code>Damage.Source.Ability</code></td>
+                                <td>Gameplay ability</td>
+                                <td>Variable</td>
+                            </tr>
+                            <tr>
+                                <td><code>Damage.Source.Environmental</code></td>
+                                <td>Fall damage, hazards</td>
+                                <td>10-100</td>
+                            </tr>
+                            <tr>
+                                <td><code>Damage.Source.Execution</code></td>
+                                <td>Execution ability</td>
+                                <td>9999 (instant kill)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="alert alert-warning">
+                    <strong>⚠️ Damage Tag Application:</strong><br>
+                    Damage tags are applied to Gameplay Effects via <strong>Asset Tags</strong> or <strong>Granted Tags</strong>. They determine damage calculation modifiers, resistances, and immunity checks.
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- DATA TAGS (SETBYCALLER) -->
+            <!-- ========================================================================================================= -->
+
+            <section id="data-tags">
+                <h2>📊 Data Tags (SetByCaller)</h2>
+                
+                <p>Special tags used with Gameplay Effect magnitudes that are set dynamically at runtime. Critical for dynamic damage, costs, and scaling.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">SetByCaller Magnitude Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Purpose</th>
+                                <th>Typical Value Range</th>
+                                <th>Usage Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Data.Damage</code></td>
+                                <td>Final calculated damage</td>
+                                <td>1.0 - 500.0</td>
+                                <td>SetByCaller magnitude for GE_MeleeDamage</td>
+                            </tr>
+                            <tr>
+                                <td><code>Data.StaminaCost</code></td>
+                                <td>Stamina cost for ability</td>
+                                <td>10.0 - 50.0</td>
+                                <td>Dynamic stamina costs based on combo</td>
+                            </tr>
+                            <tr>
+                                <td><code>Data.ManaCost</code></td>
+                                <td>Mana cost for spells</td>
+                                <td>20.0 - 100.0</td>
+                                <td>Magic ability resource costs</td>
+                            </tr>
+                            <tr>
+                                <td><code>Data.ComboMultiplier</code></td>
+                                <td>Combo damage scaling</td>
+                                <td>1.0 - 2.5</td>
+                                <td>Multiply base damage: BaseDmg × ComboMultiplier</td>
+                            </tr>
+                            <tr>
+                                <td><code>Data.Force</code></td>
+                                <td>Knockback/impulse force</td>
+                                <td>100.0 - 1000.0</td>
+                                <td>Physics impulse on hit</td>
+                            </tr>
+                            <tr>
+                                <td><code>Data.Duration</code></td>
+                                <td>Dynamic effect duration</td>
+                                <td>0.5 - 10.0 seconds</td>
+                                <td>Buff/debuff durations</td>
+                            </tr>
+                            <tr>
+                                <td><code>Data.Healing</code></td>
+                                <td>Healing amount</td>
+                                <td>10.0 - 200.0</td>
+                                <td>Restore health effects</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">C++ Usage: SetByCaller Magnitudes</h3>
+                    </div>
+
+                    <pre><code class="language-cpp">// Create effect spec
+FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(
+    GE_MeleeDamage, 
+    1, // Level
+    ASC->MakeEffectContext()
+);
+
+// Set magnitude by Data tag
+if (SpecHandle.IsValid())
+{
+    FGameplayEffectSpec* Spec = SpecHandle.Data.Get();
+    
+    // Set damage
+    FGameplayTag DamageTag = FHopComboGraphGameplayTags::Get().Data_Damage;
+    Spec->SetSetByCallerMagnitude(DamageTag, FinalDamage);
+    
+    // Set combo multiplier
+    FGameplayTag ComboTag = FHopComboGraphGameplayTags::Get().Data_ComboMultiplier;
+    float ComboMultiplier = 1.0f + (ComboCount * 0.1f); // +10% per hit
+    Spec->SetSetByCallerMagnitude(ComboTag, ComboMultiplier);
+    
+    // Apply effect
+    ASC->ApplyGameplayEffectSpecToSelf(*Spec);
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Blueprint Usage: SetByCaller Magnitudes</h3>
+                    </div>
+
+                    <pre><code>// Create Outgoing Gameplay Effect Spec
+Make Outgoing Gameplay Effect Spec
+├─ Gameplay Effect Class: GE_MeleeDamage
+├─ Level: 1
+└─ Return: Effect Spec Handle
+
+// Assign SetByCaller Magnitude
+Assign Tag Set By Caller Magnitude
+├─ Spec Handle: (from above)
+├─ Data Tag: Data.Damage (select from dropdown)
+├─ Magnitude: 45.5 (calculated damage)
+└─ Return: Modified Spec Handle
+
+// Apply to Target
+Apply Gameplay Effect Spec to Target
+├─ Spec Handle: (modified spec)
+└─ Target: Target ASC</code></pre>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>💡 SetByCaller Best Practices:</strong><br>
+                    • Always check <code>SpecHandle.IsValid()</code> before setting magnitudes<br>
+                    • Use named Data tags (not raw strings) for type safety<br>
+                    • Set all required magnitudes before applying effect<br>
+                    • Missing SetByCaller values = effect fails silently (use logs to debug)
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- COMBO TAGS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="combo-tags">
+                <h2>🔄 Combo Tags</h2>
+                
+                <p>Tags specific to the HopComboGraph system for managing combo states, transitions, and events.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Combo State Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>When Active</th>
+                                <th>Grants</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>State.Combo.Active</code></td>
+                                <td>Any combo graph executing</td>
+                                <td>Blocks weapon switching</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combo.Attacking.Hit1</code></td>
+                                <td>First attack in combo</td>
+                                <td>Can transition to Hit2</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combo.Attacking.Hit2</code></td>
+                                <td>Second attack</td>
+                                <td>Can transition to Hit3</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combo.Attacking.Hit3</code></td>
+                                <td>Third attack</td>
+                                <td>Can transition to Hit4</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combo.Attacking.Hit4</code></td>
+                                <td>Finisher attack</td>
+                                <td>Ends combo</td>
+                            </tr>
+                            <tr>
+                                <td><code>State.Combo.Window.Open</code></td>
+                                <td>Combo window active (60%-95%)</td>
+                                <td>Input processed for next combo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Combo Event Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Fired When</th>
+                                <th>Listen For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Event.Combo.Started</code></td>
+                                <td>Combo graph execution begins</td>
+                                <td>Initialize combo UI, camera effects</td>
+                            </tr>
+                            <tr>
+                                <td><code>Event.Combo.Transitioned</code></td>
+                                <td>Moved to next combo node</td>
+                                <td>Update combo counter, play sound</td>
+                            </tr>
+                            <tr>
+                                <td><code>Event.Combo.Completed</code></td>
+                                <td>Combo finished successfully</td>
+                                <td>Award bonus damage, XP</td>
+                            </tr>
+                            <tr>
+                                <td><code>Event.Combo.Interrupted</code></td>
+                                <td>Combo cancelled (stun, death)</td>
+                                <td>Reset combo state, clear UI</td>
+                            </tr>
+                            <tr>
+                                <td><code>Event.Combo.WindowOpened</code></td>
+                                <td>Combo window becomes active</td>
+                                <td>Show input prompt</td>
+                            </tr>
+                            <tr>
+                                <td><code>Event.Combo.WindowClosed</code></td>
+                                <td>Combo window expires</td>
+                                <td>Hide input prompt</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Combo Action Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Combo.Action.SpawnVFX</code></td>
+                                <td>Trigger particle effects on combo node enter</td>
+                            </tr>
+                            <tr>
+                                <td><code>Combo.Action.PlaySound</code></td>
+                                <td>Play audio on combo transition</td>
+                            </tr>
+                            <tr>
+                                <td><code>Combo.Action.ApplyEffect</code></td>
+                                <td>Apply gameplay effect during combo</td>
+                            </tr>
+                            <tr>
+                                <td><code>Combo.Action.GrantTag</code></td>
+                                <td>Grant temporary tag during node</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- INPUT TAGS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="input-tags">
+                <h2>🎮 Input Tags</h2>
+                
+                <p>Tags from HopInputRuntime module that control input blocking, mode switching, and context-aware input handling.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Input Blocking Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Blocks</th>
+                                <th>Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Tag_Input_Block_All</code></td>
+                                <td>All input handlers</td>
+                                <td>Cutscenes, death state</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tag_Input_Block_Combat</code></td>
+                                <td>Combat-related inputs</td>
+                                <td>During reload, stunned</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tag_Input_Block_Movement</code></td>
+                                <td>Movement inputs</td>
+                                <td>Rooted, knocked down</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tag_Input_Block_Abilities</code></td>
+                                <td>Ability activation</td>
+                                <td>Exhausted, silenced</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tag_Input_Block_Interactions</code></td>
+                                <td>Interact button</td>
+                                <td>In combat, moving</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Input Mode Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Active When</th>
+                                <th>Enables</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Tag_Input_Mode_Combat</code></td>
+                                <td>In combat encounter</td>
+                                <td>Attack, dodge, parry inputs</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tag_Input_Mode_Exploration</code></td>
+                                <td>Out of combat</td>
+                                <td>Interact, jump, sprint</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tag_Input_Mode_UI</code></td>
+                                <td>Menu/inventory open</td>
+                                <td>UI navigation only</td>
+                            </tr>
+                            <tr>
+                                <td><code>Tag_Input_Mode_Dialogue</code></td>
+                                <td>In dialogue</td>
+                                <td>Dialogue choices, skip</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- AI TAGS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="ai-tags">
+                <h2>🤖 AI Tags</h2>
+                
+                <p>Tags used by HopAICombatBehaviorComponent for AI decision-making and state management.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">AI State Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>AI Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>AI.State.Idle</code></td>
+                                <td>Standing idle, looking around</td>
+                            </tr>
+                            <tr>
+                                <td><code>AI.State.Patrolling</code></td>
+                                <td>Following patrol route</td>
+                            </tr>
+                            <tr>
+                                <td><code>AI.State.Investigating</code></td>
+                                <td>Checking last known location</td>
+                            </tr>
+                            <tr>
+                                <td><code>AI.State.Chasing</code></td>
+                                <td>Pursuing target</td>
+                            </tr>
+                            <tr>
+                                <td><code>AI.State.Attacking</code></td>
+                                <td>In combat, attacking</td>
+                            </tr>
+                            <tr>
+                                <td><code>AI.State.Fleeing</code></td>
+                                <td>Running away (low HP)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">AI Difficulty Tags</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Reaction Time</th>
+                                <th>Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>AI.Difficulty.Easy</code></td>
+                                <td>0.8-1.2 seconds</td>
+                                <td>60%</td>
+                            </tr>
+                            <tr>
+                                <td><code>AI.Difficulty.Normal</code></td>
+                                <td>0.4-0.8 seconds</td>
+                                <td>75%</td>
+                            </tr>
+                            <tr>
+                                <td><code>AI.Difficulty.Hard</code></td>
+                                <td>0.2-0.4 seconds</td>
+                                <td>90%</td>
+                            </tr>
+                            <tr>
+                                <td><code>AI.Difficulty.Expert</code></td>
+                                <td>0.1-0.2 seconds</td>
+                                <td>95%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- COOLDOWN TAGS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="cooldown-tags">
+                <h2>⏱️ Cooldown Tags</h2>
+                
+                <p>Tags used for ability cooldowns via Cooldown Gameplay Effects.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ability Cooldowns</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Duration</th>
+                                <th>Ability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Cooldown.Ability.Dodge</code></td>
+                                <td>3 seconds</td>
+                                <td>GA_Dodge</td>
+                            </tr>
+                            <tr>
+                                <td><code>Cooldown.Ability.Parry</code></td>
+                                <td>5 seconds</td>
+                                <td>GA_Parry</td>
+                            </tr>
+                            <tr>
+                                <td><code>Cooldown.Ability.Execution</code></td>
+                                <td>10 seconds</td>
+                                <td>GA_Execution</td>
+                            </tr>
+                            <tr>
+                                <td><code>Cooldown.Ability.ThrowGrenade</code></td>
+                                <td>8 seconds</td>
+                                <td>GA_ThrowGrenade</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>💡 Cooldown Usage:</strong> Cooldown tags are granted by Cooldown GE (Has Duration policy). While tag is active, ability cannot activate again.
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- GAMEPLAYCUE TAGS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="cue-tags">
+                <h2>🎬 GameplayCue Tags</h2>
+                
+                <p>Tags that trigger visual and audio feedback via the GameplayCue system.</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Weapon Cues</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Visual Effect</th>
+                                <th>Audio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>GameplayCue.Weapon.Sword.Swing</code></td>
+                                <td>Slash VFX trail</td>
+                                <td>Whoosh sound</td>
+                            </tr>
+                            <tr>
+                                <td><code>GameplayCue.Weapon.Gun.Fire</code></td>
+                                <td>Muzzle flash</td>
+                                <td>Gunshot sound</td>
+                            </tr>
+                            <tr>
+                                <td><code>GameplayCue.Weapon.Reload</code></td>
+                                <td>Reload animation</td>
+                                <td>Reload sound</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Impact Cues</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Spawns</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>GameplayCue.Impact.Flesh</code></td>
+                                <td>Blood spatter, hit sound</td>
+                            </tr>
+                            <tr>
+                                <td><code>GameplayCue.Impact.Metal</code></td>
+                                <td>Sparks, metallic clang</td>
+                            </tr>
+                            <tr>
+                                <td><code>GameplayCue.Impact.Stone</code></td>
+                                <td>Dust, rock debris</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- USAGE EXAMPLES -->
+            <!-- ========================================================================================================= -->
+
+            <section id="usage-examples">
+                <h2>💡 Usage Examples</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Example 1: Block Abilities While Stunned</h3>
+                    </div>
+
+                    <p><strong>Scenario:</strong> Prevent all abilities from activating when character is stunned.</p>
+
+                    <h4>Gameplay Ability Setup</h4>
+                    <pre><code>// In GA_MeleeComboAttack (any ability)
+Class Defaults → Ability Tags:
+├─ Activation Blocked Tags:
+│  ├─ State.Debuff.Stunned
+│  ├─ State.Debuff.KnockedDown
+│  └─ State.Dead</code></pre>
+
+                    <h4>Stun Effect Setup</h4>
+                    <pre><code>// GE_Stun
+Duration Policy: Has Duration (2.0 seconds)
+
+Granted Tags:
+└─ State.Debuff.Stunned (granted for 2s)
+
+Result: All abilities blocked for 2 seconds</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Example 2: Combo Damage Scaling with Tags</h3>
+                    </div>
+
+                    <p><strong>Scenario:</strong> Apply increasing damage based on combo hit count.</p>
+
+                    <h4>C++ Implementation</h4>
+                    <pre><code class="language-cpp">// In GA_MeleeComboAttack::ApplyDamage()
+void UGA_MeleeComboAttack::ApplyDamage(AActor* Target, int32 ComboCount)
+{
+    // Base damage
+    float BaseDamage = 50.0f;
+    
+    // Combo scaling: +10% per hit
+    float ComboMultiplier = 1.0f + (ComboCount * 0.1f);
+    float FinalDamage = BaseDamage * ComboMultiplier;
+    
+    // Get appropriate combo tag
+    FGameplayTag DamageTag;
+    switch(ComboCount)
+    {
+        case 1: DamageTag = FHopGasGameplayTags::Get().Damage_Physical_Slash_Combo1; break;
+        case 2: DamageTag = FHopGasGameplayTags::Get().Damage_Physical_Slash_Combo2; break;
+        case 3: DamageTag = FHopGasGameplayTags::Get().Damage_Physical_Slash_Combo3; break;
+        case 4: DamageTag = FHopGasGameplayTags::Get().Damage_Physical_Slash_Combo4; break;
+    }
+    
+    // Create effect spec
+    FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(
+        GE_MeleeDamage,
+        GetAbilityLevel()
+    );
+    
+    if (SpecHandle.IsValid())
+    {
+        // Set damage magnitude
+        SpecHandle.Data->SetSetByCallerMagnitude(
+            FHopComboGraphGameplayTags::Get().Data_Damage,
+            FinalDamage
+        );
+        
+        // Add combo damage tag
+        SpecHandle.Data->DynamicAssetTags.AddTag(DamageTag);
+        
+        // Apply to target
+        ApplyGameplayEffectSpecToTarget(
+            CurrentSpecHandle,
+            CurrentActorInfo,
+            CurrentActivationInfo,
+            SpecHandle,
+            GetTargetDataFromActivationInfo()
+        );
+    }
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Example 3: Check Perfect Parry Timing</h3>
+                    </div>
+
+                    <p><strong>Scenario:</strong> Detect perfect parry and grant counter window.</p>
+
+                    <h4>Blueprint Implementation</h4>
+                    <pre><code>// Event: OnParryActivated (GA_Parry)
+
+// Check if incoming attack within perfect window (0.1s)
+Branch
+├─ Condition: (CurrentTime - ParryStartTime) < 0.1
+├─ TRUE:
+│  ├─→ Add Loose Gameplay Tag: State.Parry.Perfect
+│  ├─→ Add Loose Gameplay Tag: State.Counter.Window
+│  ├─→ Apply GE: GE_ParryStaminaRestore (+25 stamina)
+│  ├─→ Execute GameplayCue: GameplayCue.Parry.Perfect (visual flash)
+│  └─→ Print: "PERFECT PARRY!"
+└─ FALSE:
+   ├─→ Add Loose Gameplay Tag: State.Parry.Active
+   └─→ Print: "Parry"
+
+// 2 seconds later, remove counter window
+Delay 2.0
+└─→ Remove Loose Gameplay Tag: State.Counter.Window</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Example 4: Input Blocking During Reload</h3>
+                    </div>
+
+                    <p><strong>Scenario:</strong> Block combat inputs while reloading weapon.</p>
+
+                    <h4>Reload Ability Setup</h4>
+                    <pre><code>// GA_Reload
+Class Defaults:
+├─ Ability Tags:
+│  └─ Ability.Combat.Reload
+├─ Activation Granted Tags:
+│  ├─ State.Combat.Reloading (blocks other combat)
+│  └─ Tag_Input_Block_Combat (blocks combat inputs)
+└─ Duration: Reload montage length (2.5 seconds)
+
+Result: 
+- Cannot attack while reloading
+- Cannot reload while reloading
+- Movement still allowed</code></pre>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <div class="alert alert-success" style="margin-top: 3rem;">
+                <h3>🎯 Tag Best Practices</h3>
+                <ul>
+                    <li>✅ Use hierarchical tags for easy filtering (<code>Damage.Physical.Slash</code> matches <code>Damage.Physical.*</code>)</li>
+                    <li>✅ Grant tags via Gameplay Effects for automatic cleanup</li>
+                    <li>✅ Use <code>showdebug abilitysystem</code> to verify tags in PIE</li>
+                    <li>✅ Prefer tag checks over bool flags for better flexibility</li>
+                    <li>✅ Document custom tags in project's Gameplay Tag settings</li>
+                    <li>⚠️ Avoid hardcoded tag strings - use C++ tag getters</li>
+                    <li>⚠️ Don't grant tags manually unless temporary (use GE for persistence)</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>HOP Framework Documentation | Gameplay Tags Reference</p>
+            <p>200+ Tags | 3 Registries | Complete Combat Coverage ✅</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

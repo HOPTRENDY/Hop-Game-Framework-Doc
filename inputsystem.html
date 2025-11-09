@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input System - HOP Framework</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 HOP Framework</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="weapons.html">Weapons</a></li>
+                    <li><a href="abilities.html">Abilities</a></li>
+                    <li><a href="combograph.html">ComboGraph</a></li>
+                    <li><a href="effects.html">Effects</a></li>
+                    <li><a href="attributes.html">Attributes</a></li>
+                    <li><a href="gameplay-tags.html">Tags</a></li>
+                    <li><a href="components.html">Components</a></li>
+                    <li><a href="inputsystem.html" class="active">Input</a></li>
+                    <li><a href="tutorial.html">Tutorials</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>📑 Sections</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#manager">Input Manager</a></li>
+                <li><a href="#buffer">Input Buffer</a></li>
+                <li><a href="#handlers">Input Handlers</a></li>
+                <li><a href="#setup">Setup Guide</a></li>
+                <li><a href="#examples">Examples</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content fade-in">
+            <h1>�� Input System</h1>
+
+            <section id="overview">
+                <h2>📖 Overview</h2>
+                <div class="alert alert-success">
+                    <strong>Advanced Input Management</strong> with 38+ specialized input handlers and intelligent buffering
+                </div>
+
+                <p>The HOP Input System extends Unreal's Enhanced Input with modular handlers, multi-channel buffering, and seamless GAS integration.</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎛️ Input Manager</h4>
+                        <ul>
+                            <li>569 lines core component</li>
+                            <li>Automated input binding</li>
+                            <li>Mode detection (Gamepad/KBM)</li>
+                            <li>Handler delegation system</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>💾 Input Buffer</h4>
+                        <ul>
+                            <li>Multi-channel buffering</li>
+                            <li>4 buffer modes</li>
+                            <li>Combo window integration</li>
+                            <li>Replay & clear commands</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>⚡ Input Handlers (38+)</h4>
+                        <ul>
+                            <li>Movement (6 handlers)</li>
+                            <li>GAS abilities (8 handlers)</li>
+                            <li>Character actions (4 handlers)</li>
+                            <li>Camera & UI (20+ handlers)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="manager">
+                <h2>🎛️ UHopInputManagerComponent</h2>
+
+                <div class="card">
+                    <h3>Core Features</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Handler Registration</strong></td>
+                                <td>Auto-discovers and binds input handlers to actions</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Input Mode Switching</strong></td>
+                                <td>Gamepad ↔ Keyboard/Mouse detection with event callbacks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Enable/Disable Inputs</strong></td>
+                                <td>EnableInputProcessing(), DisableInputProcessing()</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reference Vectors</strong></td>
+                                <td>GetForwardVector(), GetRightVector() for top-down games</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Blueprint Functions</h4>
+                    <pre><code>// Enable/disable input processing
+void EnableInputProcessing();
+void DisableInputProcessing();
+
+// Input mode queries
+bool IsUsingKeyboardAndMouse() const;
+bool IsUsingGamepad() const;
+
+// Reference vectors (override for top-down games)
+FVector GetForwardVector() const;
+FVector GetRightVector() const;
+
+// Get last input (from movement component)
+FVector GetLastInputVector() const;</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Setup Data Asset</h3>
+                    <p>Configure input bindings via <code>UHopInputSetupDataAsset</code>:</p>
+                    <pre><code>// Create in Content Browser: Right-click → Input → Hop Input Setup
+
+Properties:
+├─ Input Mapping Contexts (array)
+│  └─ Priority, IMC reference
+├─ Input Action Bindings (array)
+│  ├─ Input Action
+│  ├─ Input Handler Class
+│  └─ Custom properties per handler
+└─ Default Input Mode Tag</code></pre>
+                </div>
+            </section>
+
+            <section id="buffer">
+                <h2>💾 UHopInputBufferComponent</h2>
+
+                <div class="card">
+                    <h3>Input Buffer Modes</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mode</th>
+                                <th>Behavior</th>
+                                <th>Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Disabled</strong></td>
+                                <td>No buffering</td>
+                                <td>Precise timing games</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FirstInputOnly</strong></td>
+                                <td>Buffer first input, ignore rest</td>
+                                <td>Single action queuing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LastInputOnly</strong></td>
+                                <td>Keep most recent input</td>
+                                <td>Fast-paced action games</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AllInputs</strong></td>
+                                <td>Buffer all inputs in order</td>
+                                <td>Combo systems, fighting games</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Multi-Channel Buffering</h3>
+                    <p>Independent buffer channels for different input types:</p>
+                    <pre><code>// Open/close buffer channels
+void OpenInputBufferChannel(int32 ChannelIndex);
+void CloseInputBufferChannel(int32 ChannelIndex, bool bCancelled);
+
+// Example: Separate channels for attack/dodge
+OpenInputBufferChannel(0);  // Attack inputs
+OpenInputBufferChannel(1);  // Dodge inputs
+
+// Check channel state
+bool IsInputBufferChannelOpen(int32 ChannelIndex) const;</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Buffer Interface Functions</h3>
+                    <pre><code>// Buffer management
+bool IsInputBufferEnabled() const;
+bool IsInputBufferOpen() const;
+void OpenInputBuffer();
+void CloseInputBuffer(bool bCancelled = false);
+
+// Add inputs to buffer
+void BufferInputCommands(TArray&lt;FBufferedInputCommand&gt;& Commands);
+void BufferInputCommandsInChannel(int32 Channel, TArray&lt;FBufferedInputCommand&gt;& Commands);</code></pre>
+                </div>
+            </section>
+
+            <section id="handlers">
+                <h2>⚡ Input Handlers (38+)</h2>
+
+                <div class="card">
+                    <h3>Movement Handlers (6)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Handler</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>InputHandler_Move</code></td>
+                                <td>Character movement (WASD/Left Stick)</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_MoveInterface</code></td>
+                                <td>Interface-based movement (custom logic)</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_HopGasMove</code></td>
+                                <td>Movement with GAS ability activation</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_Look</code></td>
+                                <td>Camera rotation (Mouse/Right Stick)</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_Turn</code></td>
+                                <td>Discrete turning (for controllers)</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_RotateToCursor</code></td>
+                                <td>Face mouse cursor (top-down games)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>GAS Ability Handlers (8)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>InputHandler_AbilityInput</code></td>
+                                <td>Activate abilities by input ID</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_AbilityTag</code></td>
+                                <td>Activate abilities by gameplay tag</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_HopGasAbilityTag</code></td>
+                                <td>HOP-specific ability activation</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_GameplayEvent</code></td>
+                                <td>Send gameplay events to ASC</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_AbilityConfirm</code></td>
+                                <td>Confirm targeting abilities</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_AbilityInterruption</code></td>
+                                <td>Cancel active abilities</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_InterruptAbilityClass</code></td>
+                                <td>Interrupt specific ability class</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_InterruptAbilityTag</code></td>
+                                <td>Interrupt abilities by tag</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Character Action Handlers (4)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>InputHandler_CharacterJump</code></td>
+                                <td>Character->Jump() native call</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_CharacterCrouch</code></td>
+                                <td>Character->Crouch() native call</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_ComboAttack</code></td>
+                                <td>Melee combo system integration</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_PressHold</code></td>
+                                <td>Generic press/hold event dispatcher</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>UI & Misc Handlers (20+)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>InputHandler_HUDEvent</code></td>
+                                <td>Send input events to HUD widgets</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_CameraZoom</code></td>
+                                <td>Zoom camera in/out</td>
+                            </tr>
+                            <tr>
+                                <td><code>InputHandler_CameraPitch</code></td>
+                                <td>Adjust camera pitch angle</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">+ 17 more specialized handlers...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="setup">
+                <h2>🔧 Setup Guide</h2>
+
+                <div class="card">
+                    <h3>1. Add Component to Character</h3>
+                    <pre><code>// In Character Blueprint or C++
+Components:
+└─ HopInputManagerComponent
+   ├─ Input Buffer Mode: LastInputOnly
+   └─ Input Setup Data Asset: DA_PlayerInputSetup</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>2. Create Input Setup Data Asset</h3>
+                    <pre><code>// Content Browser: Right-click → Input → Hop Input Setup
+DA_PlayerInputSetup:
+├─ Input Mapping Contexts
+│  └─ [0] IMC_Default (Priority: 0)
+│  └─ [1] IMC_Combat (Priority: 1)
+├─ Input Action Bindings
+│  ├─ [0] IA_Move → InputHandler_Move
+│  ├─ [1] IA_Look → InputHandler_Look
+│  ├─ [2] IA_Jump → InputHandler_CharacterJump
+│  ├─ [3] IA_Attack → InputHandler_AbilityTag (Tag: Ability.Combat.Melee)
+│  └─ [4] IA_Dodge → InputHandler_AbilityTag (Tag: Ability.Movement.Dodge)
+└─ Default Input Mode: Input.Mode.KeyboardAndMouse</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>3. Initialize in BeginPlay</h3>
+                    <pre><code>// Automatic setup - no code needed!
+// HopInputManagerComponent auto-initializes:
+// 1. Registers Enhanced Input subsystem
+// 2. Adds Input Mapping Contexts
+// 3. Binds Input Actions to Handlers
+// 4. Detects input mode (Gamepad/KBM)</code></pre>
+                </div>
+            </section>
+
+            <section id="examples">
+                <h2>�� Common Patterns</h2>
+
+                <div class="card">
+                    <h3>Pattern 1: Basic Character Setup</h3>
+                    <pre><code>// Minimal setup for movement + camera + jump
+Input Actions:
+├─ IA_Move (Value: Vector2D)
+├─ IA_Look (Value: Vector2D)
+└─ IA_Jump (Value: Digital)
+
+Handlers:
+├─ IA_Move → InputHandler_Move
+├─ IA_Look → InputHandler_Look
+└─ IA_Jump → InputHandler_CharacterJump
+
+Result: Character moves, looks, and jumps with native Unreal behavior</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Pattern 2: GAS Ability Integration</h3>
+                    <pre><code>// Combat abilities via GAS
+Input Actions:
+├─ IA_Attack (Value: Digital)
+├─ IA_Parry (Value: Digital)
+└─ IA_Dodge (Value: Digital)
+
+Handlers:
+├─ IA_Attack → InputHandler_AbilityTag
+│  └─ Ability Tag: Ability.Combat.Melee
+├─ IA_Parry → InputHandler_AbilityTag
+│  └─ Ability Tag: Ability.Combat.Parry
+└─ IA_Dodge → InputHandler_AbilityTag
+   └─ Ability Tag: Ability.Movement.Dodge
+
+Result: Inputs trigger GAS abilities with buffering support</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Pattern 3: Combo System with Buffer</h3>
+                    <pre><code>// Combo graph integration with input buffering
+Component Setup:
+└─ HopInputManagerComponent
+   └─ Input Buffer Mode: AllInputs
+
+Handler:
+└─ IA_Attack → InputHandler_ComboAttack
+   ├─ Combo Manager Component: Required
+   └─ Buffer Window: 0.2s after attack
+
+Flow:
+1. Player presses Attack during combo
+2. Input buffered if outside combo window
+3. Combo window opens (via combo graph)
+4. Buffered input auto-replays
+5. Next combo state activates
+
+Result: Responsive combo system with lenient input timing</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Pattern 4: Top-Down Game Setup</h3>
+                    <pre><code>// Top-down with mouse rotation
+Handlers:
+├─ IA_Move → InputHandler_Move
+└─ IA_Look → InputHandler_RotateToCursor
+
+Character:
+└─ Override GetForwardVector()
+   └─ Return Arrow Component direction
+
+Result: Character moves with WASD, rotates to face cursor</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Pattern 5: Input Mode Events</h3>
+                    <pre><code>// Blueprint: Respond to input mode changes
+Event: OnInputModeChanged (HopInputManagerComponent)
+├─ If Gamepad
+│  └─ Show controller button prompts
+└─ If Keyboard/Mouse
+   └─ Show keyboard key prompts
+
+// C++: Subscribe to delegate
+InputManager->OnInputModeChanged.AddDynamic(this, &AMyHUD::HandleInputModeChange);</code></pre>
+                </div>
+            </section>
+
+            <div class="alert alert-success">
+                <h3>✅ Best Practices</h3>
+                <ul>
+                    <li>✅ Use Data Assets for input setup (not hardcoded bindings)</li>
+                    <li>✅ Choose appropriate buffer mode for your game genre</li>
+                    <li>✅ Use gameplay tags for GAS abilities (not input IDs)</li>
+                    <li>✅ Leverage multi-channel buffering for complex systems</li>
+                    <li>✅ Subscribe to OnInputModeChanged for UI updates</li>
+                    <li>⚠️ Don't mix native Character inputs with GAS abilities for same action</li>
+                    <li>⚠️ Don't forget to set Input Mapping Context priorities</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>HOP Framework Documentation | Input System</p>
+        </div>
+    </footer>
+</body>
+</html>

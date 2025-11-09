@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attributes - HOP Framework</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 HOP Framework</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="weapons.html">Weapons</a></li>
+                    <li><a href="abilities.html">Abilities</a></li>
+                    <li><a href="combograph.html">ComboGraph</a></li>
+                    <li><a href="effects.html">Effects</a></li>
+                    <li><a href="attributes.html" class="active">Attributes</a></li>
+                    <li><a href="gameplay-tags.html">Tags</a></li>
+                    <li><a href="components.html">Components</a></li>
+                    <li><a href="inputsystem.html">Input</a></li>
+                    <li><a href="tutorial.html">Tutorials</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>📑 Sections</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#hop-attributes">HopAttributeSet</a></li>
+                <li><a href="#combat-attributes">CombatAttributeSet</a></li>
+                <li><a href="#clamping">Attribute Clamping</a></li>
+                <li><a href="#replication">Network Replication</a></li>
+                <li><a href="#setup">Setup Guide</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content fade-in">
+            <h1>📊 Attribute Sets</h1>
+
+            <section id="overview">
+                <h2>📖 Overview</h2>
+                <div class="alert alert-success">
+                    <strong>2 Comprehensive Attribute Sets</strong> - 35+ attributes for RPG progression and combat mechanics
+                </div>
+
+                <p>HOP Framework provides two specialized attribute sets for GAS integration: <code>UHopAttributeSet</code> for RPG progression and <code>UHopCombatAttributeSet</code> for weapon/combat mechanics.</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎭 HopAttributeSet</h4>
+                        <ul>
+                            <li>24 attributes (218 lines)</li>
+                            <li>Vital: Health, Stamina, Mana</li>
+                            <li>Primary: Str, Dex, Int, Vigor</li>
+                            <li>Secondary: Armor, Crit, Block</li>
+                            <li>Movement: Speed, Jump</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>⚔️ HopCombatAttributeSet</h4>
+                        <ul>
+                            <li>14 attributes (combat-focused)</li>
+                            <li>Ammo: Current, Max, Reserve</li>
+                            <li>Weapon: Fire rate, Reload, Damage</li>
+                            <li>Defense: Shield, Armor, Resistance</li>
+                            <li>Meta: Incoming damage</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hop-attributes">
+                <h2>🎭 UHopAttributeSet - RPG Progression</h2>
+
+                <div class="card">
+                    <h3>Vital Attributes (9)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Purpose</th>
+                                <th>Default</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Health</code></td>
+                                <td>Current health (death at 0)</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td><code>MaxHealth</code></td>
+                                <td>Maximum health capacity</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td><code>HealthRegeneration</code></td>
+                                <td>HP regenerated per second</td>
+                                <td>1.0</td>
+                            </tr>
+                            <tr>
+                                <td><code>Stamina</code></td>
+                                <td>Current stamina (sprint, dodge, abilities)</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td><code>MaxStamina</code></td>
+                                <td>Maximum stamina capacity</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td><code>StaminaRegeneration</code></td>
+                                <td>Stamina regenerated per second</td>
+                                <td>10.0</td>
+                            </tr>
+                            <tr>
+                                <td><code>Mana</code></td>
+                                <td>Current mana (magical abilities)</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td><code>MaxMana</code></td>
+                                <td>Maximum mana capacity</td>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <td><code>ManaRegeneration</code></td>
+                                <td>Mana regenerated per second</td>
+                                <td>5.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Primary Attributes (4)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>Strength</code></td>
+                                <td>Melee damage, carry capacity</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td><code>Dexterity</code></td>
+                                <td>Attack speed, accuracy, dodge chance</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td><code>Intelligence</code></td>
+                                <td>Mana capacity, magical damage</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td><code>Vigor</code></td>
+                                <td>Health & stamina capacity</td>
+                                <td>10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Secondary Attributes (5)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>Armor</code></td>
+                                <td>Physical damage reduction</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td><code>BlockChance</code></td>
+                                <td>Chance to block attacks (0.0-1.0)</td>
+                                <td>0.0</td>
+                            </tr>
+                            <tr>
+                                <td><code>CriticalHitChance</code></td>
+                                <td>Chance for critical strikes (0.0-1.0)</td>
+                                <td>0.05</td>
+                            </tr>
+                            <tr>
+                                <td><code>CriticalHitDamage</code></td>
+                                <td>Critical strike multiplier</td>
+                                <td>1.5</td>
+                            </tr>
+                            <tr>
+                                <td><code>Resistance</code></td>
+                                <td>Magical/elemental damage reduction</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Movement Attributes (2)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>MovementSpeed</code></td>
+                                <td>Speed multiplier (1.0 = normal)</td>
+                                <td>1.0</td>
+                            </tr>
+                            <tr>
+                                <td><code>JumpHeight</code></td>
+                                <td>Jump height modifier</td>
+                                <td>1.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Meta Attributes (2)</h3>
+                    <p>Not replicated - used for temporary calculations:</p>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>IncomingDamage</code></td>
+                                <td>Temporary damage for calculations (PostGameplayEffectExecute)</td>
+                            </tr>
+                            <tr>
+                                <td><code>IncomingHealing</code></td>
+                                <td>Temporary healing for calculations</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="combat-attributes">
+                <h2>⚔️ UHopCombatAttributeSet - Weapon & Combat</h2>
+
+                <div class="card">
+                    <h3>Ammo Attributes (4)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Purpose</th>
+                                <th>Clamping</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>CurrentAmmo</code></td>
+                                <td>Ammo in magazine/clip</td>
+                                <td>0 ≤ value ≤ MaxAmmo</td>
+                            </tr>
+                            <tr>
+                                <td><code>MaxAmmo</code></td>
+                                <td>Magazine capacity</td>
+                                <td>≥ 0</td>
+                            </tr>
+                            <tr>
+                                <td><code>ReserveAmmo</code></td>
+                                <td>Ammo pool for reloading</td>
+                                <td>0 ≤ value ≤ MaxReserveAmmo</td>
+                            </tr>
+                            <tr>
+                                <td><code>MaxReserveAmmo</code></td>
+                                <td>Maximum reserve capacity</td>
+                                <td>≥ 0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Weapon Performance (4)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>FireRateMultiplier</code></td>
+                                <td>Fire rate modifier (1.0 = normal, 2.0 = double)</td>
+                                <td>≥ 0.1</td>
+                            </tr>
+                            <tr>
+                                <td><code>ReloadSpeedMultiplier</code></td>
+                                <td>Reload speed modifier (1.0 = normal)</td>
+                                <td>≥ 0.1</td>
+                            </tr>
+                            <tr>
+                                <td><code>DamageMultiplier</code></td>
+                                <td>Damage modifier (1.5 = 50% bonus)</td>
+                                <td>≥ 0</td>
+                            </tr>
+                            <tr>
+                                <td><code>AccuracyMultiplier</code></td>
+                                <td>Spread modifier (0.5 = half spread)</td>
+                                <td>≥ 0.1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Defense Attributes (5)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>Shield</code></td>
+                                <td>Current shield (absorbs damage first)</td>
+                                <td>0 ≤ value ≤ MaxShield</td>
+                            </tr>
+                            <tr>
+                                <td><code>MaxShield</code></td>
+                                <td>Maximum shield capacity</td>
+                                <td>≥ 0</td>
+                            </tr>
+                            <tr>
+                                <td><code>ShieldRegenRate</code></td>
+                                <td>Shield regen per second</td>
+                                <td>≥ 0</td>
+                            </tr>
+                            <tr>
+                                <td><code>Armor</code></td>
+                                <td>Damage reduction points</td>
+                                <td>≥ 0</td>
+                            </tr>
+                            <tr>
+                                <td><code>DamageResistance</code></td>
+                                <td>Damage reduction % (0.25 = 25% reduction)</td>
+                                <td>0.0 ≤ value ≤ 1.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Meta Attributes (1)</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>Damage</code></td>
+                                <td>Incoming damage (meta attribute, not stored)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="clamping">
+                <h2>🔒 Attribute Clamping</h2>
+
+                <div class="card">
+                    <h3>PreAttributeChange - Validation</h3>
+                    <p>Prevents invalid values before they are set:</p>
+                    <pre><code>void UHopAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+    Super::PreAttributeChange(Attribute, NewValue);
+
+    // Clamp Health to [0, MaxHealth]
+    if (Attribute == GetHealthAttribute())
+    {
+        NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
+    }
+
+    // Clamp Stamina to [0, MaxStamina]
+    if (Attribute == GetStaminaAttribute())
+    {
+        NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxStamina());
+    }
+
+    // Clamp percentages to [0.0, 1.0]
+    if (Attribute == GetBlockChanceAttribute() || 
+        Attribute == GetCriticalHitChanceAttribute())
+    {
+        NewValue = FMath::Clamp(NewValue, 0.0f, 1.0f);
+    }
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>PostGameplayEffectExecute - Meta Attribute Handling</h3>
+                    <p>Processes meta attributes and applies actual changes:</p>
+                    <pre><code>void UHopAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+    Super::PostGameplayEffectExecute(Data);
+
+    // Handle IncomingDamage meta attribute
+    if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+    {
+        const float LocalDamage = GetIncomingDamage();
+        SetIncomingDamage(0.0f); // Clear meta attribute
+
+        if (LocalDamage > 0.0f)
+        {
+            // Apply damage to Health
+            const float NewHealth = GetHealth() - LocalDamage;
+            SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+
+            // Trigger death at 0 health
+            if (GetHealth() <= 0.0f)
+            {
+                // Broadcast death event, disable character, etc.
+            }
+        }
+    }
+
+    // Handle IncomingHealing meta attribute
+    if (Data.EvaluatedData.Attribute == GetIncomingHealingAttribute())
+    {
+        const float LocalHealing = GetIncomingHealing();
+        SetIncomingHealing(0.0f);
+
+        if (LocalHealing > 0.0f)
+        {
+            const float NewHealth = GetHealth() + LocalHealing;
+            SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+        }
+    }
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Combat Attribute Set Clamping</h3>
+                    <pre><code>void UHopCombatAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+    // Clamp CurrentAmmo to [0, MaxAmmo]
+    if (Attribute == GetCurrentAmmoAttribute())
+    {
+        NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxAmmo());
+    }
+
+    // Clamp Shield to [0, MaxShield]
+    if (Attribute == GetShieldAttribute())
+    {
+        NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxShield());
+    }
+
+    // Clamp DamageResistance to [0.0, 1.0]
+    if (Attribute == GetDamageResistanceAttribute())
+    {
+        NewValue = FMath::Clamp(NewValue, 0.0f, 1.0f);
+    }
+
+    // Prevent negative multipliers
+    if (Attribute == GetFireRateMultiplierAttribute() ||
+        Attribute == GetReloadSpeedMultiplierAttribute() ||
+        Attribute == GetAccuracyMultiplierAttribute())
+    {
+        NewValue = FMath::Max(0.1f, NewValue); // Min 0.1x
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="replication">
+                <h2>🌐 Network Replication</h2>
+
+                <div class="card">
+                    <h3>Replicated Properties</h3>
+                    <p>All non-meta attributes are replicated for multiplayer:</p>
+                    <pre><code>void UHopAttributeSet::GetLifetimeReplicatedProps(TArray&lt;FLifetimeProperty&gt;& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+    // Vital attributes
+    DOREPLIFETIME_CONDITION_NOTIFY(UHopAttributeSet, Health, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UHopAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UHopAttributeSet, Stamina, COND_None, REPNOTIFY_Always);
+    
+    // Primary attributes
+    DOREPLIFETIME_CONDITION_NOTIFY(UHopAttributeSet, Strength, COND_None, REPNOTIFY_Always);
+    
+    // Meta attributes are NOT replicated (IncomingDamage, IncomingHealing)
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>RepNotify Functions</h3>
+                    <p>Called on clients when replicated values change:</p>
+                    <pre><code>void UHopAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UHopAttributeSet, Health, OldHealth);
+    
+    // Optional: Update UI, play hit reactions, etc.
+}
+
+void UHopCombatAttributeSet::OnRep_CurrentAmmo(const FGameplayAttributeData& OldCurrentAmmo)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UHopCombatAttributeSet, CurrentAmmo, OldCurrentAmmo);
+    
+    // Optional: Update ammo counter UI
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="setup">
+                <h2>🔧 Setup Guide</h2>
+
+                <div class="card">
+                    <h3>1. Add Attribute Sets to ASC</h3>
+                    <pre><code>// C++ - In character constructor
+void AMyCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if (AbilitySystemComponent)
+    {
+        // Create and register HopAttributeSet
+        HopAttributes = AbilitySystemComponent->GetSet&lt;UHopAttributeSet&gt;();
+        if (!HopAttributes)
+        {
+            HopAttributes = NewObject&lt;UHopAttributeSet&gt;(AbilitySystemComponent);
+            AbilitySystemComponent->AddAttributeSetSubobject(HopAttributes);
+        }
+
+        // Create and register HopCombatAttributeSet
+        CombatAttributes = AbilitySystemComponent->GetSet&lt;UHopCombatAttributeSet&gt;();
+        if (!CombatAttributes)
+        {
+            CombatAttributes = NewObject&lt;UHopCombatAttributeSet&gt;(AbilitySystemComponent);
+            AbilitySystemComponent->AddAttributeSetSubobject(CombatAttributes);
+        }
+    }
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>2. Initialize Attributes via Data Table</h3>
+                    <pre><code>// Create Data Table (DT_CharacterAttributes) in Content Browser
+// Row Structure: AttributeMetaData
+
+BaseStats:
+├─ Attribute: HopAttributeSet.Health
+├─ BaseValue: 100.0
+└─ MinValue: 0.0, MaxValue: 100.0
+
+// Apply via Gameplay Effect
+GE_InitStats:
+├─ Duration: Instant
+├─ Modifiers:
+│  ├─ Health = 100 (Override)
+│  ├─ MaxHealth = 100 (Override)
+│  ├─ Stamina = 100 (Override)
+│  └─ Strength = 10 (Override)
+└─ Apply on character spawn</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>3. Modify Attributes via Gameplay Effects</h3>
+                    <pre><code>// GE_DamagePlayer (Apply 20 damage)
+Duration: Instant
+Modifiers:
+└─ IncomingDamage = 20.0 (Add)
+
+// GE_HealPlayer (Restore 50 health)
+Duration: Instant
+Modifiers:
+└─ IncomingHealing = 50.0 (Add)
+
+// GE_BuffFireRate (2x fire rate for 10 seconds)
+Duration: 10 seconds
+Modifiers:
+└─ FireRateMultiplier = 2.0 (Override)</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>4. Blueprint Access</h3>
+                    <pre><code>// Get attribute value in Blueprint
+Get Health (HopAttributeSet)
+├─ Target: Ability System Component
+└─ Output: float (current health)
+
+// Modify attribute
+Apply Gameplay Effect To Self
+├─ Effect Class: GE_DamagePlayer
+├─ Level: 1.0
+└─ Ability System Component</code></pre>
+                </div>
+            </section>
+
+            <div class="alert alert-success">
+                <h3>✅ Best Practices</h3>
+                <ul>
+                    <li>✅ Always use meta attributes (IncomingDamage) for damage calculations</li>
+                    <li>✅ Clamp attributes in PreAttributeChange to prevent invalid values</li>
+                    <li>✅ Use Gameplay Effects for all attribute modifications (not direct SetHealth)</li>
+                    <li>✅ Initialize attributes via Gameplay Effect on character spawn</li>
+                    <li>✅ Cache attribute set references in BeginPlay for performance</li>
+                    <li>⚠️ Don't modify attributes directly without going through GAS</li>
+                    <li>⚠️ Don't forget to register attribute sets with AddAttributeSetSubobject</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>HOP Framework Documentation | Attribute Sets</p>
+        </div>
+    </footer>
+</body>
+</html>

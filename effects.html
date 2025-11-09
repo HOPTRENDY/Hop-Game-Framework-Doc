@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gameplay Effects - HOP Framework</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 HOP Framework</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="weapons.html">Weapons</a></li>
+                    <li><a href="abilities.html">Abilities</a></li>
+                    <li><a href="combograph.html">ComboGraph</a></li>
+                    <li><a href="effects.html" class="active">Effects</a></li>
+                    <li><a href="attributes.html">Attributes</a></li>
+                    <li><a href="gameplay-tags.html">Tags</a></li>
+                    <li><a href="components.html">Components</a></li>
+                    <li><a href="inputsystem.html">Input</a></li>
+                    <li><a href="tutorial.html">Tutorials</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>📑 Sections</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#damage-effects">Damage Effects</a></li>
+                <li><a href="#buff-debuff">Buffs & Debuffs</a></li>
+                <li><a href="#containers">Container System</a></li>
+                <li><a href="#gameplay-cues">Gameplay Cues</a></li>
+                <li><a href="#examples">Examples</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content fade-in">
+            <h1>⚡ Gameplay Effects & Containers</h1>
+
+            <section id="overview">
+                <h2>📖 Overview</h2>
+                <div class="alert alert-success">
+                    <strong>GAS Integration</strong> - Complete Gameplay Effect system with Phase 5 multi-target containers
+                </div>
+
+                <p>HOP Framework uses Unreal's <strong>Gameplay Ability System (GAS)</strong> for all gameplay effects, buffs, damage, and status changes. Phase 5 adds container support for applying effects to multiple targets simultaneously.</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h4>⚡ Gameplay Effects</h4>
+                        <ul>
+                            <li>Instant (damage, heal)</li>
+                            <li>Duration (buffs, debuffs)</li>
+                            <li>Infinite (passive abilities)</li>
+                            <li>Periodic (DoT, HoT)</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>📦 Phase 5 Containers</h4>
+                        <ul>
+                            <li>Multi-target effects</li>
+                            <li>Gameplay cues (VFX/SFX)</li>
+                            <li>Actor spawning</li>
+                            <li>Per-container targeting</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="damage-effects">
+                <h2>💥 Damage & Healing Effects</h2>
+
+                <div class="card">
+                    <h3>GE_DamageInstant - Basic Damage</h3>
+                    <table>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Duration Policy</strong></td>
+                            <td>Instant</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modifier</strong></td>
+                            <td>IncomingDamage +20 (Scalable Float)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tags</strong></td>
+                            <td>Effect.Damage</td>
+                        </tr>
+                    </table>
+                    <pre><code>// Apply in C++
+FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(
+    GE_DamageInstant, 1.0f, ASC->MakeEffectContext()
+);
+ASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), TargetASC);</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>GE_HealInstant - Instant Healing</h3>
+                    <table>
+                        <tr>
+                            <td><strong>Duration Policy</strong></td>
+                            <td>Instant</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modifier</strong></td>
+                            <td>IncomingHealing +50</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tags</strong></td>
+                            <td>Effect.Healing</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>GE_DamageOverTime - DoT (Poison, Bleed)</h3>
+                    <table>
+                        <tr>
+                            <td><strong>Duration Policy</strong></td>
+                            <td>Has Duration (5 seconds)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Period</strong></td>
+                            <td>1.0 second</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modifier</strong></td>
+                            <td>IncomingDamage +5 (every second)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tags</strong></td>
+                            <td>Effect.Damage.DoT, State.Poisoned</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>GE_HealOverTime - HoT (Regeneration)</h3>
+                    <table>
+                        <tr>
+                            <td><strong>Duration Policy</strong></td>
+                            <td>Has Duration (10 seconds)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Period</strong></td>
+                            <td>1.0 second</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modifier</strong></td>
+                            <td>IncomingHealing +10 (every second)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tags</strong></td>
+                            <td>Effect.Healing.HoT, State.Regenerating</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section id="buff-debuff">
+                <h2>🔥 Buffs & Debuffs</h2>
+
+                <div class="card">
+                    <h3>Attribute Modifier Buffs</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Effect Name</th>
+                                <th>Modifier</th>
+                                <th>Duration</th>
+                                <th>Tags</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GE_BuffMovementSpeed</strong></td>
+                                <td>MovementSpeed * 1.5 (Multiply)</td>
+                                <td>10s</td>
+                                <td>Effect.Buff.Speed</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GE_BuffDamage</strong></td>
+                                <td>DamageMultiplier * 2.0</td>
+                                <td>15s</td>
+                                <td>Effect.Buff.Damage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GE_BuffFireRate</strong></td>
+                                <td>FireRateMultiplier * 2.0</td>
+                                <td>10s</td>
+                                <td>Effect.Buff.FireRate</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GE_DebuffSlow</strong></td>
+                                <td>MovementSpeed * 0.5</td>
+                                <td>5s</td>
+                                <td>Effect.Debuff.Slow</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GE_DebuffWeakness</strong></td>
+                                <td>DamageMultiplier * 0.7</td>
+                                <td>8s</td>
+                                <td>Effect.Debuff.Weakness</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Tag-Based Status Effects</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Effect Name</th>
+                                <th>Granted Tags</th>
+                                <th>Blocked Tags</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GE_Stunned</strong></td>
+                                <td>State.Stunned</td>
+                                <td>Action.Move, Action.Attack, Action.Ability</td>
+                                <td>3s</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GE_Invincible</strong></td>
+                                <td>State.Invincible</td>
+                                <td>Effect.Damage</td>
+                                <td>5s</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GE_Silenced</strong></td>
+                                <td>State.Silenced</td>
+                                <td>Action.Ability</td>
+                                <td>4s</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GE_Rooted</strong></td>
+                                <td>State.Rooted</td>
+                                <td>Action.Move</td>
+                                <td>2s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Infinite Duration (Passive Abilities)</h3>
+                    <pre><code>// GE_PassiveHealthRegen
+Duration Policy: Infinite
+Period: 1.0 second
+Modifier: IncomingHealing +5
+Tags: Effect.Passive.HealthRegen
+
+// Removing infinite effects
+ASC->RemoveActiveGameplayEffectBySourceEffect(
+    GE_PassiveHealthRegen, ASC
+);</code></pre>
+                </div>
+            </section>
+
+            <section id="containers">
+                <h2>📦 Phase 5 Container System</h2>
+
+                <div class="alert alert-success">
+                    <strong>⭐ Phase 5.4B Feature</strong> - Multi-target effect application with per-container targeting (432 lines)
+                </div>
+
+                <div class="card">
+                    <h3>FHopComboGameplayEffectContainer</h3>
+                    <p>Apply Gameplay Effects to multiple targets with level and context.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>TargetGameplayEffectClasses</code></td>
+                                <td>TArray&lt;TSubclassOf&lt;UGameplayEffect&gt;&gt;</td>
+                                <td>Effects to apply to each target</td>
+                            </tr>
+                            <tr>
+                                <td><code>EffectLevel</code></td>
+                                <td>float</td>
+                                <td>Level for scalable effects (default 1.0)</td>
+                            </tr>
+                            <tr>
+                                <td><code>TargetType</code></td>
+                                <td>TSubclassOf&lt;UHopComboTargetType&gt;</td>
+                                <td>Override targeting (optional)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Usage in ComboGraph States:</h4>
+                    <pre><code>// In UHopComboStateBase
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effects")
+TArray&lt;FHopComboGameplayEffectContainer&gt; OnEnterEffects;
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effects")
+TArray&lt;FHopComboGameplayEffectContainer&gt; OnExitEffects;
+
+// Applied automatically during state transitions
+// Runtime: 286 lines in HopComboStateBase.cpp</code></pre>
+
+                    <h4>Example Configuration:</h4>
+                    <pre><code>// State: Heavy Attack
+OnEnterEffects[0]:
+├─ TargetGameplayEffectClasses: [GE_DamageHeavy, GE_Knockback]
+├─ EffectLevel: 1.5
+└─ TargetType: UHopComboTargetType_Cone (120° arc, 300 range)
+
+// Applies both effects to all enemies in cone
+// Damage scaled by level 1.5
+// Knockback effect also applied</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>FHopComboGameplayCueContainer</h3>
+                    <p>Execute Gameplay Cues (VFX/SFX) on multiple targets with context.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>GameplayCueTags</code></td>
+                                <td>FGameplayTagContainer</td>
+                                <td>Cue tags to execute (e.g., GameplayCue.Impact.Slash)</td>
+                            </tr>
+                            <tr>
+                                <td><code>TargetType</code></td>
+                                <td>TSubclassOf&lt;UHopComboTargetType&gt;</td>
+                                <td>Override targeting (optional)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Example Configuration:</h4>
+                    <pre><code>// State: Fire Slash
+OnEnterCues[0]:
+├─ GameplayCueTags: [GameplayCue.Impact.Fire, GameplayCue.Audio.Slash]
+└─ TargetType: UHopComboTargetType_Self
+
+OnExitCues[0]:
+├─ GameplayCueTags: [GameplayCue.Trail.FireSlash]
+└─ TargetType: UHopComboTargetType_Sphere (500 radius)
+
+// Executes fire impact VFX on self when entering
+// Shows fire trail VFX to all nearby actors on exit</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>FHopComboSpawnActorContainer</h3>
+                    <p>Spawn actors at target locations (projectiles, environmental effects).</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>ActorClass</code></td>
+                                <td>TSubclassOf&lt;AActor&gt;</td>
+                                <td>Actor to spawn at each target location</td>
+                            </tr>
+                            <tr>
+                                <td><code>TargetType</code></td>
+                                <td>TSubclassOf&lt;UHopComboTargetType&gt;</td>
+                                <td>Where to spawn actors</td>
+                            </tr>
+                            <tr>
+                                <td><code>SpawnOffset</code></td>
+                                <td>FVector</td>
+                                <td>Offset from target location</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Example Configuration:</h4>
+                    <pre><code>// State: AoE Ice Explosion
+OnEnterSpawnActors[0]:
+├─ ActorClass: BP_IceExplosion
+├─ TargetType: UHopComboTargetType_Sphere (400 radius)
+└─ SpawnOffset: (0, 0, 50) // 50 units above ground
+
+// Spawns ice explosion actor at each enemy location
+// Perfect for multi-hit AoE abilities</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Container Execution Flow</h3>
+                    <pre><code>// Runtime processing in UHopComboStateBase
+void UHopComboStateBase::OnStateEntered(...)
+{
+    // 1. Get targets from state target type
+    TArray&lt;FHitResult&gt; Targets = TargetType->GetTargets(...);
+
+    // 2. Apply effect containers
+    for (const FHopComboGameplayEffectContainer& Container : OnEnterEffects)
+    {
+        // Override targets if container has custom target type
+        TArray&lt;FHitResult&gt; ContainerTargets = Container.TargetType 
+            ? Container.TargetType->GetTargets(...) 
+            : Targets;
+
+        // Apply each effect to each target
+        for (const FHitResult& Target : ContainerTargets)
+        {
+            for (TSubclassOf&lt;UGameplayEffect&gt; EffectClass : Container.TargetGameplayEffectClasses)
+            {
+                ApplyGameplayEffectToTarget(EffectClass, Container.EffectLevel, Target);
+            }
+        }
+    }
+
+    // 3. Execute cue containers (VFX/SFX)
+    for (const FHopComboGameplayCueContainer& CueContainer : OnEnterCues)
+    {
+        // ... similar multi-target execution
+    }
+
+    // 4. Spawn actor containers
+    for (const FHopComboSpawnActorContainer& SpawnContainer : OnEnterSpawnActors)
+    {
+        // ... spawn at each target location
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="gameplay-cues">
+                <h2>🎨 Gameplay Cues</h2>
+
+                <div class="card">
+                    <h3>What are Gameplay Cues?</h3>
+                    <p>Gameplay Cues are GAS's system for visual and audio feedback (VFX, SFX, camera shake). They are triggered by Gameplay Tags starting with <code>GameplayCue.</code></p>
+                </div>
+
+                <div class="card">
+                    <h3>Common Cue Tags</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Purpose</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>GameplayCue.Impact.Melee</code></td>
+                                <td>Melee hit VFX</td>
+                                <td>Blood spatter, slash effect</td>
+                            </tr>
+                            <tr>
+                                <td><code>GameplayCue.Impact.Projectile</code></td>
+                                <td>Projectile hit</td>
+                                <td>Bullet impact, explosion</td>
+                            </tr>
+                            <tr>
+                                <td><code>GameplayCue.Audio.Footstep</code></td>
+                                <td>Footstep sounds</td>
+                                <td>Walk, run, sprint audio</td>
+                            </tr>
+                            <tr>
+                                <td><code>GameplayCue.Trail.Slash</code></td>
+                                <td>Weapon trail VFX</td>
+                                <td>Sword slash trail</td>
+                            </tr>
+                            <tr>
+                                <td><code>GameplayCue.Buff.Shield</code></td>
+                                <td>Shield activation</td>
+                                <td>Glowing shield VFX</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Creating Gameplay Cue Blueprints</h3>
+                    <pre><code>1. Create Blueprint: GameplayCueNotify_Static or GameplayCueNotify_Actor
+2. Set GameplayCue Tag (e.g., GameplayCue.Impact.Fire)
+3. Implement OnExecute (instant) or OnActive/OnRemove (duration)
+
+// Example: GC_Impact_Fire
+Class: GameplayCueNotify_Static
+Tag: GameplayCue.Impact.Fire
+OnExecute:
+├─ Spawn Niagara System: NS_FireImpact
+├─ Play Sound: SFX_FireImpact
+└─ Camera Shake: CS_SmallImpact</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Triggering Cues in C++</h3>
+                    <pre><code>// Execute instant cue
+FGameplayCueParameters CueParams;
+CueParams.Location = ImpactLocation;
+CueParams.Normal = ImpactNormal;
+ASC->ExecuteGameplayCue(
+    FGameplayTag::RequestGameplayTag("GameplayCue.Impact.Fire"),
+    CueParams
+);
+
+// Add duration cue
+ASC->AddGameplayCue(
+    FGameplayTag::RequestGameplayTag("GameplayCue.Buff.Shield"),
+    CueParams
+);
+
+// Remove cue
+ASC->RemoveGameplayCue(
+    FGameplayTag::RequestGameplayTag("GameplayCue.Buff.Shield")
+);</code></pre>
+                </div>
+            </section>
+
+            <section id="examples">
+                <h2>📚 Complete Examples</h2>
+
+                <div class="card">
+                    <h3>Example 1: Multi-Hit AoE Fire Blast</h3>
+                    <pre><code>// ComboGraph State: "Fire Blast"
+Animation: AM_FireBlast
+Duration: 1.2 seconds
+
+OnEnterEffects[0]: // Damage all nearby enemies
+├─ TargetGameplayEffectClasses: [GE_DamageFireInstant, GE_BurnDoT]
+├─ EffectLevel: 2.0 (double damage)
+└─ TargetType: UHopComboTargetType_Sphere (500 radius)
+
+OnEnterCues[0]: // Explosion VFX at each enemy
+├─ GameplayCueTags: [GameplayCue.Impact.Fire]
+└─ TargetType: UHopComboTargetType_Sphere (500 radius)
+
+OnEnterCues[1]: // Self fire aura
+├─ GameplayCueTags: [GameplayCue.Aura.Fire]
+└─ TargetType: UHopComboTargetType_Self
+
+OnEnterSpawnActors[0]: // Lingering fire patches
+├─ ActorClass: BP_FirePatch
+├─ TargetType: UHopComboTargetType_Sphere (500 radius)
+└─ SpawnOffset: (0, 0, 0)
+
+Result:
+1. Applies instant fire damage to all enemies in 500 radius
+2. Applies 5-second burn DoT to all hit enemies
+3. Shows fire explosion VFX at each enemy location
+4. Shows fire aura on caster
+5. Spawns fire patch actor at each enemy location</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Example 2: Cone Frost Attack</h3>
+                    <pre><code>// ComboGraph State: "Frost Cone"
+Animation: AM_FrostCone
+Duration: 0.8 seconds
+
+OnEnterEffects[0]: // Damage + slow enemies in cone
+├─ TargetGameplayEffectClasses: [GE_DamageCold, GE_DebuffSlow]
+├─ EffectLevel: 1.5
+└─ TargetType: UHopComboTargetType_Cone (120° arc, 300 range)
+
+OnEnterCues[0]: // Frost impact on each enemy
+├─ GameplayCueTags: [GameplayCue.Impact.Frost]
+└─ TargetType: UHopComboTargetType_Cone (120°, 300 range)
+
+OnExitEffects[0]: // Self buff (increased armor)
+├─ TargetGameplayEffectClasses: [GE_BuffArmor]
+├─ EffectLevel: 1.0
+└─ TargetType: UHopComboTargetType_Self
+
+Result:
+1. Damages all enemies in 120° cone (300 units)
+2. Slows hit enemies by 50% for 5 seconds
+3. Shows frost impact VFX on each enemy
+4. Grants caster +armor buff when attack completes</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Example 3: Self Buff + Projectile Spam</h3>
+                    <pre><code>// ComboGraph State: "Arrow Barrage"
+Animation: AM_ArrowBarrage
+Duration: 2.0 seconds
+
+OnEnterEffects[0]: // Self fire rate buff
+├─ TargetGameplayEffectClasses: [GE_BuffFireRate]
+├─ EffectLevel: 1.0
+└─ TargetType: UHopComboTargetType_Self
+
+OnEnterSpawnActors[0]: // Spawn arrows at enemy locations
+├─ ActorClass: BP_Arrow_Projectile
+├─ TargetType: UHopComboTargetType_Sphere (1000 radius)
+└─ SpawnOffset: (0, 0, 200) // Above enemies
+
+OnEnterCues[0]: // Sound effect
+├─ GameplayCueTags: [GameplayCue.Audio.ArrowBarrage]
+└─ TargetType: UHopComboTargetType_Self
+
+Result:
+1. Grants caster 2x fire rate for 10 seconds
+2. Spawns arrow projectile 200 units above each enemy (auto-tracks)
+3. Plays arrow barrage sound on caster</code></pre>
+                </div>
+            </section>
+
+            <div class="alert alert-success">
+                <h3>✅ Best Practices</h3>
+                <ul>
+                    <li>✅ Use meta attributes (IncomingDamage) for all damage calculations</li>
+                    <li>✅ Always tag effects with proper categories (Effect.Damage, Effect.Buff, etc.)</li>
+                    <li>✅ Use containers for multi-target abilities (cleaner than manual loops)</li>
+                    <li>✅ Override TargetType per container when needed (different ranges per effect)</li>
+                    <li>✅ Test effect stacking behavior (should Fire DoT stack? Use tags to control)</li>
+                    <li>⚠️ Don't apply effects directly to attributes (bypass GAS PreAttributeChange)</li>
+                    <li>⚠️ Don't forget to set ApplicationTag requirements for conditional effects</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>HOP Framework Documentation | Gameplay Effects & Containers</p>
+        </div>
+    </footer>
+</body>
+</html>

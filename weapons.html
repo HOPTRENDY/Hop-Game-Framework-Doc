@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weapon System - HOP Framework</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 HOP Framework</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="weapons.html" class="active">Weapons</a></li>
+                    <li><a href="abilities.html">Abilities</a></li>
+                    <li><a href="combograph.html">ComboGraph</a></li>
+                    <li><a href="effects.html">Effects</a></li>
+                    <li><a href="attributes.html">Attributes</a></li>
+                    <li><a href="gameplay-tags.html">Tags</a></li>
+                    <li><a href="components.html">Components</a></li>
+                    <li><a href="inputsystem.html">Input</a></li>
+                    <li><a href="tutorial.html">Tutorials</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>📑 Sections</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#weapon-base">AHopWeaponBase</a></li>
+                <li><a href="#weapon-types">Weapon Types</a></li>
+                <li><a href="#weapon-states">Weapon States</a></li>
+                <li><a href="#combat-config">Combat Configuration</a></li>
+                <li><a href="#gas-integration">GAS Integration</a></li>
+                <li><a href="#examples">Setup Examples</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content fade-in">
+            <h1>⚔️ Weapon System</h1>
+
+            <section id="overview">
+                <h2>📖 Overview</h2>
+                <div class="alert alert-success">
+                    <strong>Multi-Slot Weapon System</strong> - AAA-quality modular weapon architecture with full GAS integration
+                </div>
+
+                <p>HOP Framework's weapon system supports <strong>melee</strong>, <strong>ranged</strong>, and <strong>throwable</strong> weapons with automatic ability granting, input overlays, and multi-slot inventory management.</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h4>⚔️ Weapon Features</h4>
+                        <ul>
+                            <li>Multi-slot system (6 slots)</li>
+                            <li>Auto ability granting</li>
+                            <li>Pickup/drop system</li>
+                            <li>Socket attachment</li>
+                            <li>Animation layers</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>🎮 GAS Integration</h4>
+                        <ul>
+                            <li>Weapon abilities</li>
+                            <li>Passive effects</li>
+                            <li>Gameplay tags</li>
+                            <li>Attribute modifiers</li>
+                            <li>Input setup overlays</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="weapon-base">
+                <h2>🔧 AHopWeaponBase Class</h2>
+
+                <div class="card">
+                    <h3>Core Components</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Type</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>WeaponMesh</code></td>
+                                <td>USkeletalMeshComponent</td>
+                                <td>Weapon visual mesh</td>
+                            </tr>
+                            <tr>
+                                <td><code>OverlapSphere</code></td>
+                                <td>USphereComponent</td>
+                                <td>Pickup detection radius</td>
+                            </tr>
+                            <tr>
+                                <td><code>PickupWidget</code></td>
+                                <td>UWidgetComponent</td>
+                                <td>Interaction prompt UI</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Key Properties</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>WeaponType</code></td>
+                                <td>EHopWeaponType</td>
+                                <td>Pistol, Rifle, Sword, Axe, etc.</td>
+                            </tr>
+                            <tr>
+                                <td><code>WeaponState</code></td>
+                                <td>EHopWeaponState</td>
+                                <td>Spawned, Equipped, Dropped, Holstered</td>
+                            </tr>
+                            <tr>
+                                <td><code>WeaponConfig</code></td>
+                                <td>FHopWeaponConfig</td>
+                                <td>Damage, fire rate, range, reload time</td>
+                            </tr>
+                            <tr>
+                                <td><code>FireMode</code></td>
+                                <td>EHopWeaponFireMode</td>
+                                <td>Single, Automatic, Burst, Melee</td>
+                            </tr>
+                            <tr>
+                                <td><code>DamageMode</code></td>
+                                <td>EHopWeaponDamageMode</td>
+                                <td>Instant, Projectile, Collision, AoE</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Socket Configuration</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>EquipSocket</code></td>
+                                <td>Socket for equipped weapon (default: "hand_rSocket")</td>
+                            </tr>
+                            <tr>
+                                <td><code>HolsterSocket</code></td>
+                                <td>Socket for holstered weapon (default: "Spine_Socket")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Example Sockets:</strong> hand_rSocket, hand_lSocket, Spine_Socket, Hip_Socket, Back_Socket</p>
+                </div>
+            </section>
+
+            <section id="weapon-types">
+                <h2>🔫 Weapon Types & Slots</h2>
+
+                <div class="card">
+                    <h3>EHopWeaponType - Weapon Categories</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Types</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ranged</strong></td>
+                                <td>Pistol, Rifle, Shotgun, Sniper, SMG</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Melee</strong></td>
+                                <td>Sword, Axe, Dagger, Hammer, Spear</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Throwable</strong></td>
+                                <td>Grenade, Flashbang, SmokeGrenade, Knife</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Special</strong></td>
+                                <td>Shield, Magic</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>EHopWeaponSlot - Multi-Slot System</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Slot</th>
+                                <th>Purpose</th>
+                                <th>Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Primary</strong></td>
+                                <td>Main weapon slot</td>
+                                <td>Rifle, Sword, Shotgun</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Secondary</strong></td>
+                                <td>Sidearm slot</td>
+                                <td>Pistol, Dagger</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TwoHanded</strong></td>
+                                <td>Two-handed weapons (blocks shield)</td>
+                                <td>Greatsword, Sniper, Bow</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Throwable</strong></td>
+                                <td>Consumable throwables</td>
+                                <td>Grenades, Throwing Knives</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shield</strong></td>
+                                <td>Defensive equipment</td>
+                                <td>Shields, Riot Shield</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Accessory</strong></td>
+                                <td>Off-hand items</td>
+                                <td>Gadgets, Tools</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="weapon-states">
+                <h2>📊 Weapon States & Lifecycle</h2>
+
+                <div class="card">
+                    <h3>EHopWeaponState Transitions</h3>
+                    <pre><code>Spawned → Equipped → Holstered → Dropped → Spawned
+   ↑                                           ↓
+   └───────────────────────────────────────────┘
+
+Spawned:    Weapon exists in world, can be picked up
+Equipped:   Weapon is active and grants abilities
+Holstered:  Weapon stored in inventory
+Dropped:    Weapon dropped in world, pickup available</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>State Transition Functions</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Function</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>SetWeaponState(NewState)</code></td>
+                                <td>Transition to new state, triggers events</td>
+                            </tr>
+                            <tr>
+                                <td><code>PrepareForPickup()</code></td>
+                                <td>Set Dropped state, show pickup widget</td>
+                            </tr>
+                            <tr>
+                                <td><code>TryPickup(Actor)</code></td>
+                                <td>Attempt pickup, returns success bool</td>
+                            </tr>
+                            <tr>
+                                <td><code>ShowPickupWidget(bShow)</code></td>
+                                <td>Toggle pickup UI visibility</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Blueprint Events</h3>
+                    <pre><code>// OnWeaponStateChanged - Called on state transitions
+Event OnWeaponStateChanged(OldState, NewState)
+
+// OnWeaponEquipped - Called when equipped
+Event OnWeaponEquipped(NewOwner)
+├─ Automatically grants abilities
+├─ Registers input overlays
+└─ Attaches to EquipSocket
+
+// OnWeaponDropped - Called when dropped
+Event OnWeaponDropped()
+
+// OnWeaponHolstered - Called when holstered
+Event OnWeaponHolstered()
+├─ Keeps abilities active (holstered passive effects)
+└─ Attaches to HolsterSocket</code></pre>
+                </div>
+            </section>
+
+            <section id="combat-config">
+                <h2>⚙️ Combat Configuration</h2>
+
+                <div class="card">
+                    <h3>FHopWeaponConfig Struct</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>BaseDamage</code></td>
+                                <td>float</td>
+                                <td>10.0</td>
+                                <td>Base damage per hit</td>
+                            </tr>
+                            <tr>
+                                <td><code>RoundsPerMinute</code></td>
+                                <td>float</td>
+                                <td>600</td>
+                                <td>Fire rate (ranged weapons)</td>
+                            </tr>
+                            <tr>
+                                <td><code>MaxRange</code></td>
+                                <td>float</td>
+                                <td>5000</td>
+                                <td>Effective range in units</td>
+                            </tr>
+                            <tr>
+                                <td><code>ReloadTime</code></td>
+                                <td>float</td>
+                                <td>2.0</td>
+                                <td>Reload duration in seconds</td>
+                            </tr>
+                            <tr>
+                                <td><code>MagazineCapacity</code></td>
+                                <td>int32</td>
+                                <td>30</td>
+                                <td>Rounds per magazine</td>
+                            </tr>
+                            <tr>
+                                <td><code>MaxReserveAmmo</code></td>
+                                <td>int32</td>
+                                <td>300</td>
+                                <td>Total reserve ammo capacity</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Fire Modes & Damage Modes</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fire Mode</th>
+                                <th>Damage Mode</th>
+                                <th>Example Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Single</strong></td>
+                                <td>Instant</td>
+                                <td>Pistol: One bullet per trigger pull, line trace</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Automatic</strong></td>
+                                <td>Instant</td>
+                                <td>Assault Rifle: Continuous fire while held</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Burst</strong></td>
+                                <td>Instant</td>
+                                <td>Burst Rifle: 3-round burst per trigger</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Single</strong></td>
+                                <td>Projectile</td>
+                                <td>Rocket Launcher: Spawns projectile actor</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Melee</strong></td>
+                                <td>Collision</td>
+                                <td>Sword: Swing animation with collision checks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Throw</strong></td>
+                                <td>Area</td>
+                                <td>Grenade: Throwable with explosion radius</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Animation Configuration</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>OverlayAnimLayer</code></td>
+                                <td>Linked Animation Layer (Blueprint) - Full body animation overlay</td>
+                            </tr>
+                            <tr>
+                                <td><code>FireMontage</code></td>
+                                <td>Fire animation montage (shooting/swinging)</td>
+                            </tr>
+                            <tr>
+                                <td><code>ReloadMontage</code></td>
+                                <td>Reload animation montage</td>
+                            </tr>
+                            <tr>
+                                <td><code>EquipMontage</code></td>
+                                <td>Equip animation montage</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>VFX/SFX Configuration</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><code>MuzzleFlash</code></td>
+                                <td>Niagara System - Muzzle flash VFX</td>
+                            </tr>
+                            <tr>
+                                <td><code>ImpactEffect</code></td>
+                                <td>Niagara System - Impact hit VFX</td>
+                            </tr>
+                            <tr>
+                                <td><code>FireSound</code></td>
+                                <td>Sound Base - Gunshot/swing sound</td>
+                            </tr>
+                            <tr>
+                                <td><code>ReloadSound</code></td>
+                                <td>Sound Base - Reload audio</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="gas-integration">
+                <h2>🎮 Gameplay Ability System Integration</h2>
+
+                <div class="card">
+                    <h3>Automatic Ability Granting</h3>
+                    <p>Weapons automatically grant abilities when equipped and remove them when unequipped.</p>
+                    <pre><code>// WeaponAbilities - Granted when equipped
+UPROPERTY(EditDefaultsOnly, Category = "Abilities")
+TArray&lt;TSubclassOf&lt;UGameplayAbility&gt;&gt; WeaponAbilities;
+
+// PassiveEffects - Applied when equipped
+UPROPERTY(EditDefaultsOnly, Category = "Abilities")
+TArray&lt;TSubclassOf&lt;UGameplayEffect&gt;&gt; PassiveEffects;
+
+// WeaponTags - Tags applied when equipped
+UPROPERTY(EditDefaultsOnly, Category = "Abilities")
+FGameplayTagContainer WeaponTags;</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Ability Granting Flow</h3>
+                    <pre><code>// Equip Weapon
+SetWeaponState(EHopWeaponState::Equipped)
+└─ OnWeaponEquipped(NewOwner)
+   ├─ GrantWeaponAbilities(NewOwner)
+   │  ├─ Get ASC from owner
+   │  ├─ Grant each ability in WeaponAbilities
+   │  └─ Store FGameplayAbilitySpecHandle for later removal
+   ├─ Apply PassiveEffects
+   │  ├─ Apply each effect to owner's ASC
+   │  └─ Store FActiveGameplayEffectHandle
+   └─ RegisterWeaponInput(NewOwner)
+      └─ Overlay WeaponInputSetup onto character inputs
+
+// Unequip Weapon
+SetWeaponState(EHopWeaponState::Holstered)
+└─ RemoveWeaponAbilities(Owner)
+   ├─ Remove abilities by SpecHandle
+   ├─ Remove passive effects by EffectHandle
+   └─ UnregisterWeaponInput(Owner)</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Example: Assault Rifle Setup</h3>
+                    <pre><code>// BP_Weapon_AssaultRifle
+Class: AHopWeaponBase
+
+WeaponType: Rifle
+WeaponConfig:
+├─ BaseDamage: 25.0
+├─ RoundsPerMinute: 600
+├─ MaxRange: 5000.0
+├─ ReloadTime: 2.5
+├─ MagazineCapacity: 30
+└─ MaxReserveAmmo: 300
+
+FireMode: Automatic
+DamageMode: Instant (Line Trace)
+
+WeaponAbilities:
+├─ GA_FireWeapon (automatic fire logic)
+├─ GA_Reload (reload logic)
+└─ GA_AimDownSights (ADS toggle)
+
+PassiveEffects:
+├─ GE_BuffAccuracy (improves accuracy while equipped)
+└─ GE_MovementSpeedPenalty (slight speed reduction)
+
+WeaponTags:
+├─ Weapon.Rifle.AssaultRifle
+├─ Weapon.Ranged
+└─ Weapon.Automatic
+
+EquipSocket: hand_rSocket
+HolsterSocket: Back_Socket
+
+OverlayAnimLayer: ABP_Rifle_AnimLayer
+FireMontage: AM_RifleFire
+ReloadMontage: AM_RifleReload</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Example: Sword Setup</h3>
+                    <pre><code>// BP_Weapon_Sword
+Class: AHopWeaponBase
+
+WeaponType: Sword
+WeaponConfig:
+├─ BaseDamage: 40.0
+└─ MaxRange: 200.0 (melee reach)
+
+FireMode: Melee
+DamageMode: Collision
+
+WeaponAbilities:
+├─ GA_MeleeComboAttack (3-hit combo system)
+└─ GA_Parry (block/parry mechanic)
+
+PassiveEffects:
+├─ GE_BuffStrength (+10 Strength while equipped)
+└─ GE_BuffCritChance (+5% crit chance)
+
+WeaponTags:
+├─ Weapon.Melee.Sword
+├─ Weapon.OneHanded
+└─ Combat.Melee
+
+EquipSocket: hand_rSocket
+HolsterSocket: Hip_Socket
+
+OverlayAnimLayer: ABP_Sword_AnimLayer
+FireMontage: AM_SwordCombo (combo graph montage)
+
+ComboGraph: CG_SwordCombo (HopComboGraph asset)</code></pre>
+                </div>
+            </section>
+
+            <section id="examples">
+                <h2>📚 Complete Setup Examples</h2>
+
+                <div class="card">
+                    <h3>Example 1: Creating Ranged Weapon (C++)</h3>
+                    <pre><code>// BP_Weapon_Pistol.h
+UCLASS()
+class ABP_Weapon_Pistol : public AHopWeaponBase
+{
+    GENERATED_BODY()
+
+public:
+    ABP_Weapon_Pistol()
+    {
+        WeaponType = EHopWeaponType::Pistol;
+        FireMode = EHopWeaponFireMode::Single;
+        DamageMode = EHopWeaponDamageMode::Instant;
+
+        WeaponConfig.BaseDamage = 20.0f;
+        WeaponConfig.RoundsPerMinute = 300.0f;
+        WeaponConfig.MaxRange = 3000.0f;
+        WeaponConfig.ReloadTime = 1.5f;
+        WeaponConfig.MagazineCapacity = 15;
+        WeaponConfig.MaxReserveAmmo = 150;
+
+        EquipSocket = "hand_rSocket";
+        HolsterSocket = "Hip_Socket";
+    }
+};</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Example 2: Creating Melee Weapon (Blueprint)</h3>
+                    <pre><code>1. Create Blueprint: AHopWeaponBase → BP_Weapon_Axe
+2. Set Properties:
+   - WeaponType: Axe
+   - FireMode: Melee
+   - DamageMode: Collision
+   - BaseDamage: 50.0
+   - MaxRange: 250.0
+
+3. Add Abilities:
+   - WeaponAbilities: [GA_MeleeAttack]
+
+4. Add Passive Effects:
+   - PassiveEffects: [GE_BuffStrength]
+
+5. Set Sockets:
+   - EquipSocket: hand_rSocket
+   - HolsterSocket: Back_Socket
+
+6. Assign Animations:
+   - OverlayAnimLayer: ABP_Axe_AnimLayer
+   - FireMontage: AM_AxeSwing</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Example 3: Weapon Pickup & Equip (C++)</h3>
+                    <pre><code>// In character class
+void AMyCharacter::PickupWeapon(AHopWeaponBase* Weapon)
+{
+    if (!Weapon || !Weapon->CanBePickedUp()) return;
+
+    // Try pickup via interaction interface
+    if (Weapon->TryPickup(this))
+    {
+        // Weapon automatically grants abilities in OnWeaponEquipped
+        // Store reference
+        CurrentWeapon = Weapon;
+        
+        // Attach to socket
+        Weapon->AttachToComponent(
+            GetMesh(),
+            FAttachmentTransformRules::SnapToTargetIncludingScale,
+            Weapon->EquipSocket
+        );
+    }
+}
+
+void AMyCharacter::DropWeapon()
+{
+    if (!CurrentWeapon) return;
+
+    // Set weapon to dropped state (removes abilities)
+    CurrentWeapon->SetWeaponState(EHopWeaponState::Dropped);
+    
+    // Detach from character
+    CurrentWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+    
+    // Prepare for pickup
+    CurrentWeapon->PrepareForPickup();
+    
+    CurrentWeapon = nullptr;
+}</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Example 4: Multi-Slot Weapon System (Blueprint)</h3>
+                    <pre><code>// UHopWeaponManagerComponent - Multi-slot inventory
+Component Variables:
+├─ PrimaryWeapon: AHopWeaponBase*
+├─ SecondaryWeapon: AHopWeaponBase*
+├─ ThrowableWeapon: AHopWeaponBase*
+└─ CurrentWeapon: AHopWeaponBase*
+
+Functions:
+├─ EquipWeapon(Weapon, Slot)
+│  └─ Stores weapon in slot, sets Equipped state
+├─ SwitchToSlot(Slot)
+│  ├─ Holster current weapon
+│  └─ Equip weapon from target slot
+└─ DropCurrentWeapon()
+   └─ Drops CurrentWeapon to world
+
+// Switching weapons
+Event Input_SwitchToPrimary:
+├─ SwitchToSlot(EHopWeaponSlot::Primary)
+└─ CurrentWeapon now grants primary weapon abilities
+
+Event Input_SwitchToSecondary:
+├─ SwitchToSlot(EHopWeaponSlot::Secondary)
+└─ CurrentWeapon now grants secondary weapon abilities</code></pre>
+                </div>
+            </section>
+
+            <div class="alert alert-success">
+                <h3>✅ Best Practices</h3>
+                <ul>
+                    <li>✅ Always use <code>SetWeaponState()</code> for state changes (auto-manages abilities)</li>
+                    <li>✅ Grant abilities via WeaponAbilities array (automatic on equip)</li>
+                    <li>✅ Use OverlayAnimLayer for weapon-specific animations</li>
+                    <li>✅ Attach weapons to proper sockets (hand for equipped, back/hip for holstered)</li>
+                    <li>✅ Use Gameplay Effects for weapon stats (BuffDamage, BuffAccuracy)</li>
+                    <li>✅ Leverage WeaponTags for filtering (Weapon.Ranged, Weapon.TwoHanded)</li>
+                    <li>⚠️ Don't manually grant abilities - let weapon system handle it</li>
+                    <li>⚠️ Don't forget to set DamageMode and FireMode (required for combat logic)</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>HOP Framework Documentation | Weapon System</p>
+        </div>
+    </footer>
+</body>
+</html>

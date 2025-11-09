@@ -1,0 +1,182 @@
+<!-- HOP Framework System Architecture Diagram -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .node-bg { fill: #242424; stroke: #d4af37; stroke-width: 3; }
+      .node-title { fill: #d4af37; font-family: Arial, sans-serif; font-size: 20px; font-weight: bold; }
+      .node-text { fill: #b89a3a; font-family: Arial, sans-serif; font-size: 14px; }
+      .connection { stroke: #d4af37; stroke-width: 2; fill: none; }
+      .arrow { fill: #d4af37; }
+      .category-label { fill: #f4d03f; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" class="arrow" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#1a1a1a"/>
+  
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="32" font-weight="bold">
+    HOP Framework Combat System Architecture
+  </text>
+  
+  <!-- LAYER 1: Unreal Engine Base -->
+  <text x="60" y="100" class="category-label">Unreal Engine Foundation</text>
+  <rect x="60" y="110" width="280" height="140" class="node-bg" rx="10"/>
+  <text x="200" y="140" text-anchor="middle" class="node-title">Gameplay Ability System</text>
+  <text x="200" y="165" text-anchor="middle" class="node-text">• UAbilitySystemComponent</text>
+  <text x="200" y="185" text-anchor="middle" class="node-text">• UGameplayAbility</text>
+  <text x="200" y="205" text-anchor="middle" class="node-text">• UGameplayEffect</text>
+  <text x="200" y="225" text-anchor="middle" class="node-text">• UAttributeSet</text>
+  
+  <rect x="400" y="110" width="280" height="140" class="node-bg" rx="10"/>
+  <text x="540" y="140" text-anchor="middle" class="node-title">Enhanced Input System</text>
+  <text x="540" y="165" text-anchor="middle" class="node-text">• Input Actions (IA_*)</text>
+  <text x="540" y="185" text-anchor="middle" class="node-text">• Input Mapping Context</text>
+  <text x="540" y="205" text-anchor="middle" class="node-text">• Player Input Component</text>
+  <text x="540" y="225" text-anchor="middle" class="node-text">• Action Bindings</text>
+  
+  <!-- LAYER 2: HOP Attributes -->
+  <text x="60" y="290" class="category-label">Attribute System</text>
+  <rect x="60" y="300" width="620" height="100" class="node-bg" rx="10"/>
+  <text x="370" y="330" text-anchor="middle" class="node-title">UHopCombatAttributeSet (13 Attributes)</text>
+  <text x="150" y="360" text-anchor="start" class="node-text">Vital: Health, MaxHealth, Shield, MaxShield</text>
+  <text x="150" y="380" text-anchor="start" class="node-text">Combat: Armor, Resistance, CritChance, CritDamageMultiplier</text>
+  
+  <text x="450" y="360" text-anchor="start" class="node-text">Weapon: CurrentAmmo, MaxAmmo, ReserveAmmo</text>
+  <text x="450" y="380" text-anchor="start" class="node-text">Meta: Damage, Healing</text>
+  
+  <!-- LAYER 3: Gameplay Effects -->
+  <text x="750" y="100" class="category-label">Gameplay Effects</text>
+  <rect x="750" y="110" width="200" height="80" class="node-bg" rx="10"/>
+  <text x="850" y="135" text-anchor="middle" class="node-title">GE_WeaponDamage</text>
+  <text x="850" y="155" text-anchor="middle" class="node-text">Instant | SetByCaller</text>
+  <text x="850" y="175" text-anchor="middle" class="node-text">-Health</text>
+  
+  <rect x="990" y="110" width="180" height="80" class="node-bg" rx="10"/>
+  <text x="1080" y="135" text-anchor="middle" class="node-title">GE_CoverBonus</text>
+  <text x="1080" y="155" text-anchor="middle" class="node-text">Infinite Duration</text>
+  <text x="1080" y="175" text-anchor="middle" class="node-text">+Armor +Resistance</text>
+  
+  <rect x="750" y="210" width="200" height="80" class="node-bg" rx="10"/>
+  <text x="850" y="235" text-anchor="middle" class="node-title">GE_Flashbang</text>
+  <text x="850" y="255" text-anchor="middle" class="node-text">5s Duration</text>
+  <text x="850" y="275" text-anchor="middle" class="node-text">-50% Speed</text>
+  
+  <rect x="990" y="210" width="180" height="80" class="node-bg" rx="10"/>
+  <text x="1080" y="235" text-anchor="middle" class="node-title">GE_Ammo...</text>
+  <text x="1080" y="255" text-anchor="middle" class="node-text">Instant</text>
+  <text x="1080" y="275" text-anchor="middle" class="node-text">-1 Ammo</text>
+  
+  <!-- LAYER 4: Gameplay Abilities -->
+  <text x="750" y="330" class="category-label">Gameplay Abilities</text>
+  <rect x="750" y="340" width="180" height="80" class="node-bg" rx="10"/>
+  <text x="840" y="365" text-anchor="middle" class="node-title">GA_FireWeapon</text>
+  <text x="840" y="385" text-anchor="middle" class="node-text">495 lines</text>
+  <text x="840" y="405" text-anchor="middle" class="node-text">Hitscan + Damage</text>
+  
+  <rect x="950" y="340" width="180" height="80" class="node-bg" rx="10"/>
+  <text x="1040" y="365" text-anchor="middle" class="node-title">GA_Reload</text>
+  <text x="1040" y="385" text-anchor="middle" class="node-text">387 lines</text>
+  <text x="1040" y="405" text-anchor="middle" class="node-text">Tactical/Emergency</text>
+  
+  <rect x="750" y="440" width="180" height="80" class="node-bg" rx="10"/>
+  <text x="840" y="465" text-anchor="middle" class="node-title">GA_MeleeCombo</text>
+  <text x="840" y="485" text-anchor="middle" class="node-text">522 lines</text>
+  <text x="840" y="505" text-anchor="middle" class="node-text">HopComboGraph</text>
+  
+  <rect x="950" y="440" width="180" height="80" class="node-bg" rx="10"/>
+  <text x="1040" y="465" text-anchor="middle" class="node-title">GA_ThrowGrenade</text>
+  <text x="1040" y="485" text-anchor="middle" class="node-text">468 lines</text>
+  <text x="1040" y="505" text-anchor="middle" class="node-text">Trajectory Arc</text>
+  
+  <!-- LAYER 5: Weapon Classes -->
+  <text x="60" y="450" class="category-label">Weapon System</text>
+  <rect x="60" y="460" width="200" height="120" class="node-bg" rx="10"/>
+  <text x="160" y="490" text-anchor="middle" class="node-title">ARangedWeaponBase</text>
+  <text x="160" y="515" text-anchor="middle" class="node-text">590 lines</text>
+  <text x="160" y="535" text-anchor="middle" class="node-text">Fire Modes: Single,</text>
+  <text x="160" y="555" text-anchor="middle" class="node-text">Burst, Automatic</text>
+  <text x="160" y="570" text-anchor="middle" class="node-text">Ammo | Recoil</text>
+  
+  <rect x="280" y="460" width="200" height="120" class="node-bg" rx="10"/>
+  <text x="380" y="490" text-anchor="middle" class="node-title">AMeleeWeaponBase</text>
+  <text x="380" y="515" text-anchor="middle" class="node-text">615 lines</text>
+  <text x="380" y="535" text-anchor="middle" class="node-text">Combo System</text>
+  <text x="380" y="555" text-anchor="middle" class="node-text">Collision Detection</text>
+  <text x="380" y="570" text-anchor="middle" class="node-text">Hit Tracking</text>
+  
+  <rect x="500" y="460" width="220" height="120" class="node-bg" rx="10"/>
+  <text x="610" y="490" text-anchor="middle" class="node-title">AThrowableWeaponBase</text>
+  <text x="610" y="515" text-anchor="middle" class="node-text">842 lines</text>
+  <text x="610" y="535" text-anchor="middle" class="node-text">Trajectory Prediction</text>
+  <text x="610" y="555" text-anchor="middle" class="node-text">Physics Simulation</text>
+  <text x="610" y="570" text-anchor="middle" class="node-text">Explosion System</text>
+  
+  <!-- LAYER 6: HopComboGraph -->
+  <rect x="60" y="610" width="280" height="120" class="node-bg" rx="10"/>
+  <text x="200" y="640" text-anchor="middle" class="node-title">HopComboGraph System</text>
+  <text x="200" y="665" text-anchor="middle" class="node-text">• Visual State Machine</text>
+  <text x="200" y="685" text-anchor="middle" class="node-text">• Combo Windows (0.6-0.9)</text>
+  <text x="200" y="705" text-anchor="middle" class="node-text">• Input Buffer System</text>
+  <text x="200" y="720" text-anchor="middle" class="node-text">• Priority-based Transitions</text>
+  
+  <!-- Character Integration -->
+  <rect x="400" y="610" width="320" height="120" class="node-bg" rx="10"/>
+  <text x="560" y="640" text-anchor="middle" class="node-title">Character Integration Layer</text>
+  <text x="560" y="665" text-anchor="middle" class="node-text">• AbilitySystemComponent Setup</text>
+  <text x="560" y="685" text-anchor="middle" class="node-text">• Input Action Bindings (6 actions)</text>
+  <text x="560" y="705" text-anchor="middle" class="node-text">• Weapon Spawning & Attachment</text>
+  <text x="560" y="720" text-anchor="middle" class="node-text">• Network Replication</text>
+  
+  <!-- Stats Box -->
+  <rect x="760" y="610" width="380" height="120" class="node-bg" rx="10"/>
+  <text x="950" y="635" text-anchor="middle" class="node-title">Framework Statistics</text>
+  <text x="800" y="660" text-anchor="start" class="node-text">• 20 C++ Classes</text>
+  <text x="800" y="680" text-anchor="start" class="node-text">• 5,879 Lines of Code</text>
+  <text x="800" y="700" text-anchor="start" class="node-text">• 46 Gameplay Tags</text>
+  <text x="800" y="720" text-anchor="start" class="node-text">• 0 Compilation Errors</text>
+  
+  <text x="1000" y="660" text-anchor="start" class="node-text">• 6 Abilities</text>
+  <text x="1000" y="680" text-anchor="start" class="node-text">• 5 Effects</text>
+  <text x="1000" y="700" text-anchor="start" class="node-text">• 13 Attributes</text>
+  <text x="1000" y="720" text-anchor="start" class="node-text">• 3 Weapon Types</text>
+  
+  <!-- Connections -->
+  <!-- GAS to Attributes -->
+  <path d="M 200 250 L 200 300" class="connection" marker-end="url(#arrowhead)"/>
+  
+  <!-- Attributes to Weapons -->
+  <path d="M 160 400 L 160 460" class="connection" marker-end="url(#arrowhead)"/>
+  <path d="M 380 400 L 380 460" class="connection" marker-end="url(#arrowhead)"/>
+  <path d="M 560 400 L 610 460" class="connection" marker-end="url(#arrowhead)"/>
+  
+  <!-- Effects to Attributes -->
+  <path d="M 750 150 L 680 300" class="connection" marker-end="url(#arrowhead)"/>
+  <path d="M 850 190 L 680 300" class="connection" marker-end="url(#arrowhead)"/>
+  
+  <!-- Abilities to Effects -->
+  <path d="M 840 340 L 850 190" class="connection" marker-end="url(#arrowhead)"/>
+  <path d="M 1040 340 L 1080 190" class="connection" marker-end="url(#arrowhead)"/>
+  
+  <!-- Abilities to Weapons -->
+  <path d="M 750 380 L 260 520" class="connection" marker-end="url(#arrowhead)"/>
+  <path d="M 840 440 L 380 580" class="connection" marker-end="url(#arrowhead)"/>
+  <path d="M 1040 440 L 610 580" class="connection" marker-end="url(#arrowhead)"/>
+  
+  <!-- HopComboGraph to Melee -->
+  <path d="M 340 650 L 380 580" class="connection" marker-end="url(#arrowhead)"/>
+  
+  <!-- Character to Abilities -->
+  <path d="M 560 610 L 850 520" class="connection" marker-end="url(#arrowhead)"/>
+  
+  <!-- Input to GAS -->
+  <path d="M 540 250 L 340 180" class="connection" marker-end="url(#arrowhead)"/>
+  
+  <!-- Footer -->
+  <text x="600" y="780" text-anchor="middle" fill="#8a7a2e" font-family="Arial, sans-serif" font-size="16">
+    Network Replicated | Blueprint Extensible | Modular Architecture
+  </text>
+</svg>

@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HOP Framework - Actor Components Reference">
+    <meta name="keywords" content="Unreal Engine, Components, Actor Components, Combat System">
+    <meta name="author" content="HOP Framework Team">
+    <title>Actor Components - HOP Framework</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 HOP Framework</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="weapons.html">Weapons</a></li>
+                    <li><a href="abilities.html">Abilities</a></li>
+                    <li><a href="combograph.html">ComboGraph</a></li>
+                    <li><a href="effects.html">Gameplay Effects</a></li>
+                    <li><a href="attributes.html">Attributes</a></li>
+                    <li><a href="gameplay-tags.html">Gameplay Tags</a></li>
+                    <li><a href="components.html" class="active">Components</a></li>
+                    <li><a href="tutorial.html">Quick Start</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>📑 Component Categories</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#setup-order">Setup Order</a></li>
+                <li><a href="#combo-components">Combo System</a></li>
+                <li><a href="#input-components">Input System</a></li>
+                <li><a href="#combat-components">Combat Components</a></li>
+                <li><a href="#advanced-components">Advanced Systems</a></li>
+                <li><a href="#utility-components">Utility Components</a></li>
+                <li><a href="#dependencies">Component Dependencies</a></li>
+                <li><a href="#examples">Usage Examples</a></li>
+            </ul>
+
+            <div class="alert alert-info" style="margin-top: 1rem; font-size: 0.85rem;">
+                <strong>💡 Tip:</strong> Components must be added in correct order to avoid initialization issues
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content fade-in">
+            <h1>🧩 Actor Components Reference</h1>
+
+            <!-- OVERVIEW SECTION -->
+            <section id="overview">
+                <h2>📖 Overview</h2>
+                
+                <div class="alert alert-success">
+                    <strong>✨ 15+ Actor Components</strong> providing modular combat functionality across 3 modules
+                </div>
+
+                <p>The HOP Framework uses Unreal Engine's Actor Component system for modular, reusable functionality. Components are organized by module and feature set.</p>
+
+                <div class="grid">
+                    <div class="card" style="background: linear-gradient(135deg, #D4AF37 0%, #8B7500 100%); color: white;">
+                        <h4 style="color: white;">⚔️ HopComboGraphRuntime</h4>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>2 Components</strong></p>
+                        <ul style="color: rgba(255,255,255,0.9); font-size: 0.9rem;">
+                            <li>UHopComboManagerComponent</li>
+                            <li>UHopComboGraphSystemComponent</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #4169E1 0%, #00008B 100%); color: white;">
+                        <h4 style="color: white;">🎮 HopInputRuntime</h4>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>2 Components</strong></p>
+                        <ul style="color: rgba(255,255,255,0.9); font-size: 0.9rem;">
+                            <li>UHopInputManagerComponent</li>
+                            <li>UHopInputBufferComponent</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%); color: white;">
+                        <h4 style="color: white;">💥 HOP Core</h4>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>11+ Components</strong></p>
+                        <ul style="color: rgba(255,255,255,0.9); font-size: 0.9rem;">
+                            <li>Combat: Manager, Targeting, Execution, Analytics</li>
+                            <li>Defense: Parry, Poise, CriticalHit, HitResponse</li>
+                            <li>AI: AICombatBehavior</li>
+                            <li>Utility: Interaction, Cover</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- SETUP ORDER -->
+            <!-- ========================================================================================================= -->
+
+            <section id="setup-order">
+                <h2>📋 Component Setup Order</h2>
+                
+                <div class="alert alert-warning">
+                    <strong>⚠️ CRITICAL:</strong> Components must be added in this specific order to ensure proper initialization and dependency resolution!
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recommended Setup Order (Character Blueprint)</h3>
+                    </div>
+
+                    <pre><code><strong>ORDER 1: Core GAS Setup</strong>
+1. AbilitySystemComponent (Unreal Engine GAS)
+   └─ Required by: All gameplay abilities, effects, attributes
+
+<strong>ORDER 2: Input System</strong>
+2. HopInputBufferComponent
+   └─ Required by: HopInputManagerComponent
+3. HopInputManagerComponent (inherits from HopInputBufferComponent)
+   └─ Required by: Ability activation, combo inputs
+
+<strong>ORDER 3: Combo System</strong>
+4. HopComboManagerComponent
+   └─ Required by: Combo graph execution
+5. HopComboGraphSystemComponent (DEPRECATED - use HopComboManagerComponent instead)
+   └─ Legacy component, replaced by HopComboManagerComponent
+
+<strong>ORDER 4: Combat Manager</strong>
+6. HopCombatManagerComponent
+   └─ Required by: Damage calculation, weapon management
+
+<strong>ORDER 5: Combat Features (Any Order)</strong>
+7. HopTargetingComponent
+8. HopParryComponent
+9. HopPoiseComponent
+10. HopCriticalHitComponent
+11. HopHitResponseComponent
+12. HopExecutionComponent
+13. HopCombatAnalyticsComponent
+
+<strong>ORDER 6: AI (AI Characters Only)</strong>
+14. HopAICombatBehaviorComponent
+
+<strong>ORDER 7: Utility (Optional)</strong>
+15. HopInteractionComponent
+16. UCoverComponent</code></pre>
+
+                    <div class="alert alert-info">
+                        <strong>💡 Blueprint Setup:</strong><br>
+                        In Character Blueprint → Components panel → Add Component → Search for component name → Add in order listed above
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Initialization Flow</h3>
+                    </div>
+
+                    <pre><code>BeginPlay →
+├─ AbilitySystemComponent::InitAbilityActorInfo() [FIRST]
+├─ HopInputManagerComponent::BeginPlay()
+│  ├─ Finds AbilitySystemComponent
+│  ├─ Loads Input Setup Data Asset
+│  └─ Initializes 38+ input handlers
+├─ HopComboManagerComponent::BeginPlay()
+│  ├─ Caches AbilitySystemComponent reference
+│  └─ Initializes combo graph runtime
+├─ HopCombatManagerComponent::BeginPlay()
+│  ├─ Initializes damage calculation system
+│  └─ Registers weapon events
+├─ Combat Feature Components Initialize
+│  ├─ HopTargetingComponent (finds potential targets)
+│  ├─ HopParryComponent (sets up parry window timers)
+│  ├─ HopPoiseComponent (initializes poise attributes)
+│  └─ etc.
+└─ All components ready [LAST]</code></pre>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- COMBO COMPONENTS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="combo-components">
+                <h2>🔄 Combo System Components</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopComboManagerComponent</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Module</strong></td>
+                                <td>HopComboGraphRuntime</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Parent Class</strong></td>
+                                <td>UActorComponent</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size</strong></td>
+                                <td>253 lines</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Primary Purpose</strong></td>
+                                <td>Manages combo graph execution, state transitions, input buffering</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dependencies</strong></td>
+                                <td>AbilitySystemComponent, HopInputBufferComponent (optional)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Key Functions</h4>
+                    <pre><code class="language-cpp">// Start combo graph execution
+UFUNCTION(BlueprintCallable, Category = "Hop|Combo")
+bool StartComboGraph(UHopComboGraph* ComboGraph, FName StartingNodeName = NAME_None);
+
+// Manually transition to next combo node
+UFUNCTION(BlueprintCallable, Category = "Hop|Combo")
+bool TransitionToNode(FName TargetNodeName);
+
+// Get current combo count
+UFUNCTION(BlueprintPure, Category = "Hop|Combo")
+int32 GetCurrentComboCount() const;
+
+// Check if combo window is open
+UFUNCTION(BlueprintPure, Category = "Hop|Combo")
+bool IsComboWindowOpen() const;
+
+// Reset combo state
+UFUNCTION(BlueprintCallable, Category = "Hop|Combo")
+void ResetCombo();</code></pre>
+
+                    <h4>Blueprint Usage</h4>
+                    <pre><code>// In GA_MeleeComboAttack ActivateAbility event
+Get Owner Actor
+└─→ Get Component by Class: HopComboManagerComponent
+    └─→ Start Combo Graph
+        ├─ Combo Graph: CG_Sword_LightCombo
+        ├─ Starting Node: (leave default for Entry)
+        └─ Return: Success (bool)</code></pre>
+
+                    <h4>Configuration Properties</h4>
+                    <ul>
+                        <li><code>bAutoStartOnAbilityActivation</code> - Automatically start graph when ability activates</li>
+                        <li><code>bAllowInputBuffering</code> - Queue inputs outside combo windows</li>
+                        <li><code>InputBufferTime</code> - How long to buffer inputs (default: 0.2s)</li>
+                        <li><code>bShowDebugInfo</code> - Display debug text in PIE</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopComboGraphSystemComponent (DEPRECATED)</h3>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>⚠️ DEPRECATED:</strong> This component is replaced by UHopComboManagerComponent. Only use if maintaining legacy projects.
+                    </div>
+
+                    <p><strong>Migration Path:</strong></p>
+                    <ol>
+                        <li>Remove UHopComboGraphSystemComponent from character</li>
+                        <li>Add UHopComboManagerComponent</li>
+                        <li>Update ability references from old component to new</li>
+                        <li>No API changes required - function signatures identical</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- INPUT COMPONENTS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="input-components">
+                <h2>🎮 Input System Components</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopInputManagerComponent</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Module</strong></td>
+                                <td>HopInputRuntime</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Parent Class</strong></td>
+                                <td>UHopInputBufferComponent, IAbilitySystemInterface</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size</strong></td>
+                                <td>569 lines</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Primary Purpose</strong></td>
+                                <td>Manages all Enhanced Input integration, ability activation, 38+ input handlers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dependencies</strong></td>
+                                <td>AbilitySystemComponent (implements IAbilitySystemInterface)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Key Features</h4>
+                    <ul>
+                        <li>✅ Automatic AbilitySystemComponent setup and initialization</li>
+                        <li>✅ 38+ built-in input handlers (Move, Look, Attack, Ability, etc.)</li>
+                        <li>✅ Input buffering during ability execution</li>
+                        <li>✅ Context-aware input blocking via gameplay tags</li>
+                        <li>✅ Enhanced Input Action Data Asset support</li>
+                        <li>✅ Analog stick dead zones and sensitivity curves</li>
+                    </ul>
+
+                    <h4>Configuration</h4>
+                    <pre><code>Class Defaults (Blueprint):
+├─ Input Setup Data: DA_InputSetup_Default
+├─ Default Mapping Context: IMC_Combat
+├─ Mapping Priority: 0
+├─ bAutoInitializeASC: true (creates ASC if missing)
+├─ bEnableInputBuffering: true
+└─ Input Buffer Duration: 0.2 seconds</code></pre>
+
+                    <h4>C++ Usage</h4>
+                    <pre><code class="language-cpp">// Get input manager
+UHopInputManagerComponent* InputManager = Character->FindComponentByClass<UHopInputManagerComponent>();
+
+// Bind custom input handler
+InputManager->BindInputHandler(
+    EHopInputType::AbilityTag,
+    FGameplayTag::RequestGameplayTag("Input.Action.Attack"),
+    this,
+    &ThisClass::OnAttackPressed
+);
+
+// Block input by tag
+InputManager->AddLooseGameplayTag(
+    FHopInputTags::Get().Tag_Input_Block_Combat
+);</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopInputBufferComponent</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Module</strong></td>
+                                <td>HopInputRuntime</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Parent Class</strong></td>
+                                <td>UActorComponent, IInputBufferInterface</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Primary Purpose</strong></td>
+                                <td>Buffers player inputs when actions are unavailable, processes when ready</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Buffer Modes</h4>
+                    <ul>
+                        <li><strong>FIFO (First In First Out):</strong> Process oldest input first</li>
+                        <li><strong>LIFO (Last In First Out):</strong> Process newest input first (default for combos)</li>
+                        <li><strong>Priority-Based:</strong> Process highest priority action first</li>
+                    </ul>
+
+                    <h4>Key Functions</h4>
+                    <pre><code class="language-cpp">// Buffer an input
+UFUNCTION(BlueprintCallable)
+void BufferInput(FGameplayTag InputTag, float TimeToLive = 0.2f);
+
+// Try process buffered input
+UFUNCTION(BlueprintCallable)
+bool TryProcessBufferedInput();
+
+// Clear all buffered inputs
+UFUNCTION(BlueprintCallable)
+void ClearBufferedInputs();
+
+// Get buffered input count
+UFUNCTION(BlueprintPure)
+int32 GetBufferedInputCount() const;</code></pre>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- COMBAT COMPONENTS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="combat-components">
+                <h2>⚔️ Combat Components</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopCombatManagerComponent</h3>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Purpose</strong></td>
+                                <td>Central hub for damage calculation, weapon management, combat state</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size</strong></td>
+                                <td>~400 lines</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dependencies</strong></td>
+                                <td>AbilitySystemComponent</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Key Responsibilities</h4>
+                    <ul>
+                        <li>Damage calculation with armor reduction</li>
+                        <li>Weapon equip/unequip management</li>
+                        <li>Hit detection and validation</li>
+                        <li>Combat state tracking (in combat, last attacker, etc.)</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopParryComponent</h3>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Purpose</strong></td>
+                                <td>Timing-based parry system with perfect parry detection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size</strong></td>
+                                <td>134 lines</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Configuration Properties</h4>
+                    <pre><code>Parry Window Settings:
+├─ Parry Window Duration: 0.3 seconds
+├─ Perfect Parry Window: 0.1 seconds (start of parry)
+├─ Parry Cooldown: 5 seconds
+└─ Stamina Cost: 15 per parry
+
+Perfect Parry Bonuses:
+├─ Stamina Restore: +25
+├─ Counter Window Duration: 2 seconds
+└─ Grants Tag: State.Parry.Perfect</code></pre>
+
+                    <h4>Events</h4>
+                    <pre><code class="language-cpp">// Blueprint events
+UFUNCTION(BlueprintImplementableEvent)
+void OnParrySuccess(AActor* ParriedActor, bool bPerfectParry);
+
+UFUNCTION(BlueprintImplementableEvent)
+void OnParryFailed();
+
+UFUNCTION(BlueprintImplementableEvent)
+void OnCounterWindowOpened();</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopPoiseComponent</h3>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Purpose</strong></td>
+                                <td>Stagger/poise damage system (like Dark Souls stance break)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size</strong></td>
+                                <td>112 lines</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Poise System</h4>
+                    <pre><code>Poise Attributes:
+├─ Max Poise: 100.0 (heavy armor = higher)
+├─ Current Poise: Depletes when hit
+├─ Poise Regeneration: 10 per second (when not hit)
+└─ Poise Regen Delay: 3 seconds after taking hit
+
+Stagger Thresholds:
+├─ Current Poise > 50%: No stagger
+├─ Current Poise 25-50%: Light stagger (State.Stagger.Light)
+├─ Current Poise 1-25%: Medium stagger (State.Stagger.Medium)
+└─ Current Poise = 0: Heavy stagger (State.Stagger.Heavy)
+
+Recovery:
+└─ Auto-recovery ability activates on stagger end</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopCriticalHitComponent</h3>
+                    </div>
+
+                    <p>Calculates critical hits based on attributes:</p>
+                    <pre><code>Critical Hit Calculation:
+Roll = Random(0.0, 1.0)
+If Roll < CritChance:
+    FinalDamage = BaseDamage × CritMultiplier
+    Grant Tag: State.CriticalHit
+    Play VFX: GameplayCue.Impact.Critical
+
+Default Values:
+├─ Crit Chance: 0.10 (10%)
+├─ Crit Multiplier: 2.0x
+├─ Headshot Bonus: +0.5 crit chance
+└─ Backstab Bonus: +0.3 crit chance</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopHitResponseComponent</h3>
+                    </div>
+
+                    <p>Manages hit reactions, knockback, and damage responses:</p>
+                    <ul>
+                        <li>Selects appropriate hit reaction animation</li>
+                        <li>Applies knockback impulse based on damage</li>
+                        <li>Determines stagger level</li>
+                        <li>Handles invulnerability frames (i-frames)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- ADVANCED COMPONENTS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="advanced-components">
+                <h2>🚀 Advanced System Components</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopTargetingComponent (Phase 7)</h3>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Purpose</strong></td>
+                                <td>Multi-target selection, soft-lock, smart target switching</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size</strong></td>
+                                <td>~500 lines (Phase 7 implementation)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Targeting Modes</h4>
+                    <ul>
+                        <li><strong>Free Targeting:</strong> No lock, manual aiming</li>
+                        <li><strong>Soft Lock:</strong> Camera assists towards target (default)</li>
+                        <li><strong>Hard Lock:</strong> Camera locked to target</li>
+                        <li><strong>Multi-Target:</strong> Select multiple targets for AoE abilities</li>
+                    </ul>
+
+                    <h4>Key Functions</h4>
+                    <pre><code class="language-cpp">// Find nearest valid target
+UFUNCTION(BlueprintCallable)
+AActor* FindNearestTarget(float MaxRange = 1000.0f);
+
+// Lock onto target
+UFUNCTION(BlueprintCallable)
+bool LockTarget(AActor* Target);
+
+// Switch to next/previous target
+UFUNCTION(BlueprintCallable)
+void SwitchTarget(bool bNextTarget = true);
+
+// Get all targets in range
+UFUNCTION(BlueprintCallable)
+TArray<AActor*> GetTargetsInRange(float Radius);</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopExecutionComponent (Phase 8)</h3>
+                    </div>
+
+                    <p>Execution/finisher system for low-health enemies:</p>
+                    <pre><code>Execution Conditions:
+├─ Target Health < 25% (configurable)
+├─ Player within range (200 units)
+├─ No execution cooldown active
+└─ Target not invulnerable
+
+Execution Effect:
+├─ Instant kill (9999 damage)
+├─ Play execution montage (synced anim)
+├─ Grant temporary invulnerability
+├─ Restore stamina/health to player
+└─ Cooldown: 10 seconds</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopCombatAnalyticsComponent (Phase 10)</h3>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Purpose</strong></td>
+                                <td>Track combat statistics, damage metrics, performance analysis</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size</strong></td>
+                                <td>750+ lines</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Tracked Metrics</h4>
+                    <ul>
+                        <li>Total damage dealt/taken</li>
+                        <li>DPS (damage per second)</li>
+                        <li>Combo count and max combo</li>
+                        <li>Accuracy percentage</li>
+                        <li>Parry success rate</li>
+                        <li>Kill count and death count</li>
+                        <li>Time in combat</li>
+                    </ul>
+
+                    <h4>Blueprint Access</h4>
+                    <pre><code>Get Component: HopCombatAnalyticsComponent
+├─→ Get Total Damage Dealt → float
+├─→ Get Average DPS → float
+├─→ Get Max Combo Count → int32
+├─→ Get Parry Success Rate → float (0.0-1.0)
+└─→ Reset Statistics → void</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopAICombatBehaviorComponent (Phase 5)</h3>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Purpose</strong></td>
+                                <td>AI combat decision-making with difficulty scaling</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Size</strong></td>
+                                <td>962 lines</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Difficulty Configs</h4>
+                    <pre><code>AI Difficulty Levels:
+├─ Easy: Reaction 0.8-1.2s, Accuracy 60%, Dodge 30%
+├─ Normal: Reaction 0.4-0.8s, Accuracy 75%, Dodge 50%
+├─ Hard: Reaction 0.2-0.4s, Accuracy 90%, Dodge 70%
+└─ Expert: Reaction 0.1-0.2s, Accuracy 95%, Dodge 85%
+
+Behavior Weights (configurable per difficulty):
+├─ Attack Weight: 40-60% (how often AI attacks)
+├─ Defend Weight: 20-30% (block/parry)
+├─ Dodge Weight: 10-20% (evasive movement)
+└─ Wait Weight: 10-20% (observation)</code></pre>
+
+                    <h4>Action Selection</h4>
+                    <pre><code class="language-cpp">// Select best action based on weights
+UFUNCTION(BlueprintCallable)
+EAICombatAction SelectBestAction();
+
+// Set difficulty dynamically
+UFUNCTION(BlueprintCallable)
+void SetDifficulty(EAIDifficulty NewDifficulty);
+
+// Force specific action
+UFUNCTION(BlueprintCallable)
+void ForceAction(EAICombatAction Action);</code></pre>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- UTILITY COMPONENTS -->
+            <!-- ========================================================================================================= -->
+
+            <section id="utility-components">
+                <h2>🔧 Utility Components</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UHopInteractionComponent</h3>
+                    </div>
+
+                    <p>Handles object/NPC interactions:</p>
+                    <ul>
+                        <li>Trace-based interaction detection</li>
+                        <li>Interaction prompts (UI integration)</li>
+                        <li>Hold-to-interact timing</li>
+                        <li>Multi-interact support (doors, chests, NPCs)</li>
+                    </ul>
+
+                    <h4>Usage</h4>
+                    <pre><code>// Add to interactable actors
+On BeginPlay:
+└─→ Add Component: HopInteractionComponent
+    └─→ Set Interaction Prompt: "Press E to Open"
+
+// Player character checks for interactions
+On Input E Pressed:
+├─→ Line Trace from Camera
+├─→ Get Hit Component: HopInteractionComponent
+└─→ Call: OnInteract Event</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">UCoverComponent</h3>
+                    </div>
+
+                    <p>Cover system for tactical combat:</p>
+                    <ul>
+                        <li>Auto-detect cover points (walls, crates)</li>
+                        <li>Enter/exit cover animations</li>
+                        <li>Damage reduction while in cover (50%)</li>
+                        <li>Peek left/right/over mechanics</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- DEPENDENCIES -->
+            <!-- ========================================================================================================= -->
+
+            <section id="dependencies">
+                <h2>🔗 Component Dependencies Graph</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Dependency Visualization</h3>
+                    </div>
+
+                    <pre><code>AbilitySystemComponent (Required by most)
+    ├─→ HopInputManagerComponent
+    │   └─→ HopInputBufferComponent (parent class)
+    │
+    ├─→ HopComboManagerComponent
+    │   └─→ (Optional) HopInputBufferComponent
+    │
+    ├─→ HopCombatManagerComponent
+    │   ├─→ HopTargetingComponent (optional)
+    │   ├─→ HopParryComponent (optional)
+    │   ├─→ HopPoiseComponent (optional)
+    │   └─→ HopCriticalHitComponent (optional)
+    │
+    └─→ Combat Feature Components
+        ├─→ HopExecutionComponent
+        ├─→ HopCombatAnalyticsComponent
+        └─→ HopHitResponseComponent
+
+AI Character Only:
+    └─→ HopAICombatBehaviorComponent
+        ├─→ AbilitySystemComponent
+        └─→ HopTargetingComponent
+
+Standalone (No Dependencies):
+    ├─→ HopInteractionComponent
+    └─→ UCoverComponent</code></pre>
+                </div>
+
+                <div class="alert alert-warning">
+                    <strong>⚠️ Common Mistake:</strong> Adding HopComboManagerComponent before HopInputManagerComponent causes initialization failures. Always follow setup order!
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- EXAMPLES -->
+            <!-- ========================================================================================================= -->
+
+            <section id="examples">
+                <h2>💡 Usage Examples</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Example 1: Complete Player Character Setup</h3>
+                    </div>
+
+                    <h4>Blueprint Component List</h4>
+                    <pre><code>BP_PlayerCharacter Components:
+├─ 1. AbilitySystemComponent
+├─ 2. HopInputBufferComponent
+├─ 3. HopInputManagerComponent
+│      └─ Input Setup Data: DA_PlayerInputSetup
+├─ 4. HopComboManagerComponent
+│      └─ bAllowInputBuffering: true
+├─ 5. HopCombatManagerComponent
+├─ 6. HopTargetingComponent
+│      └─ Targeting Mode: Soft Lock
+├─ 7. HopParryComponent
+│      └─ Perfect Parry Window: 0.1s
+├─ 8. HopPoiseComponent
+│      └─ Max Poise: 100.0
+├─ 9. HopCriticalHitComponent
+│      └─ Crit Chance: 0.10
+├─ 10. HopHitResponseComponent
+├─ 11. HopExecutionComponent
+├─ 12. HopCombatAnalyticsComponent
+└─ 13. HopInteractionComponent</code></pre>
+
+                    <h4>BeginPlay Initialization</h4>
+                    <pre><code>Event BeginPlay
+├─→ Get Ability System Component
+│   └─→ Init Ability Actor Info
+│       ├─ Owner: Self
+│       └─ Avatar: Self
+│
+├─→ Grant Starter Abilities
+│   ├─ Give Ability: GA_Move
+│   ├─ Give Ability: GA_Sprint
+│   ├─ Give Ability: GA_Jump
+│   ├─ Give Ability: GA_Dodge
+│   ├─ Give Ability: GA_MeleeComboAttack
+│   └─ Give Ability: GA_Parry
+│
+└─→ Initialize Attributes
+    └─→ Apply Gameplay Effect: GE_InitializeAttributes</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Example 2: AI Enemy Character Setup</h3>
+                    </div>
+
+                    <pre><code>BP_AIEnemy Components:
+├─ 1. AbilitySystemComponent
+├─ 2. HopCombatManagerComponent
+├─ 3. HopTargetingComponent
+├─ 4. HopPoiseComponent
+│      └─ Max Poise: 75.0 (lower than player)
+├─ 5. HopAICombatBehaviorComponent
+│      ├─ Difficulty: Normal
+│      ├─ Attack Weight: 50%
+│      ├─ Defend Weight: 25%
+│      └─ Dodge Weight: 15%
+├─ 6. HopCombatAnalyticsComponent
+└─ 7. HopHitResponseComponent</code></pre>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Example 3: C++ Component Access</h3>
+                    </div>
+
+                    <pre><code class="language-cpp">// In Character class
+void AMyCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+    
+    // Cache component references
+    ComboManager = FindComponentByClass<UHopComboManagerComponent>();
+    InputManager = FindComponentByClass<UHopInputManagerComponent>();
+    ParryComponent = FindComponentByClass<UHopParryComponent>();
+    TargetingComponent = FindComponentByClass<UHopTargetingComponent>();
+    
+    // Verify critical components exist
+    if (!ComboManager)
+    {
+        UE_LOG(LogTemp, Error, TEXT("HopComboManagerComponent missing!"));
+    }
+    
+    if (!InputManager)
+    {
+        UE_LOG(LogTemp, Error, TEXT("HopInputManagerComponent missing!"));
+    }
+}
+
+// Start combo from C++
+void AMyCharacter::StartSwordCombo()
+{
+    if (ComboManager && SwordComboGraph)
+    {
+        bool bSuccess = ComboManager->StartComboGraph(SwordComboGraph);
+        if (bSuccess)
+        {
+            UE_LOG(LogTemp, Log, TEXT("Combo started successfully"));
+        }
+    }
+}
+
+// Check parry window
+bool AMyCharacter::IsParryWindowActive() const
+{
+    return ParryComponent && ParryComponent->IsParryWindowOpen();
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- BEST PRACTICES -->
+            <div class="alert alert-success" style="margin-top: 3rem;">
+                <h3>✅ Component Best Practices</h3>
+                <ul>
+                    <li>✅ Always add components in the recommended order</li>
+                    <li>✅ Cache component references in BeginPlay (don't FindComponent every tick)</li>
+                    <li>✅ Check for nullptr before using components (optional components may be missing)</li>
+                    <li>✅ Use AbilitySystemComponent as the central hub - most components need it</li>
+                    <li>✅ Enable component replication for multiplayer (Set Replicates = true)</li>
+                    <li>⚠️ Don't add HopComboGraphSystemComponent - it's deprecated</li>
+                    <li>⚠️ Don't skip AbilitySystemComponent initialization - many components fail without it</li>
+                    <li>⚠️ Don't add AI components to player characters (performance waste)</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>HOP Framework Documentation | Actor Components Reference</p>
+            <p>15+ Components | 3 Modules | Modular Combat Architecture ✅</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

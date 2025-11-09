@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abilities - HOP Framework</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 HOP Framework</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="weapons.html">Weapons</a></li>
+                    <li><a href="abilities.html" class="active">Abilities</a></li>
+                    <li><a href="combograph.html">ComboGraph</a></li>
+                    <li><a href="effects.html">Effects</a></li>
+                    <li><a href="attributes.html">Attributes</a></li>
+                    <li><a href="gameplay-tags.html">Tags</a></li>
+                    <li><a href="components.html">Components</a></li>
+                    <li><a href="tutorial.html">Tutorials</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>📑 Sections</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#base">Base Class</a></li>
+                <li><a href="#locomotion">Locomotion</a></li>
+                <li><a href="#combat">Combat</a></li>
+                <li><a href="#utility">Utility</a></li>
+                <li><a href="#granting">Granting</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content fade-in">
+            <h1>⚡ Gameplay Abilities</h1>
+
+            <section id="overview">
+                <h2>📖 Overview</h2>
+                <div class="alert alert-success">
+                    <strong>17 Gameplay Abilities</strong> powered by Unreal Engine GAS
+                </div>
+                <p>All abilities inherit from <code>UHopGameplayAbility</code> with custom activation policies and cooldown management.</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <h4>🏃 Locomotion (7)</h4>
+                        <ul>
+                            <li>GA_Move</li>
+                            <li>GA_Sprint</li>
+                            <li>GA_Jump</li>
+                            <li>GA_Dodge</li>
+                            <li>GA_Crouch</li>
+                            <li>GA_Walk</li>
+                            <li>GA_Traversal</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>⚔️ Combat (6)</h4>
+                        <ul>
+                            <li>GA_MeleeComboAttack</li>
+                            <li>GA_Parry</li>
+                            <li>GA_Counter</li>
+                            <li>GA_FireWeapon</li>
+                            <li>GA_Reload</li>
+                            <li>GA_Dodge</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>🔧 Utility (4)</h4>
+                        <ul>
+                            <li>GA_Interact</li>
+                            <li>GA_StaggerRecovery</li>
+                            <li>GA_TakeCover</li>
+                            <li>GA_ThrowGrenade</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="base">
+                <h2>��️ UHopGameplayAbility</h2>
+                <div class="card">
+                    <h3>Base Properties</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>ActivationPolicy</code></td>
+                                <td>Enum</td>
+                                <td>OnInputTriggered, WhileInputActive, OnSpawn, OnGameplayEvent</td>
+                            </tr>
+                            <tr>
+                                <td><code>bActivateOnGranted</code></td>
+                                <td>bool</td>
+                                <td>Auto-activate when granted</td>
+                            </tr>
+                            <tr>
+                                <td><code>CooldownDuration</code></td>
+                                <td>float</td>
+                                <td>Cooldown in seconds</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="locomotion">
+                <h2>🏃 Locomotion Abilities</h2>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ability</th>
+                                <th>Tag</th>
+                                <th>Cost</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GA_Move</strong></td>
+                                <td>Ability.Movement.Move</td>
+                                <td>None</td>
+                                <td>Passive movement (always active)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_Sprint</strong></td>
+                                <td>Ability.Movement.Sprint</td>
+                                <td>10/s</td>
+                                <td>1.5x speed while held</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_Jump</strong></td>
+                                <td>Ability.Movement.Jump</td>
+                                <td>15</td>
+                                <td>Jump with 0.5s cooldown</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_Dodge</strong></td>
+                                <td>Ability.Movement.Dodge</td>
+                                <td>25</td>
+                                <td>0.3s invulnerability frames</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_Crouch</strong></td>
+                                <td>Ability.Movement.Crouch</td>
+                                <td>None</td>
+                                <td>0.5x speed, stealth</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_Walk</strong></td>
+                                <td>Ability.Movement.Walk</td>
+                                <td>None</td>
+                                <td>Precision movement</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_Traversal</strong></td>
+                                <td>Ability.Movement.Traversal</td>
+                                <td>Variable</td>
+                                <td>Vault/climb/mantle</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="combat">
+                <h2>⚔️ Combat Abilities</h2>
+                
+                <div class="card">
+                    <h3>GA_MeleeComboAttack</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Tag</strong></td>
+                                <td>Ability.Combat.Melee</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stamina</strong></td>
+                                <td>20 per attack</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Features</strong></td>
+                                <td>Combo graph, input buffering, damage scaling</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>GA_Parry</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><strong>Window</strong></td>
+                                <td>0.3s (0.1s perfect)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stamina</strong></td>
+                                <td>15 cost, +25 on perfect</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cooldown</strong></td>
+                                <td>5 seconds</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>GA_Counter</h3>
+                    <p>Activates after perfect parry. 2x damage, no stamina cost.</p>
+                </div>
+
+                <div class="card">
+                    <h3>GA_FireWeapon</h3>
+                    <p>Ranged combat with semi-auto, automatic, and burst modes.</p>
+                </div>
+
+                <div class="card">
+                    <h3>GA_Reload</h3>
+                    <p>Montage-driven reload (2-3s). Blocks combat during reload.</p>
+                </div>
+            </section>
+
+            <section id="utility">
+                <h2>🔧 Utility Abilities</h2>
+                <div class="card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ability</th>
+                                <th>Tag</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GA_Interact</strong></td>
+                                <td>Ability.Utility.Interact</td>
+                                <td>Doors, chests, NPCs (200 unit range)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_StaggerRecovery</strong></td>
+                                <td>Ability.Utility.StaggerRecovery</td>
+                                <td>Auto-activates on stagger end</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_TakeCover</strong></td>
+                                <td>Ability.Utility.TakeCover</td>
+                                <td>50% damage reduction, peek mechanics</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GA_ThrowGrenade</strong></td>
+                                <td>Ability.Combat.ThrowGrenade</td>
+                                <td>Predictive arc, AoE damage</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="granting">
+                <h2>🎁 Granting Abilities</h2>
+                
+                <div class="card">
+                    <h3>Blueprint Example</h3>
+                    <pre><code>Event BeginPlay
+├─ Get ASC
+├─ Init Ability Actor Info
+└─ Grant Abilities:
+   ├─ GA_Move (auto-activate)
+   ├─ GA_Sprint (Input: IA_Sprint)
+   ├─ GA_Jump (Input: IA_Jump)
+   └─ GA_MeleeComboAttack (Input: IA_Attack)</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>C++ Example</h3>
+                    <pre><code>void AMyCharacter::InitializeAbilities()
+{
+    if (!AbilitySystemComponent) return;
+    
+    FGameplayAbilitySpec MoveSpec(UGA_Move::StaticClass(), 1);
+    MoveSpec.InputID = -1;
+    AbilitySystemComponent-&gt;GiveAbilityAndActivateOnce(MoveSpec);
+    
+    FGameplayAbilitySpec SprintSpec(UGA_Sprint::StaticClass(), 1);
+    SprintSpec.InputID = static_cast&lt;int32&gt;(EAbilityInputID::Sprint);
+    AbilitySystemComponent-&gt;GiveAbility(SprintSpec);
+}</code></pre>
+                </div>
+            </section>
+
+            <div class="alert alert-success">
+                <h3>✅ Best Practices</h3>
+                <ul>
+                    <li>Grant abilities after InitAbilityActorInfo()</li>
+                    <li>Use gameplay tags for blocking/cancellation</li>
+                    <li>Check CanActivateAbility before manual activation</li>
+                    <li>Use combo graphs for melee combat</li>
+                    <li>Cache ASC reference in BeginPlay</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>HOP Framework Documentation | Gameplay Abilities</p>
+        </div>
+    </footer>
+</body>
+</html>

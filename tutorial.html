@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start Tutorial - HOP Framework Documentation</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 HOP Framework</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="weapons.html">Weapons</a></li>
+                    <li><a href="abilities.html">Abilities</a></li>
+                    <li><a href="combograph.html">ComboGraph</a></li>
+                    <li><a href="effects.html">Gameplay Effects</a></li>
+                    <li><a href="attributes.html">Attributes</a></li>
+                    <li><a href="gameplay-tags.html">Gameplay Tags</a></li>
+                    <li><a href="tutorial.html">Quick Start</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>🚀 Complete Tutorials</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#melee-weapon">⚔️ Melee Weapon</a> <span style="color: #28a745;">✓</span></li>
+                <li><a href="#tutorial-combo-graph">🔄 Combo Graph</a> <span style="color: #28a745;">✓</span></li>
+                <li><a href="#input-system">🎮 Input System</a></li>
+                <li><a href="#parry-counter">🛡️ Parry/Counter</a></li>
+                <li><a href="#ai-combat">🤖 AI Combat</a></li>
+                <li><a href="#multiplayer">🌐 Multiplayer</a></li>
+            </ul>
+            
+            <div class="alert alert-info" style="margin-top: 1rem; font-size: 0.85rem;">
+                <strong>📚 Pattern:</strong> Each tutorial follows the same structure: Prerequisites → Step-by-Step Setup → Testing → Troubleshooting
+            </div>
+        </aside>
+
+        <main class="main-content fade-in">
+            <h1>🚀 HOP Framework - Complete Setup Tutorials</h1>
+
+            <section id="overview">
+                <h2>📖 Tutorial Overview</h2>
+                <p>Comprehensive, step-by-step tutorials for setting up all HOP Framework systems. Each tutorial includes complete context, required components, gameplay tags, and troubleshooting.</p>
+
+                <div class="alert alert-success">
+                    <strong>✨ Tutorial Pattern:</strong> Prerequisites → Required Assets → Step-by-Step Setup → Testing → Common Issues
+                </div>
+
+                <div class="grid">
+                    <div class="card" style="background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%); color: white;">
+                        <h4 style="color: white;">⚔️ Melee Weapon</h4>
+                        <p style="color: rgba(255,255,255,0.9);">Complete melee system with combo graphs, VFX, damage, and GAS integration</p>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>Time:</strong> 45 minutes</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #D4AF37 0%, #8B7500 100%); color: white;">
+                        <h4 style="color: white;">🔄 Combo System</h4>
+                        <p style="color: rgba(255,255,255,0.9);">Visual combo graphs with state machines and input buffering</p>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>Time:</strong> 30 minutes</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #4169E1 0%, #00008B 100%); color: white;">
+                        <h4 style="color: white;">🎮 Input System</h4>
+                        <p style="color: rgba(255,255,255,0.9);">Enhanced Input with 38+ handlers and automatic ability activation</p>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>Time:</strong> 25 minutes</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #32CD32 0%, #228B22 100%); color: white;">
+                        <h4 style="color: white;">🛡️ Parry/Counter</h4>
+                        <p style="color: rgba(255,255,255,0.9);">Perfect parry timing with counter window management</p>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>Time:</strong> 20 minutes</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #9370DB 0%, #663399 100%); color: white;">
+                        <h4 style="color: white;">🤖 AI Combat</h4>
+                        <p style="color: rgba(255,255,255,0.9);">Intelligent AI with difficulty levels and weighted actions</p>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>Time:</strong> 35 minutes</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #FF6347 0%, #DC143C 100%); color: white;">
+                        <h4 style="color: white;">🌐 Multiplayer</h4>
+                        <p style="color: rgba(255,255,255,0.9);">Network testing with client prediction and server validation</p>
+                        <p style="color: rgba(255,255,255,0.9);"><strong>Time:</strong> 15 minutes</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- TUTORIAL 1: MELEE WEAPON SETUP -->
+            <!-- ========================================================================================================= -->
+            <section id="melee-weapon">
+                <h2>⚔️ Tutorial 1: Complete Melee Weapon Setup</h2>
+                <p><strong>Goal:</strong> Create a fully functional melee weapon with combo attacks, VFX, damage system, and gameplay tags integration.</p>
+                
+                <div class="alert alert-info">
+                    <strong>📋 What You'll Learn:</strong> Weapon Blueprint setup • Combo Graph creation • Gameplay Abilities • Gameplay Effects • VFX integration • Damage system • Poise system • Animation setup
+                </div>
+
+                <div class="alert alert-warning">
+                    <strong>⏱️ Estimated Time:</strong> 45 minutes | <strong>Difficulty:</strong> Intermediate
+                </div>
+
+                <!-- Prerequisites -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📌 Prerequisites</h3>
+                        <span class="card-badge badge-required">Required</span>
+                    </div>
+                    <ul>
+                        <li>✅ HOP Plugin installed and enabled</li>
+                        <li>✅ Character with <code>UAbilitySystemComponent</code> (or use auto-setup)</li>
+                        <li>✅ Animation montages for combo attacks (3-4 attacks recommended)</li>
+                        <li>✅ Static mesh for sword/weapon visual</li>
+                        <li>✅ Niagara effects for hit impacts (optional but recommended)</li>
+                    </ul>
+                </div>
+
+                <!-- Step 1: Create Weapon Blueprint -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 1: Create Melee Weapon Blueprint</h3>
+                        <span class="card-badge badge-class">10 minutes</span>
+                    </div>
+                    
+                    <h4>1.1 Create the Blueprint Class</h4>
+                    <div class="code-block">
+                        <div class="code-header">Content Browser</div>
+                        <pre>1. Right-click in Content Browser → Blueprint Class
+2. Search for "HopWeaponBase"
+3. Select AHopWeaponBase as parent class
+4. Name: BP_Sword_Melee
+5. Open the blueprint</pre>
+                    </div>
+
+                    <h4>1.2 Configure Basic Properties</h4>
+                    <div class="code-block">
+                        <div class="code-header">Details Panel → HOP Weapon</div>
+                        <pre><strong>Weapon Configuration:</strong>
+├─ Weapon Socket Name: "WeaponSocket_R" (attach point on character)
+├─ Weapon Type Tag: Weapon.Melee.Sword
+└─ Display Name: "Iron Sword"
+
+<strong>Combat Properties:</strong>
+├─ Base Damage: 25.0
+├─ Attack Range: 200.0 cm
+├─ Attack Radius: 100.0 cm
+└─ Can Be Equipped: ✅ true</pre>
+                    </div>
+
+                    <h4>1.3 Add Visual Mesh</h4>
+                    <div class="code-block">
+                        <div class="code-header">Components Panel</div>
+                        <pre>1. Select WeaponMesh (Skeletal Mesh Component)
+2. Set Skeletal Mesh: SK_Sword (your sword mesh)
+3. Set Collision Preset: NoCollision
+4. Adjust Transform:
+   - Location: (0, 0, 0)
+   - Rotation: (0, 0, 0) - adjust to match character grip</pre>
+                    </div>
+
+                    <h4>1.4 Setup Collision for Hit Detection</h4>
+                    <div class="code-block">
+                        <div class="code-header">Add Component → Capsule Collision</div>
+                        <pre><strong>Add Capsule Component:</strong>
+Name: "MeleeHitbox"
+Parent: WeaponMesh
+Collision Preset: Custom
+├─ Collision Enabled: Query Only (No Physics Collision)
+├─ Object Type: WorldDynamic
+├─ Collision Responses:
+   ├─ Pawn: Overlap
+   ├─ WorldDynamic: Overlap
+   └─ All Others: Ignore
+
+<strong>Transform (adjust to sword blade):</strong>
+Location: (50, 0, 0) - move to blade center
+Rotation: (0, 90, 0) - align with blade
+Scale: (1.5, 1, 1) - cover blade length</pre>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>💡 Tip:</strong> Enable "Show Collision" in viewport to visualize hit detection area. Adjust capsule size/position to match your sword blade.
+                    </div>
+                </div>
+
+                <!-- Step 2: Create Gameplay Effects -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 2: Create Damage Gameplay Effect</h3>
+                        <span class="card-badge badge-property">10 minutes</span>
+                    </div>
+
+                    <h4>2.1 Create Melee Damage Effect</h4>
+                    <div class="code-block">
+                        <div class="code-header">Content Browser → Create Gameplay Effect</div>
+                        <pre>1. Right-click → Gameplay → Gameplay Effect
+2. Name: GE_MeleeDamage_Sword
+3. Open the asset</pre>
+                    </div>
+
+                    <h4>2.2 Configure Effect Properties</h4>
+                    <div class="code-block">
+                        <div class="code-header">Gameplay Effect Details</div>
+                        <pre><strong>Duration Policy:</strong> Instant
+
+<strong>Modifiers:</strong>
+[0] Add Modifier
+    ├─ Attribute: HopAttributeSet.Health
+    ├─ Modifier Op: Additive
+    ├─ Modifier Magnitude:
+       └─ Scalable Float:
+          ├─ Value: -25.0 (negative for damage)
+          └─ Curve Table: None
+
+<strong>Gameplay Tags:</strong>
+├─ Asset Tags: Effect.Damage, Effect.Weapon
+├─ Granted Tags: None
+└─ Application Tag Requirements:
+   ├─ Require Tags: None
+   └─ Ignore Tags: State.Dead, State.Invulnerable</pre>
+                    </div>
+
+                    <h4>2.3 Add SetByCaller for Dynamic Damage</h4>
+                    <div class="code-block">
+                        <div class="code-header">Advanced → Modifiers → SetByCaller Magnitude</div>
+                        <pre><strong>Modifier Magnitude (Alternative):</strong>
+Change to: Set By Caller Magnitude
+└─ Data Tag: Data.Damage
+
+<strong>In Blueprint (Ability):</strong>
+Spec = Make Outgoing Spec
+Add SetByCaller Magnitude(Spec, Data.Damage, 25.0 * ComboMultiplier)
+Apply Gameplay Effect Spec</pre>
+                    </div>
+
+                    <h4>2.4 Create Poise Damage Effect</h4>
+                    <div class="code-block">
+                        <div class="code-header">GE_PoiseDamage_Sword</div>
+                        <pre><strong>Duration Policy:</strong> Instant
+
+<strong>Modifiers:</strong>
+[0] Add Modifier
+    ├─ Attribute: HopAttributeSet.Poise (custom attribute)
+    ├─ Modifier Op: Additive
+    └─ Magnitude: -15.0 (poise damage)
+
+<strong>Gameplay Tags:</strong>
+Asset Tags: Effect.Damage.Poise
+Ignore Tags: State.SuperArmor</pre>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Gameplay Tags Used:</strong>
+                        <ul style="margin-top: 0.5rem;">
+                            <li><code>Effect.Damage</code> - Marks this as damage effect</li>
+                            <li><code>Effect.Weapon</code> - Weapon-sourced damage</li>
+                            <li><code>State.Dead</code> - Prevent damage to dead actors</li>
+                            <li><code>State.Invulnerable</code> - Immunity frames</li>
+                            <li><code>State.SuperArmor</code> - Prevent poise damage</li>
+                            <li><code>Data.Damage</code> - SetByCaller tag for dynamic values</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 3: Create Combo Graph -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 3: Create Melee Combo Graph</h3>
+                        <span class="card-badge badge-function">15 minutes</span>
+                    </div>
+
+                    <h4>3.1 Create Combo Graph Asset</h4>
+                    <div class="code-block">
+                        <div class="code-header">Content Browser</div>
+                        <pre>1. Right-click → HopComboGraph → Combo Graph
+2. Name: CG_Sword_LightCombo
+3. Double-click to open graph editor</pre>
+                    </div>
+
+                    <h4>3.2 Build Combo Chain</h4>
+                    <div class="code-block">
+                        <div class="code-header">Graph Editor (Golden/Black Theme)</div>
+                        <pre><strong>Node Structure:</strong>
+
+[Entry Node]  →  [Attack 1]  →  [Attack 2]  →  [Attack 3]  →  [Finisher]
+                      ↓             ↓             ↓
+                   (cancel)      (cancel)      (cancel)
+                      ↓             ↓             ↓
+                  [Entry Node]  [Entry Node]  [Entry Node]
+
+<strong>Creating Nodes:</strong>
+1. Right-click → Add Node → Montage Node
+2. Repeat 4 times (Attack1, Attack2, Attack3, Finisher)
+3. Connect Entry → Attack1
+4. Connect Attack1 → Attack2 (combo transition)
+5. Connect Attack2 → Attack3
+6. Connect Attack3 → Finisher</pre>
+                    </div>
+
+                    <h4>3.3 Configure Each Montage Node</h4>
+                    <div class="code-block">
+                        <div class="code-header">Attack 1 Node Properties</div>
+                        <pre><strong>Animation:</strong>
+├─ Animation Montage: AM_Sword_Attack1
+├─ Play Rate: 1.0
+├─ Blend In Time: 0.1
+└─ Blend Out Time: 0.2
+
+<strong>Combo Properties:</strong>
+├─ Required Input Action: IA_Attack (Enhanced Input Action)
+├─ Node Tags: Combo.Action.Light
+├─ Required Tags: (none)
+└─ Blocking Tags: State.Stagger, State.Dead
+
+<strong>Combo Window (Event-Driven via AnimNotify):</strong>
+├─ Combo Window Start: 0.0 (set by AnimNotify)
+└─ Combo Window End: 0.0 (set by AnimNotify)
+└─ ⚠️ Use AnimNotifyState_ComboWindow in montage instead!
+
+<strong>Gameplay Effects (On State Enter):</strong>
+[0] GE_MeleeDamage_Sword
+[1] GE_PoiseDamage_Sword
+
+<strong>Gameplay Cues:</strong>
+[0] GameplayCue.Weapon.Sword.Swing
+[1] GameplayCue.Impact.Flesh (on hit)</pre>
+                    </div>
+
+                    <h4>3.4 Configure Transitions</h4>
+                    <div class="code-block">
+                        <div class="code-header">Attack1 → Attack2 Edge Properties</div>
+                        <pre><strong>Transition Input:</strong>
+Transition Input Action: IA_Attack (same attack button)
+
+<strong>Selection Method:</strong>
+├─ Priority: 50 (0-100, higher = evaluated first)
+└─ Selection Weight: 1.0 (for random selection)
+
+<strong>Combo Count (Optional):</strong>
+├─ Min Combo Count: 1 (require at least 1 hit)
+└─ Max Combo Count: 999
+
+<strong>Blueprint Condition (Optional):</strong>
+Override: Can Transition (Blueprint Event)
+Return: Check Stamina >= 10.0</pre>
+                    </div>
+
+                    <h4>3.5 Setup AnimNotify for Combo Windows</h4>
+                    <div class="code-block">
+                        <div class="code-header">Animation Montage: AM_Sword_Attack1</div>
+                        <pre><strong>Add AnimNotifyState:</strong>
+1. Open AM_Sword_Attack1 montage
+2. Notifies Track → Right-click → Add Notify State
+3. Select: AnimNotifyState_ComboWindow (HopComboGraph)
+
+<strong>Timing (Example for 1.0s attack):</strong>
+Start Time: 0.5s (50% through animation)
+End Time: 0.9s (90% through animation)
+└─ This creates a 0.4s input buffer window
+
+<strong>Repeat for all combo montages!</strong></pre>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>⚠️ IMPORTANT:</strong> AnimNotifyState_ComboWindow is the ONLY way to open combo windows correctly. The graph's ComboWindowStart/End values are ignored if AnimNotify is used (recommended pattern).
+                    </div>
+                </div>
+
+                <!-- Step 4: Create Melee Ability -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 4: Create Melee Combo Ability</h3>
+                        <span class="card-badge badge-class">10 minutes</span>
+                    </div>
+
+                    <h4>4.1 Create Ability Blueprint</h4>
+                    <div class="code-block">
+                        <div class="code-header">Content Browser</div>
+                        <pre>1. Right-click → Blueprint Class
+2. Search for "HopGameplayAbility"
+3. Select UHopGameplayAbility or GA_MeleeComboAttack (recommended)
+4. Name: GA_Sword_LightCombo
+5. Open blueprint</pre>
+                    </div>
+
+                    <h4>4.2 Configure Ability Properties</h4>
+                    <div class="code-block">
+                        <div class="code-header">Class Defaults → Ability</div>
+                        <pre><strong>Ability Tags:</strong>
+├─ Ability Tags: Ability.Combat.Attack, Ability.Weapon.Melee
+├─ Cancel Abilities with Tag: Ability.Movement.Sprint
+├─ Block Abilities with Tag: Ability.Combat.Reload
+└─ Activation Owned Tags: State.Combat.Attacking, State.Melee
+
+<strong>Activation:</strong>
+├─ Instancing Policy: Instanced Per Execution
+├─ Net Execution Policy: Local Predicted
+├─ Replication Policy: Replicate Yes
+└─ Server Respects Remote Ability Cancellation: ✅ true
+
+<strong>Costs:</strong>
+├─ Cost Gameplay Effect: GE_StaminaCost_Melee (optional)
+└─ Check Cooldown: None (combo allows rapid attacks)
+
+<strong>Input:</strong>
+├─ Input ID: AbilityInput.Attack (enum)
+└─ Activate Ability on Granted: ❌ false</pre>
+                    </div>
+
+                    <h4>4.3 Implement ActivateAbility</h4>
+                    <div class="code-block">
+                        <div class="code-header">Event Graph → Override ActivateAbility</div>
+                        <pre><strong>Blueprint Visual Script:</strong>
+
+[Event ActivateAbility]
+    ↓
+[Get Combo Manager Component] (from Owner Actor)
+    ↓
+[Is Valid?] ━━ No ━━→ [End Ability]
+    ↓ Yes
+[Start Combo]
+    ├─ Combo Graph: CG_Sword_LightCombo
+    ├─ Triggering Input Action: IA_Attack
+    └─ Target: Self
+    ↓
+[Wait for Combo Complete] (Async node)
+    ├─ On Completed → [Apply Damage to Last Target]
+    ├─ On Interrupted → [Log: "Combo Interrupted"]
+    └─ On Cancelled → [End Ability]</pre>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Alternative: Use Ability Task (C++ Example)</div>
+                        <pre><code class="language-cpp">// In ActivateAbility()
+UHopComboGraphAbilityTask* ComboTask = UHopComboGraphAbilityTask::PlayComboGraph(
+    this,
+    ComboGraph,  // CG_Sword_LightCombo
+    TriggeringInputAction  // IA_Attack
+);
+
+ComboTask->OnCompleted.AddDynamic(this, &UGA_Sword_LightCombo::OnComboCompleted);
+ComboTask->OnStateStarted.AddDynamic(this, &UGA_Sword_LightCombo::OnStateStarted);
+ComboTask->ReadyForActivation();</code></pre>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Gameplay Tags Explained:</strong>
+                        <ul style="margin-top: 0.5rem;">
+                            <li><code>Ability.Combat.Attack</code> - Identifies attack abilities</li>
+                            <li><code>Ability.Weapon.Melee</code> - Melee-specific attacks</li>
+                            <li><code>State.Combat.Attacking</code> - Added while attacking (prevents dodge, etc.)</li>
+                            <li><code>State.Melee</code> - Melee attack state (for AI detection)</li>
+                            <li><code>AbilityInput.Attack</code> - Input binding identifier</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 5: Weapon Setup -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 5: Link Ability to Weapon</h3>
+                        <span class="card-badge badge-property">5 minutes</span>
+                    </div>
+
+                    <h4>5.1 Configure Weapon Abilities</h4>
+                    <div class="code-block">
+                        <div class="code-header">BP_Sword_Melee → Details → HOP Weapon</div>
+                        <pre><strong>Granted Abilities:</strong>
+[0] Add Element
+    ├─ Ability: GA_Sword_LightCombo
+    ├─ Input Action: IA_Attack
+    └─ Level: 1
+
+<strong>How It Works:</strong>
+When weapon is equipped:
+1. HopCombatManagerComponent calls EquipWeapon()
+2. Weapon grants GA_Sword_LightCombo to ASC
+3. Input action IA_Attack is bound to ability
+4. Player presses attack → ability activates automatically</pre>
+                    </div>
+
+                    <h4>5.2 Add Passive Effects (Optional)</h4>
+                    <div class="code-block">
+                        <div class="code-header">Passive Gameplay Effects</div>
+                        <pre><strong>Granted Effects (while equipped):</strong>
+[0] Add Element
+    └─ Effect: GE_Sword_AttackSpeedBonus
+       ├─ Modifies: HopAttributeSet.AttackSpeed
+       └─ Value: +10% multiplicative
+
+[1] Add Element
+    └─ Effect: GE_Sword_DamageBonus
+       ├─ Modifies: HopCombatAttributeSet.DamageMultiplier
+       └─ Value: 1.1 (10% bonus)</pre>
+                    </div>
+                </div>
+
+                <!-- Step 6: VFX Integration -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 6: Add VFX & Polish</h3>
+                        <span class="card-badge badge-function">10 minutes</span>
+                    </div>
+
+                    <h4>6.1 Setup Gameplay Cues</h4>
+                    <div class="code-block">
+                        <div class="code-header">Create Gameplay Cue Notifies</div>
+                        <pre><strong>GC_Weapon_Sword_Swing:</strong>
+1. Content Browser → Create → Gameplay Cue → Gameplay Cue Notify
+2. Name: GC_Weapon_Sword_Swing
+3. Gameplay Cue Tag: GameplayCue.Weapon.Sword.Swing
+
+<strong>Event OnExecute (Blueprint):</strong>
+[Spawn Niagara System at Location]
+    ├─ System: NS_Sword_Trail
+    ├─ Location: Get Weapon Mesh → GetSocketLocation("TrailStart")
+    └─ Rotation: Weapon Forward Vector
+
+[Play Sound at Location]
+    ├─ Sound: SFX_Sword_Swing
+    └─ Location: Actor Location</pre>
+                    </div>
+
+                    <h4>6.2 Setup Hit Impact VFX</h4>
+                    <div class="code-block">
+                        <div class="code-header">Combo Graph → State Actions → On Hit</div>
+                        <pre><strong>In Attack Node → On State Enter:</strong>
+[0] Action: Spawn Niagara System
+    ├─ System: NS_Sword_Trail
+    ├─ Attach To: Weapon Mesh
+    └─ Socket: TrailSocket
+
+<strong>In Gameplay Effect → Application:</strong>
+On GE_MeleeDamage_Sword applied:
+    ├─ Execute GameplayCue: GameplayCue.Impact.Flesh
+    └─ Parameters:
+       ├─ Location: Hit Location
+       └─ Normal: Hit Normal
+
+<strong>GC_Impact_Flesh Implementation:</strong>
+[Spawn Emitter at Location]
+    ├─ Template: PS_Blood_Impact
+    └─ Location: Cue Parameters → Location
+[Spawn Decal]
+    ├─ Material: M_Blood_Decal
+    └─ Size: (15, 15, 15)
+[Play Sound]
+    └─ Sound: SFX_Flesh_Hit</pre>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>💡 Optimization Tip:</strong> Use Gameplay Cues for VFX instead of direct Blueprint spawning. Cues are automatically network-optimized and can be pooled.
+                    </div>
+                </div>
+
+                <!-- Step 7: Character Setup -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 7: Character Integration</h3>
+                        <span class="card-badge badge-class">5 minutes</span>
+                    </div>
+
+                    <h4>7.1 Add Components to Character</h4>
+                    <div class="code-block">
+                        <div class="code-header">BP_PlayerCharacter → Components</div>
+                        <pre><strong>Required Components:</strong>
+
+[Add Component] → HopComboManagerComponent
+    ├─ Auto ASC Setup: ✅ true (creates ASC if missing)
+    ├─ Native Ability Level: 1
+    └─ Combo Inputs:
+       └─ [IA_Attack] → [Input.Action.Attack]
+
+[Add Component] → HopCombatManagerComponent
+    ├─ Starting Weapons: [BP_Sword_Melee]
+    └─ Max Weapons: 2
+
+[Add Component] → HopInputManagerComponent
+    ├─ Input Setup Data: DA_PlayerInputSetup
+    └─ Should Process Inputs: ✅ true
+
+[Add Component] → AbilitySystemComponent (if not auto-created)
+    └─ Replication Mode: Mixed</pre>
+                    </div>
+
+                    <h4>7.2 Setup Input Mapping</h4>
+                    <div class="code-block">
+                        <div class="code-header">Character BeginPlay</div>
+                        <pre><strong>Blueprint:</strong>
+
+[Event BeginPlay]
+    ↓
+[Get HopInputManager Component]
+    ↓
+[Setup Player Input Component]
+    └─ Binds all Enhanced Input actions automatically
+    ↓
+[Get HopCombatManager Component]
+    ↓
+[Equip Weapon]
+    ├─ Weapon: BP_Sword_Melee
+    └─ Slot Index: 0
+    ↓
+[Get ASC] → [Initialize Ability Actor Info]
+    ├─ Owner Actor: Self
+    └─ Avatar Actor: Self</pre>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Important:</strong> If using <code>HopComboManagerComponent</code> with auto-ASC setup enabled, it will automatically create and initialize the ASC. You don't need manual ASC setup in BeginPlay.
+                    </div>
+                </div>
+
+                <!-- Step 8: Testing -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 8: Testing & Validation</h3>
+                        <span class="card-badge badge-function">10 minutes</span>
+                    </div>
+
+                    <h4>8.1 PIE Testing Checklist</h4>
+                    <div class="code-block">
+                        <div class="code-header">Play in Editor Tests</div>
+                        <pre><strong>✅ Basic Functionality:</strong>
+□ Character spawns with sword equipped
+□ Press attack button → Animation plays
+□ Combo chains work (Attack 1 → 2 → 3 → Finisher)
+□ Input buffering works (press during combo window)
+□ Combo resets after finisher
+□ Can cancel combo to idle
+
+<strong>✅ Damage System:</strong>
+□ Spawn test enemy (with Health attribute)
+□ Attack enemy → Health decreases
+□ Check damage number: 25 per hit
+□ Poise damage triggers stagger
+□ Dead enemies can't be damaged (State.Dead blocks)
+
+<strong>✅ VFX & Audio:</strong>
+□ Sword trail appears during swing
+□ Hit impact VFX spawns on contact
+□ Blood decal appears on ground
+□ Sound effects play correctly
+
+<strong>✅ Gameplay Tags:</strong>
+□ State.Combat.Attacking added during attack
+□ State.Melee active while combo running
+□ Can't sprint while attacking (blocking tags)
+□ Can dodge to cancel (if configured)</pre>
+                    </div>
+
+                    <h4>8.2 Debug Visualization</h4>
+                    <div class="code-block">
+                        <div class="code-header">Console Commands</div>
+                        <pre><strong>Show Gameplay Tags:</strong>
+showdebug abilitysystem
+
+<strong>Show Combo State:</strong>
+In HopComboStateMachineInstance → bShowDebugInfo = true
+Displays: Current state, combo count, window status, buffered input
+
+<strong>Show Collision:</strong>
+show COLLISION
+Visualizes melee hitbox capsule
+
+<strong>Network Testing:</strong>
+NetPktLag=100 (simulate 100ms latency)
+NetPktLoss=5 (simulate 5% packet loss)</pre>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Success Criteria:</strong> If all checkboxes pass, your melee weapon is fully functional! Combo chains smoothly, damage applies correctly, VFX looks good, and gameplay tags prevent conflicting actions.
+                    </div>
+                </div>
+
+                <!-- Step 9: Common Issues -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">❌ Troubleshooting Common Issues</h3>
+                        <span class="card-badge badge-optional">Fixes</span>
+                    </div>
+
+                    <table class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Problem</th>
+                                    <th>Cause</th>
+                                    <th>Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Combo won't start</td>
+                                    <td>ASC not initialized</td>
+                                    <td>Check BeginPlay → InitAbilityActorInfo called. Or enable HopComboManagerComponent auto-setup.</td>
+                                </tr>
+                                <tr>
+                                    <td>Input not working</td>
+                                    <td>Input action not bound</td>
+                                    <td>Verify Combo Inputs map in HopComboManagerComponent: IA_Attack → Input.Action.Attack</td>
+                                </tr>
+                                <tr>
+                                    <td>Combo window never opens</td>
+                                    <td>Missing AnimNotify</td>
+                                    <td>Add AnimNotifyState_ComboWindow to all combo montages at desired timing</td>
+                                </tr>
+                                <tr>
+                                    <td>Can't chain attacks</td>
+                                    <td>Combo window too short</td>
+                                    <td>Extend AnimNotifyState duration (try 0.3-0.5s window)</td>
+                                </tr>
+                                <tr>
+                                    <td>No damage dealt</td>
+                                    <td>GE not applied</td>
+                                    <td>Check Combo Graph → State Actions → Add GE_MeleeDamage_Sword to "On State Enter"</td>
+                                </tr>
+                                <tr>
+                                    <td>Damage blocked</td>
+                                    <td>Target has blocking tags</td>
+                                    <td>Check target doesn't have State.Invulnerable or State.Dead tags active</td>
+                                </tr>
+                                <tr>
+                                    <td>VFX not spawning</td>
+                                    <td>GameplayCue tag mismatch</td>
+                                    <td>Verify tag matches: Graph uses "GameplayCue.Weapon.Sword.Swing" and GC notify has same tag</td>
+                                </tr>
+                                <tr>
+                                    <td>Multiplayer desync</td>
+                                    <td>Ability not replicated</td>
+                                    <td>Set Replication Policy: Replicate Yes, Net Execution Policy: Local Predicted</td>
+                                </tr>
+                                <tr>
+                                    <td>Ability grants but won't activate</td>
+                                    <td>Blocking tags active</td>
+                                    <td>Check character doesn't have tags in "Block Abilities With Tag" (e.g., State.Stunned)</td>
+                                </tr>
+                                <tr>
+                                    <td>CoreRedirects warnings</td>
+                                    <td>Old plugin references</td>
+                                    <td>Normal after plugin unification - assets auto-migrate. Resave assets to clear warnings.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </table>
+
+                    <div class="alert alert-warning">
+                        <strong>🐛 Still Having Issues?</strong>
+                        <ol style="margin-top: 0.5rem;">
+                            <li>Enable <code>LogHopComboGraph</code> category to VeryVerbose in DefaultEngine.ini</li>
+                            <li>Check Output Log for "ComboManager", "AbilitySystem", "GameplayEffect" messages</li>
+                            <li>Use <code>showdebug abilitysystem</code> to see active abilities/effects/tags</li>
+                            <li>Verify module load order: HopGasBuddy → HopComboGraphRuntime → HopInputRuntime</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- System Integration Overview -->
+                <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <div class="card-header" style="border-bottom-color: rgba(255,255,255,0.2);">
+                        <h3 class="card-title" style="color: white;">🔗 System Integration Summary</h3>
+                        <span class="card-badge" style="background: rgba(255,255,255,0.3); color: white;">Complete Flow</span>
+                    </div>
+                    <div style="color: rgba(255,255,255,0.95);">
+                        <h4 style="color: white;">How All Systems Work Together:</h4>
+                        <pre style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 4px; color: #fff;">
+<strong>1. Input System (HopInputRuntime):</strong>
+   Player presses attack button
+   → IA_Attack input action triggered
+   → HopInputHandler_ComboAttack processes input
+   → Sends input to HopComboManagerComponent
+
+<strong>2. Combo System (HopComboGraphRuntime):</strong>
+   HopComboManagerComponent receives input
+   → Checks if combo ability is active
+   → If yes: buffers input for next state
+   → If no: activates GA_Sword_LightCombo ability
+   → Ability starts combo graph (CG_Sword_LightCombo)
+   → State machine plays montage (Attack 1)
+   → AnimNotifyState_ComboWindow opens input buffer
+   → Player presses attack again (buffered)
+   → State transitions to Attack 2
+   → Repeat until finisher or cancel
+
+<strong>3. Damage System (HopGasBuddy + GAS):</strong>
+   State enters (Attack 1 starts)
+   → On State Enter: Apply GE_MeleeDamage_Sword
+   → Gameplay Effect modifies Health attribute (-25)
+   → Apply GE_PoiseDamage_Sword
+   → Poise damage accumulates
+   → If poise breaks: Add State.Stagger tag
+   → Target plays hit reaction animation
+
+<strong>4. VFX System (Gameplay Cues):</strong>
+   Montage plays → AnimNotify triggers
+   → Execute GameplayCue.Weapon.Sword.Swing
+   → GC_Weapon_Sword_Swing spawns trail VFX
+   → On damage applied: GameplayCue.Impact.Flesh
+   → GC_Impact_Flesh spawns blood VFX + decal + sound
+
+<strong>5. Tag System (All Modules):</strong>
+   Ability activates → Grants State.Combat.Attacking tag
+   → Blocks sprint, reload, other conflicting abilities
+   → AI detects State.Melee tag → Triggers defensive behavior
+   → On combo complete → Removes all granted tags
+   → Player can sprint/dodge again
+
+<strong>Result:</strong> Smooth, responsive melee combat with visual feedback,
+network replication, and intelligent AI response - all managed by
+interconnected HOP Framework systems using Gameplay Tags as the glue!</pre>
+                    </div>
+                </div>
+
+                <div class="alert alert-success" style="margin-top: 2rem;">
+                    <strong>🎉 Tutorial Complete!</strong> You now have a fully functional melee weapon system integrated with combo graphs, damage system, VFX, and gameplay tags. The next tutorial covers advanced parry/counter mechanics.
+                </div>
+            </section>
+            </section>
+
+            <!-- PHASE 1: EFFECTS -->
+            <section id="phase1">
+                <h2>Phase 1: Create 5 Gameplay Effects</h2>
+                <span class="label label-blueprint">Blueprint Only</span>
+                <span class="label label-optional">20 Minutes</span>
+
+                <p>Create 5 core gameplay effects in <code>Content/HopFramework/Blueprints/GameplayEffects/Combat/</code></p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Effect Creation Checklist</h3>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">1. GE_WeaponDamage (5 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → GameplayEffect</li>
+                                    <li>Name: <code>GE_WeaponDamage</code></li>
+                                    <li>Duration Policy: <strong>Instant</strong></li>
+                                    <li>Add Modifier:
+                                        <ul>
+                                            <li>Attribute: <code>HopCombatAttributeSet.Health</code></li>
+                                            <li>Operation: <strong>Add</strong></li>
+                                            <li>Magnitude: <strong>SetByCaller Magnitude</strong></li>
+                                            <li>Data Tag: <code>Data.Damage</code></li>
+                                        </ul>
+                                    </li>
+                                    <li>Asset Tags: <code>Effect.Damage</code></li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">2. GE_AmmoConsumption (2 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → GameplayEffect</li>
+                                    <li>Name: <code>GE_AmmoConsumption</code></li>
+                                    <li>Duration Policy: <strong>Instant</strong></li>
+                                    <li>Add Modifier:
+                                        <ul>
+                                            <li>Attribute: <code>HopCombatAttributeSet.CurrentAmmo</code></li>
+                                            <li>Operation: <strong>Add</strong></li>
+                                            <li>Magnitude: <strong>Scalable Float: -1.0</strong></li>
+                                        </ul>
+                                    </li>
+                                    <li>Asset Tags: <code>Effect.Ammo.Consume</code></li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">3. GE_CoverBonus (5 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → GameplayEffect</li>
+                                    <li>Name: <code>GE_CoverBonus</code></li>
+                                    <li>Duration Policy: <strong>Has Duration</strong></li>
+                                    <li>Duration Magnitude: <strong>Scalable Float: 0.0</strong> (infinite)</li>
+                                    <li>Add 2 Modifiers:
+                                        <ul>
+                                            <li>Modifier 1:
+                                                <ul>
+                                                    <li>Attribute: <code>HopCombatAttributeSet.Armor</code></li>
+                                                    <li>Operation: <strong>Add</strong></li>
+                                                    <li>Magnitude: <strong>Scalable Float: 20.0</strong></li>
+                                                </ul>
+                                            </li>
+                                            <li>Modifier 2:
+                                                <ul>
+                                                    <li>Attribute: <code>HopCombatAttributeSet.DamageResistance</code></li>
+                                                    <li>Operation: <strong>Add</strong></li>
+                                                    <li>Magnitude: <strong>Scalable Float: 0.15</strong></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>Asset Tags: <code>Effect.Tactical.Cover</code></li>
+                                    <li>Granted Tags: <code>State.InCover</code></li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">4. GE_Flashbang (4 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → GameplayEffect</li>
+                                    <li>Name: <code>GE_Flashbang</code></li>
+                                    <li>Duration Policy: <strong>Has Duration</strong></li>
+                                    <li>Duration Magnitude: <strong>Scalable Float: 5.0</strong></li>
+                                    <li>Add Modifier:
+                                        <ul>
+                                            <li>Attribute: <code>CharacterMovementComponent.MaxWalkSpeed</code></li>
+                                            <li>Operation: <strong>Multiply</strong></li>
+                                            <li>Magnitude: <strong>Scalable Float: 0.5</strong> (50% speed)</li>
+                                        </ul>
+                                    </li>
+                                    <li>Asset Tags: <code>Effect.Debuff.Stun</code></li>
+                                    <li>Granted Tags: <code>State.Debuff.Stunned</code></li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">5. GE_SmokeConcealment (3 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → GameplayEffect</li>
+                                    <li>Name: <code>GE_SmokeConcealment</code></li>
+                                    <li>Duration Policy: <strong>Has Duration</strong></li>
+                                    <li>Duration Magnitude: <strong>Scalable Float: 15.0</strong></li>
+                                    <li>No Modifiers (tag-only effect)</li>
+                                    <li>Asset Tags: <code>Effect.Tactical.Smoke</code></li>
+                                    <li>Granted Tags: <code>State.Concealed</code></li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Phase 1 Complete!</strong> You now have 5 gameplay effects ready to use.
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHASE 2: ABILITIES -->
+            <section id="phase2">
+                <h2>Phase 2: Create 8 Gameplay Abilities</h2>
+                <span class="label label-blueprint">Blueprint Only</span>
+                <span class="label label-optional">40 Minutes</span>
+
+                <p>Create 8 ability Blueprints in <code>Content/HopFramework/Blueprints/GameplayAbilities/Combat/</code></p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ability Creation Checklist</h3>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">1. GA_FirePistol (5 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → <strong>GA_FireWeapon</strong> (C++ parent)</li>
+                                    <li>Name: <code>GA_FirePistol</code></li>
+                                    <li>Class Defaults:
+                                        <ul>
+                                            <li>AbilityTags: <code>Ability.Combat.Fire</code></li>
+                                            <li>CancelAbilitiesWithTag: <code>Ability.Combat.Reload</code></li>
+                                            <li>BlockAbilitiesWithTag: <code>Ability.Combat.Melee</code></li>
+                                            <li>ActivationOwnedTags: <code>State.Combat.Firing</code></li>
+                                            <li>DamageEffectClass: <code>GE_WeaponDamage</code></li>
+                                            <li>AmmoEffectClass: <code>GE_AmmoConsumption</code></li>
+                                            <li>bAutoReload: <strong>TRUE</strong></li>
+                                            <li>RecoilStrength: <strong>1.0</strong></li>
+                                        </ul>
+                                    </li>
+                                    <li>Event Graph → Implement <code>OnWeaponFired</code>:
+                                        <ul>
+                                            <li>Play Muzzle Flash (Niagara)</li>
+                                            <li>Play Fire Sound</li>
+                                            <li>Apply Camera Shake</li>
+                                            <li>Spawn Impact Particle (if hit)</li>
+                                        </ul>
+                                    </li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">2. GA_ReloadPistol (4 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → <strong>GA_Reload</strong> (C++ parent)</li>
+                                    <li>Name: <code>GA_ReloadPistol</code></li>
+                                    <li>Class Defaults:
+                                        <ul>
+                                            <li>AbilityTags: <code>Ability.Combat.Reload</code></li>
+                                            <li>BlockAbilitiesWithTag: <code>Ability.Combat.Fire, Ability.Combat.Melee</code></li>
+                                            <li>ActivationOwnedTags: <code>State.Combat.Reloading</code></li>
+                                            <li>ReloadTacticalMontage: <code>Pistol_Reload_Tactical</code></li>
+                                            <li>ReloadEmptyMontage: <code>Pistol_Reload_Empty</code></li>
+                                            <li>bAllowMovementDuringReload: <strong>TRUE</strong></li>
+                                        </ul>
+                                    </li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">3. GA_SwordCombo (6 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → <strong>GA_MeleeComboAttack</strong> (C++ parent)</li>
+                                    <li>Name: <code>GA_SwordCombo</code></li>
+                                    <li>Class Defaults:
+                                        <ul>
+                                            <li>AbilityTags: <code>Ability.Combat.Melee</code></li>
+                                            <li>BlockAbilitiesWithTag: <code>Ability.Combat.Fire</code></li>
+                                            <li>ActivationOwnedTags: <code>State.Combat.Melee</code></li>
+                                            <li>ComboGraphAsset: <code>CG_SwordCombo</code> (create in Phase 3)</li>
+                                            <li>BaseDamageMultiplier: <strong>1.0</strong></li>
+                                            <li>ComboScaling: <strong>0.1</strong> (10% per hit)</li>
+                                        </ul>
+                                    </li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">4-6. GA_ThrowFrag / GA_ThrowFlashbang / GA_ThrowSmoke (12 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <p>Create 3 similar abilities based on <strong>GA_ThrowGrenade</strong> parent:</p>
+                                <ol>
+                                    <li><strong>GA_ThrowFrag</strong>:
+                                        <ul>
+                                            <li>ProjectileClass: <code>BP_FragGrenade</code></li>
+                                            <li>ThrowVelocity: <strong>1500.0</strong></li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>GA_ThrowFlashbang</strong>:
+                                        <ul>
+                                            <li>ProjectileClass: <code>BP_Flashbang</code></li>
+                                            <li>ExplosionEffect: <code>GE_Flashbang</code></li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>GA_ThrowSmoke</strong>:
+                                        <ul>
+                                            <li>ProjectileClass: <code>BP_SmokeGrenade</code></li>
+                                            <li>ConcealmentEffect: <code>GE_SmokeConcealment</code></li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">7. GA_TakeCoverBase (5 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → <strong>GA_TakeCover</strong> (C++ parent)</li>
+                                    <li>Name: <code>GA_TakeCoverBase</code></li>
+                                    <li>Class Defaults:
+                                        <ul>
+                                            <li>AbilityTags: <code>Ability.Tactical.Cover</code></li>
+                                            <li>ActivationOwnedTags: <code>State.InCover</code></li>
+                                            <li>CoverBonusEffectClass: <code>GE_CoverBonus</code></li>
+                                            <li>CoverDetectionRadius: <strong>200.0</strong></li>
+                                        </ul>
+                                    </li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">8. GA_InteractBase (3 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Blueprint Class → <strong>GA_Interact</strong> (C++ parent)</li>
+                                    <li>Name: <code>GA_InteractBase</code></li>
+                                    <li>Class Defaults:
+                                        <ul>
+                                            <li>AbilityTags: <code>Ability.Utility.Interact</code></li>
+                                            <li>InteractionRange: <strong>200.0</strong></li>
+                                            <li>InteractionAngle: <strong>45.0</strong></li>
+                                        </ul>
+                                    </li>
+                                    <li>Save & Compile</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Phase 2 Complete!</strong> You now have 8 gameplay abilities connected to effects.
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHASE 3: WEAPONS -->
+            <section id="phase3">
+                <h2>Phase 3: Create 6 Weapon Blueprints</h2>
+                <span class="label label-blueprint">Blueprint Only</span>
+                <span class="label label-optional">30 Minutes</span>
+
+                <p>Create 6 weapon instances in <code>Content/HopFramework/Blueprints/Weapons/</code></p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Weapon Creation Summary</h3>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Weapon</th>
+                                    <th>Parent Class</th>
+                                    <th>Key Properties</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>BP_Pistol</td>
+                                    <td>ARangedWeaponBase</td>
+                                    <td>12 rounds, Single, 25 damage</td>
+                                    <td>5 min</td>
+                                </tr>
+                                <tr>
+                                    <td>BP_AssaultRifle</td>
+                                    <td>ARangedWeaponBase</td>
+                                    <td>30 rounds, Auto, 20 damage</td>
+                                    <td>5 min</td>
+                                </tr>
+                                <tr>
+                                    <td>BP_Sword</td>
+                                    <td>AMeleeWeaponBase</td>
+                                    <td>4-hit combo, 50 damage/hit</td>
+                                    <td>5 min</td>
+                                </tr>
+                                <tr>
+                                    <td>BP_FragGrenade</td>
+                                    <td>AThrowableWeaponBase</td>
+                                    <td>100 damage, 5m radius, 3s fuse</td>
+                                    <td>5 min</td>
+                                </tr>
+                                <tr>
+                                    <td>BP_Flashbang</td>
+                                    <td>AThrowableWeaponBase</td>
+                                    <td>GE_Flashbang, 4m radius</td>
+                                    <td>5 min</td>
+                                </tr>
+                                <tr>
+                                    <td>BP_SmokeGrenade</td>
+                                    <td>AThrowableWeaponBase</td>
+                                    <td>GE_SmokeConcealment, 6m radius</td>
+                                    <td>5 min</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>💡 Tip:</strong> See <code>weapons.html</code> for detailed property configurations and Blueprint node setups.
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHASE 4: CHARACTER -->
+            <section id="phase4">
+                <h2>Phase 4: Character Setup & Input</h2>
+                <span class="label label-blueprint">Blueprint + Input</span>
+                <span class="label label-optional">15 Minutes</span>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Character Configuration</h3>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">Step 1: Add Ability System Component</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Open your character Blueprint (e.g., <code>BP_ThirdPersonCharacter</code>)</li>
+                                    <li>Add Component → <strong>Ability System Component</strong></li>
+                                    <li>Add Component → <strong>HopCombatAttributeSet</strong> (in ASC Details)</li>
+                                    <li>Compile & Save</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">Step 2: Grant Abilities on BeginPlay</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="code-block">
+                                    <div class="code-content">
+<pre><code>// Event BeginPlay
+Event BeginPlay
+├─ Get Ability System Component (Self)
+├─ Give Ability
+│  ├─ Ability: GA_FirePistol
+│  ├─ Level: 1
+│  └─ Input ID: 0 (Fire)
+├─ Give Ability
+│  ├─ Ability: GA_ReloadPistol
+│  ├─ Level: 1
+│  └─ Input ID: 1 (Reload)
+├─ Give Ability
+│  ├─ Ability: GA_SwordCombo
+│  ├─ Level: 1
+│  └─ Input ID: 2 (Melee)
+├─ Give Ability
+│  ├─ Ability: GA_ThrowFrag
+│  ├─ Level: 1
+│  └─ Input ID: 3 (Grenade)
+├─ Give Ability
+│  ├─ Ability: GA_TakeCoverBase
+│  ├─ Level: 1
+│  └─ Input ID: 4 (Cover)
+└─ Give Ability
+   ├─ Ability: GA_InteractBase
+   ├─ Level: 1
+   └─ Input ID: 5 (Interact)</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">Step 3: Configure Enhanced Input</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>Create Input Actions (if not exist):
+                                        <ul>
+                                            <li><code>IA_Fire</code></li>
+                                            <li><code>IA_Reload</code></li>
+                                            <li><code>IA_MeleeAttack</code></li>
+                                            <li><code>IA_ThrowGrenade</code></li>
+                                            <li><code>IA_TakeCover</code></li>
+                                            <li><code>IA_Interact</code></li>
+                                        </ul>
+                                    </li>
+                                    <li>Add to Input Mapping Context with keybinds:
+                                        <ul>
+                                            <li>IA_Fire → <strong>Left Mouse Button</strong></li>
+                                            <li>IA_Reload → <strong>R</strong></li>
+                                            <li>IA_MeleeAttack → <strong>Left Mouse Button</strong> (contextual)</li>
+                                            <li>IA_ThrowGrenade → <strong>G</strong></li>
+                                            <li>IA_TakeCover → <strong>C</strong></li>
+                                            <li>IA_Interact → <strong>E</strong></li>
+                                        </ul>
+                                    </li>
+                                    <li>In Character Blueprint, bind inputs to ASC:
+                                        <div class="code-block">
+                                            <div class="code-content">
+<pre><code>// IA_Fire (Triggered)
+└─ Get ASC → Try Activate Ability by Class (GA_FirePistol)
+
+// IA_Reload (Started)
+└─ Get ASC → Try Activate Ability by Class (GA_ReloadPistol)
+
+// IA_MeleeAttack (Triggered)
+└─ Get ASC → Try Activate Ability by Class (GA_SwordCombo)
+
+// etc...</code></pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">Step 4: Spawn Test Weapons</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="code-block">
+                                    <div class="code-content">
+<pre><code>// Event BeginPlay (after granting abilities)
+├─ Spawn Actor from Class
+│  ├─ Class: BP_Pistol
+│  └─ Transform: Hand Socket Location
+├─ Attach Actor to Component
+│  ├─ Parent: Character Mesh
+│  └─ Socket Name: "WeaponSocket"
+└─ Set Weapon Owner (for ability access)</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Phase 4 Complete!</strong> Character can now fire weapons, reload, melee attack, throw grenades, take cover, and interact.
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHASE 5: TESTING -->
+            <section id="phase5">
+                <h2>Phase 5: Testing & Validation</h2>
+                <span class="label label-optional">30 Minutes</span>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Testing Checklist</h3>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">1. Single Player Testing (10 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <h5>Fire Weapon System:</h5>
+                                <ul>
+                                    <li>☐ Fire pistol, verify ammo consumption (30 → 29 → ...)</li>
+                                    <li>☐ Empty magazine, verify auto-reload triggers</li>
+                                    <li>☐ Manual reload (R key), verify animation plays</li>
+                                    <li>☐ Fire while reloading, verify reload cancels</li>
+                                </ul>
+
+                                <h5>Melee Combat:</h5>
+                                <ul>
+                                    <li>☐ Execute 4-hit combo, verify animation chain</li>
+                                    <li>☐ Verify combo window (press attack at 60-90% mark)</li>
+                                    <li>☐ Let combo reset, verify counter resets to 0</li>
+                                    <li>☐ Verify damage scaling (50 → 55 → 60 → 75)</li>
+                                </ul>
+
+                                <h5>Throwables:</h5>
+                                <ul>
+                                    <li>☐ Throw frag grenade, verify 3s fuse + explosion</li>
+                                    <li>☐ Throw flashbang, verify stun effect (-50% speed, 5s)</li>
+                                    <li>☐ Throw smoke, verify concealment tag granted (15s)</li>
+                                </ul>
+
+                                <h5>Cover System:</h5>
+                                <ul>
+                                    <li>☐ Press C, verify cover bonus applies (+20 Armor, +15% Resist)</li>
+                                    <li>☐ Take damage in cover, verify reduced damage</li>
+                                    <li>☐ Press C again, verify cover bonus removed</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">2. Network Testing (15 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ol>
+                                    <li>PIE Settings → Number of Players: <strong>3</strong></li>
+                                    <li>Net Mode: <strong>Play as Listen Server</strong></li>
+                                    <li>Click Play</li>
+                                </ol>
+
+                                <h5>Server & Client Tests:</h5>
+                                <ul>
+                                    <li>☐ Server fires weapon → All clients see muzzle flash</li>
+                                    <li>☐ Client 1 fires → Server + Client 2 see effect</li>
+                                    <li>☐ Server takes damage → All clients see health update</li>
+                                    <li>☐ Client 1 enters cover → All clients see cover tag</li>
+                                    <li>☐ Client 2 throws grenade → All clients see explosion</li>
+                                </ul>
+
+                                <h5>Debug Commands:</h5>
+                                <div class="code-block">
+                                    <div class="code-content">
+<pre><code>// Console commands for debugging
+showdebug abilitysystem    // Shows active effects & abilities
+hop.ShowWeaponTraces 1     // Visualize hitscan traces
+stat game                  // Performance metrics
+NetPktLoss 10              // Simulate 10% packet loss</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span class="accordion-title">3. Performance Validation (5 min)</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>☐ Check frame rate (target: 60+ FPS)</li>
+                                    <li>☐ Verify no hitches when firing weapons</li>
+                                    <li>☐ Check network bandwidth (~ &lt; 1 KB/s per player)</li>
+                                    <li>☐ Verify attribute replication (Health, Ammo sync)</li>
+                                    <li>☐ Test with 10+ AI characters firing simultaneously</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Phase 5 Complete!</strong> Combat system validated in single-player and network scenarios.
+                    </div>
+                </div>
+            </section>
+
+            <!-- TROUBLESHOOTING -->
+            <section id="troubleshooting">
+                <h2>🔧 Common Issues & Solutions</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Troubleshooting Guide</h3>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Issue</th>
+                                    <th>Cause</th>
+                                    <th>Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ability won't activate</td>
+                                    <td>Missing ASC or not granted</td>
+                                    <td>Verify ASC exists, ability granted in BeginPlay</td>
+                                </tr>
+                                <tr>
+                                    <td>Damage not applying</td>
+                                    <td>SetByCaller tag mismatch</td>
+                                    <td>Ensure tag is <code>Data.Damage</code>, not <code>Damage</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Ammo not consuming</td>
+                                    <td>GE_AmmoConsumption not applied</td>
+                                    <td>Check AmmoEffectClass set in GA_FireWeapon</td>
+                                </tr>
+                                <tr>
+                                    <td>Reload not working</td>
+                                    <td>ReserveAmmo = 0</td>
+                                    <td>Initialize ReserveAmmo attribute to 90+</td>
+                                </tr>
+                                <tr>
+                                    <td>Cover bonus not applying</td>
+                                    <td>Duration set to 0 incorrectly</td>
+                                    <td>Use <strong>Has Duration</strong> policy with 0.0 magnitude</td>
+                                </tr>
+                                <tr>
+                                    <td>Network desync</td>
+                                    <td>Client prediction disabled</td>
+                                    <td>Enable <code>bReplicateUsingRegisteredSubObjectList</code> on ASC</td>
+                                </tr>
+                                <tr>
+                                    <td>Combo not chaining</td>
+                                    <td>Input outside combo window</td>
+                                    <td>Check ComboWindowStart/End (0.6-0.9 recommended)</td>
+                                </tr>
+                                <tr>
+                                    <td>Health not clamping</td>
+                                    <td>MaxHealth not initialized</td>
+                                    <td>Set MaxHealth = 100.0 in AttributeSet defaults</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEXT STEPS -->
+            <section id="next">
+                <h2>🎯 Next Steps</h2>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Extend the Combat System</h3>
+                    </div>
+
+                    <ul>
+                        <li>🎨 <strong>Visual Polish:</strong> Add muzzle flashes, shell ejections, impact decals</li>
+                        <li>🔊 <strong>Audio:</strong> Fire sounds, reload sounds, hit markers, footsteps</li>
+                        <li>🤖 <strong>AI Integration:</strong> Grant abilities to AI, implement combat behaviors</li>
+                        <li>🎮 <strong>More Weapons:</strong> Shotguns, snipers, SMGs, explosives</li>
+                        <li>⚡ <strong>Advanced Abilities:</strong> Dash, slide, wall-run, ultimate abilities</li>
+                        <li>🌐 <strong>Network Optimization:</strong> Lag compensation, client-side prediction</li>
+                        <li>📊 <strong>UI/HUD:</strong> Health bars, ammo counters, hit indicators, damage numbers</li>
+                        <li>🎯 <strong>Progression:</strong> XP system, skill trees, weapon upgrades</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>📚 Learn More:</strong> See individual documentation pages for detailed API references:
+                    <ul>
+                        <li><a href="weapons.html">Weapon Classes</a> - ARangedWeaponBase, AMeleeWeaponBase, AThrowableWeaponBase</li>
+                        <li><a href="abilities.html">Gameplay Abilities</a> - All 6 ability classes with C++ examples</li>
+                        <li><a href="effects.html">Gameplay Effects</a> - Effect creation and configuration</li>
+                        <li><a href="attributes.html">Attribute System</a> - 13 attributes with clamping logic</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ========================================================================================================= -->
+            <!-- TUTORIAL 2: COMBO GRAPH SETUP -->
+            <!-- ========================================================================================================= -->
+
+            <section id="tutorial-combo-graph" class="fade-in">
+                <h2>🔄 Tutorial 2: Combo Graph Setup (30 minutes)</h2>
+
+                <div class="alert alert-success">
+                    <strong>📌 What You'll Build:</strong> A complete 4-attack combo graph with animation montages, input buffering, combo windows, and state transitions. Learn how the visual combo graph system works with HopComboManagerComponent.
+                </div>
+
+                <!-- PREREQUISITES -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📋 Prerequisites</h3>
+                    </div>
+
+                    <h4>Required Components</h4>
+                    <ul>
+                        <li>✅ <strong>HopComboGraphRuntime Module</strong> enabled in project</li>
+                        <li>✅ <strong>HopComboManagerComponent</strong> added to Character Blueprint</li>
+                        <li>✅ <strong>Animation Montages</strong> for each attack (AM_Sword_Slash_01 through 04)</li>
+                        <li>✅ <strong>Enhanced Input System</strong> configured with <code>IA_Attack</code> action</li>
+                        <li>✅ <strong>Ability System Component</strong> on character for GAS integration</li>
+                    </ul>
+
+                    <h4>Required Knowledge</h4>
+                    <ul>
+                        <li>📖 Basic understanding of animation montages and sections</li>
+                        <li>📖 Familiarity with Enhanced Input System (IA_ assets, IMC_ contexts)</li>
+                        <li>📖 Understanding of state machines and transitions</li>
+                    </ul>
+
+                    <h4>File Structure</h4>
+                    <pre><code>Content/
+├── Animations/
+│   ├── Montages/
+│   │   ├── AM_Sword_Slash_01.uasset
+│   │   ├── AM_Sword_Slash_02.uasset
+│   │   ├── AM_Sword_Slash_03.uasset
+│   │   └── AM_Sword_Slash_04.uasset
+│   └── Notifies/
+│       └── ANS_ComboWindow.uasset
+├── ComboGraphs/
+│   └── CG_Sword_LightCombo.uasset (we'll create this)
+└── Input/
+    ├── IA_Attack.uasset
+    └── IMC_Combat.uasset</code></pre>
+                </div>
+
+                <!-- STEP 1: CREATE COMBO GRAPH ASSET -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 1: Create Combo Graph Asset</h3>
+                    </div>
+
+                    <h4>1.1 Create New Combo Graph</h4>
+                    <ol>
+                        <li>Navigate to <code>Content/ComboGraphs/</code></li>
+                        <li>Right-click → <strong>HOP Combo Graph</strong> → <strong>Combo Graph</strong></li>
+                        <li>Name it: <code>CG_Sword_LightCombo</code></li>
+                        <li>Double-click to open the Combo Graph Editor</li>
+                    </ol>
+
+                    <div class="alert alert-info">
+                        <strong>💡 Tip:</strong> The Combo Graph Editor is a visual state machine editor similar to Blueprint/Animation Blueprints. You'll see an Entry node already placed.
+                    </div>
+
+                    <h4>1.2 Configure Graph Properties</h4>
+                    <p>Select the graph background (not a node) and set properties in the Details panel:</p>
+                    <pre><code><strong>Graph Settings:</strong>
+├─ Graph Name: "Sword Light Combo"
+├─ Description: "4-hit sword combo with scaling damage"
+├─ bAutoStart: false (ability starts it)
+└─ bLoopCombo: false (reset after 4th hit)
+
+<strong>Input Settings:</strong>
+├─ Required Input Action: IA_Attack
+├─ Input Buffer Time: 0.2 seconds
+└─ bAllowInputBuffering: true
+
+<strong>Gameplay Tags:</strong>
+├─ ComboTags: 
+│   ├─ Combo.Weapon.Sword
+│   └─ Combo.Type.Light
+└─ RequiredTags: (none - always available)</code></pre>
+
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Important:</strong> <code>Required Input Action</code> determines which input triggers combo progression. This should match your Enhanced Input Action for attacking.
+                    </div>
+                </div>
+
+                <!-- STEP 2: ADD MONTAGE NODES -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 2: Add Animation Montage Nodes</h3>
+                    </div>
+
+                    <h4>2.1 Add First Attack Node</h4>
+                    <ol>
+                        <li>Right-click in graph → <strong>Add Montage Node</strong></li>
+                        <li>Name it: <code>Attack1_Light</code></li>
+                        <li>Connect <strong>Entry</strong> node output → <code>Attack1_Light</code> input</li>
+                    </ol>
+
+                    <h4>2.2 Configure Attack1 Montage Node</h4>
+                    <p>Select the <code>Attack1_Light</code> node and configure in Details panel:</p>
+                    <pre><code><strong>Animation Properties:</strong>
+├─ Animation Montage: AM_Sword_Slash_01
+├─ Play Rate: 1.0
+├─ Start Position: 0.0 (start from beginning)
+├─ Blend In Time: 0.1 seconds
+└─ Blend Out Time: 0.2 seconds
+
+<strong>Combo Window:</strong>
+├─ Combo Window Start: 0.6 (60% through animation)
+├─ Combo Window End: 0.95 (95% through animation)
+├─ Window Duration: ~0.35 seconds (normalized time)
+└─ bShowDebugWindow: true (visualize in PIE)
+
+<strong>Gameplay Tags:</strong>
+├─ Node Tags:
+│   ├─ State.Combo.Attacking.Hit1
+│   └─ Damage.Physical.Slash.Combo1
+├─ Granted Tags (while active):
+│   ├─ State.Combat.Melee.Attacking
+│   └─ State.Combo.Active
+└─ Blocked Tags (prevent these):
+│   ├─ State.Dead
+│   └─ State.Stunned
+
+<strong>Actions on Enter:</strong>
+└─ (None for Attack1 - basic attack)</code></pre>
+
+                    <div class="alert alert-success">
+                        <strong>✨ Combo Window Explained:</strong><br>
+                        • <code>0.0 = Start</code> of montage, <code>1.0 = End</code> of montage<br>
+                        • <code>ComboWindowStart = 0.6</code> means window opens at 60% through animation<br>
+                        • <code>ComboWindowEnd = 0.95</code> means window closes at 95%<br>
+                        • Players must input attack command within this 35% timeframe to chain combo<br>
+                        • Input outside window = combo resets to Attack1
+                    </div>
+
+                    <h4>2.3 Add Remaining Attack Nodes</h4>
+                    <p>Repeat process for attacks 2, 3, and 4:</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Node Name</th>
+                                <th>Montage</th>
+                                <th>Play Rate</th>
+                                <th>Window Start</th>
+                                <th>Window End</th>
+                                <th>Node Tags</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Attack2_Light</strong></td>
+                                <td>AM_Sword_Slash_02</td>
+                                <td>1.1</td>
+                                <td>0.6</td>
+                                <td>0.95</td>
+                                <td>State.Combo.Attacking.Hit2<br>Damage.Physical.Slash.Combo2</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Attack3_Light</strong></td>
+                                <td>AM_Sword_Slash_03</td>
+                                <td>1.15</td>
+                                <td>0.65</td>
+                                <td>0.95</td>
+                                <td>State.Combo.Attacking.Hit3<br>Damage.Physical.Slash.Combo3</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Attack4_Finisher</strong></td>
+                                <td>AM_Sword_Slash_04</td>
+                                <td>1.0</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td>State.Combo.Attacking.Hit4<br>Damage.Physical.Slash.Finisher</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-info">
+                        <strong>💡 Design Note:</strong> Play Rate increases (1.0 → 1.1 → 1.15) to speed up combo flow. Attack4 has no combo window since it's the finisher.
+                    </div>
+
+                    <h4>2.4 Connect Nodes with Edges</h4>
+                    <ol>
+                        <li>Drag from <strong>Attack1_Light</strong> output → <strong>Attack2_Light</strong> input</li>
+                        <li>Drag from <strong>Attack2_Light</strong> output → <strong>Attack3_Light</strong> input</li>
+                        <li>Drag from <strong>Attack3_Light</strong> output → <strong>Attack4_Finisher</strong> input</li>
+                        <li>Drag from <strong>Attack4_Finisher</strong> output → <strong>Result</strong> node (auto-created)</li>
+                    </ol>
+
+                    <p>Your graph should look like:</p>
+                    <pre><code>Entry ──→ Attack1_Light ──→ Attack2_Light ──→ Attack3_Light ──→ Attack4_Finisher ──→ Result</code></pre>
+                </div>
+
+                <!-- STEP 3: CONFIGURE EDGE TRANSITIONS -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 3: Configure Edge Transitions</h3>
+                    </div>
+
+                    <h4>3.1 Configure Transition: Attack1 → Attack2</h4>
+                    <p>Click the <strong>edge/arrow</strong> between Attack1 and Attack2:</p>
+                    <pre><code><strong>Transition Properties:</strong>
+├─ Transition Name: "To Attack2"
+├─ Transition Input Action: IA_Attack
+├─ Priority: 100 (highest priority)
+├─ Selection Weight: 1.0 (100% chance if conditions met)
+│
+<strong>Conditions:</strong>
+├─ Min Combo Count: 0 (no minimum)
+├─ Max Combo Count: 999 (no maximum)
+├─ Required Tags: (none)
+└─ Blocking Tags: State.Dead, State.Stunned
+│
+<strong>Custom Conditions (Blueprint):</strong>
+└─ CanTransition Event: (leave default - always true)</code></pre>
+
+                    <div class="alert alert-success">
+                        <strong>✨ How Transitions Work:</strong><br>
+                        1. Player presses attack input (<code>IA_Attack</code>)<br>
+                        2. HopComboManagerComponent checks if currently in combo window (60%-95%)<br>
+                        3. If YES and edge conditions pass → Transition to Attack2<br>
+                        4. If NO or conditions fail → Reset combo to Attack1
+                    </div>
+
+                    <h4>3.2 Configure Remaining Transitions</h4>
+                    <p>Apply same settings to all transitions:</p>
+                    <ul>
+                        <li><strong>Attack2 → Attack3:</strong> Same as above (TransitionInput = IA_Attack, Priority = 100)</li>
+                        <li><strong>Attack3 → Attack4:</strong> Same as above</li>
+                        <li><strong>Attack4 → Result:</strong> Automatic (no input required, plays when Attack4 ends)</li>
+                    </ul>
+
+                    <h4>3.3 Add Fallback Transitions (Optional)</h4>
+                    <p>For combo reset on timeout:</p>
+                    <ol>
+                        <li>Drag from <strong>Attack1</strong> back to <strong>Attack1</strong> (self-loop)</li>
+                        <li>Set Priority: <strong>50</strong> (lower than progression)</li>
+                        <li>Condition: "Input outside combo window"</li>
+                        <li>Effect: Resets combo count, plays Attack1 again</li>
+                    </ol>
+
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Advanced:</strong> Self-loops allow combo restart without ending the ability. Without it, missing the combo window ends the combo ability entirely.
+                    </div>
+                </div>
+
+                <!-- STEP 4: ANIMATION NOTIFY SETUP -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 4: Animation Notify State Setup</h3>
+                    </div>
+
+                    <h4>4.1 Create AnimNotifyState_ComboWindow</h4>
+                    <ol>
+                        <li>Navigate to <code>Content/Animations/Notifies/</code></li>
+                        <li>Right-click → <strong>Animation</strong> → <strong>Animation Notify State</strong></li>
+                        <li>Name it: <code>ANS_ComboWindow</code></li>
+                        <li>Parent Class: <code>UAnimNotifyState_ComboWindow</code> (from HopComboGraphRuntime)</li>
+                    </ol>
+
+                    <div class="alert alert-info">
+                        <strong>💡 What is AnimNotifyState_ComboWindow?</strong><br>
+                        It's a special notify that communicates with HopComboManagerComponent to open/close combo windows during montage playback. The notify state duration = combo window active time.
+                    </div>
+
+                    <h4>4.2 Add Notify to Montages</h4>
+                    <p>For each montage (AM_Sword_Slash_01 through 03):</p>
+                    <ol>
+                        <li>Open the montage asset</li>
+                        <li>In the <strong>Notifies</strong> track, right-click → <strong>Add Notify State</strong> → <code>ANS_ComboWindow</code></li>
+                        <li>Position the notify state bar:</li>
+                    </ol>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Montage</th>
+                                <th>Duration (seconds)</th>
+                                <th>Window Start Time</th>
+                                <th>Window End Time</th>
+                                <th>Notify Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AM_Sword_Slash_01</td>
+                                <td>1.0s</td>
+                                <td>0.6s (60%)</td>
+                                <td>0.95s (95%)</td>
+                                <td>0.35s</td>
+                            </tr>
+                            <tr>
+                                <td>AM_Sword_Slash_02</td>
+                                <td>0.9s (faster due to PlayRate 1.1)</td>
+                                <td>0.54s (60%)</td>
+                                <td>0.855s (95%)</td>
+                                <td>0.315s</td>
+                            </tr>
+                            <tr>
+                                <td>AM_Sword_Slash_03</td>
+                                <td>0.87s (PlayRate 1.15)</td>
+                                <td>0.565s (65%)</td>
+                                <td>0.826s (95%)</td>
+                                <td>0.261s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Timing Critical:</strong> The notify state MUST align exactly with the combo window times defined in the montage nodes. Misalignment causes input to be ignored.
+                    </div>
+
+                    <h4>4.3 Configure Notify Properties</h4>
+                    <p>Select the <code>ANS_ComboWindow</code> notify in each montage:</p>
+                    <pre><code><strong>Combo Window Notify Settings:</strong>
+├─ Combo Graph Reference: CG_Sword_LightCombo (auto-linked)
+├─ Window Index: 0 (first window), 1 (second), etc.
+├─ Debug Color: Green (visual indicator in editor)
+└─ bAllowBufferedInput: true (queues input during window)</code></pre>
+                </div>
+
+                <!-- STEP 5: INTEGRATE WITH ABILITY -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 5: Integrate with Gameplay Ability</h3>
+                    </div>
+
+                    <h4>5.1 Create/Update Combo Ability</h4>
+                    <p>If you created <code>GA_Sword_LightCombo</code> in Tutorial 1, update it. Otherwise create new:</p>
+                    <ol>
+                        <li>Right-click → <strong>Blueprint Class</strong> → Parent: <code>UHopGameplayAbility_ComboGraph</code></li>
+                        <li>Name: <code>GA_Sword_LightCombo</code></li>
+                        <li>Open and configure in Class Defaults:</li>
+                    </ol>
+
+                    <pre><code><strong>Ability Settings:</strong>
+├─ Ability Tags: Ability.Combat.Melee.Combo
+├─ Cancel Abilities with Tag: Ability.Combat.Ranged
+├─ Block Abilities with Tag: (none)
+├─ Activation Blocked Tags:
+│   ├─ State.Dead
+│   ├─ State.Stunned
+│   └─ State.Combat.Reloading
+│
+<strong>Combo Graph Settings:</strong>
+├─ Combo Graph: CG_Sword_LightCombo ← SELECT YOUR GRAPH
+├─ bAutoStartGraph: true (start on ability activation)
+├─ Input Buffer Component: HopInputBufferComponent
+└─ Combo Manager Component: HopComboManagerComponent
+│
+<strong>Cost/Cooldown:</strong>
+├─ Cost GE: GE_StaminaCost_Light (25 stamina per attack)
+└─ Cooldown GE: (none - combo handles timing)</code></pre>
+
+                    <h4>5.2 Blueprint Event Graph</h4>
+                    <p>Open Event Graph and add:</p>
+                    <pre><code><strong>Event ActivateAbility:</strong>
+├─→ Get Combo Manager Component (from OwningActor)
+├─→ Start Combo Graph
+│   ├─ Combo Graph: CG_Sword_LightCombo
+│   ├─ Starting Node: (auto - uses Entry)
+│   └─ Return: Combo Instance Handle
+├─→ Bind Event: OnComboCompleted
+│   └─→ End Ability
+└─→ Bind Event: OnComboInterrupted
+    └─→ Cancel Ability
+
+<strong>Event OnComboStateChanged:</strong>
+(Fired when transitioning between Attack1→2→3→4)
+├─→ Get Current Combo Count
+├─→ Print String: "Combo Hit {ComboCount}"
+└─→ (Apply damage scaling based on combo count - see Tutorial 1)</code></pre>
+                </div>
+
+                <!-- STEP 6: CHARACTER INTEGRATION -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 6: Character Blueprint Integration</h3>
+                    </div>
+
+                    <h4>6.1 Add Required Components</h4>
+                    <p>Open Character Blueprint, add components if not present:</p>
+                    <ul>
+                        <li>✅ <strong>HopComboManagerComponent:</strong> Manages combo graph execution</li>
+                        <li>✅ <strong>HopInputBufferComponent:</strong> Buffers inputs during non-combo windows</li>
+                        <li>✅ <strong>AbilitySystemComponent:</strong> For GAS integration</li>
+                    </ul>
+
+                    <h4>6.2 Grant Ability on BeginPlay</h4>
+                    <pre><code><strong>Event BeginPlay:</strong>
+├─→ Get Ability System Component
+├─→ Give Ability
+│   ├─ Ability: GA_Sword_LightCombo
+│   ├─ Level: 1
+│   └─ Input ID: -1 (manual activation)
+└─→ Store Ability Spec Handle (for later activation)</code></pre>
+
+                    <h4>6.3 Bind Input to Ability Activation</h4>
+                    <pre><code><strong>Event SetupPlayerInputComponent:</strong>
+├─→ Enhanced Input: Bind Action (IA_Attack, Started)
+│   └─→ Try Activate Ability by Class
+│       ├─ Ability Class: GA_Sword_LightCombo
+│       └─ (If already active, routes to combo progression)
+│
+└─→ Enhanced Input: Bind Action (IA_Attack, Completed)
+    └─→ (Optional) Notify ability of input release</code></pre>
+
+                    <div class="alert alert-success">
+                        <strong>✨ Smart Input Routing:</strong><br>
+                        • First press: Activates GA_Sword_LightCombo → Plays Attack1<br>
+                        • Second press (during window): Routes to combo progression → Plays Attack2<br>
+                        • Third press: Attack3, Fourth press: Attack4<br>
+                        • Press outside window: Combo resets or ability ends (based on graph)
+                    </div>
+                </div>
+
+                <!-- STEP 7: TESTING -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 7: Testing & Validation</h3>
+                    </div>
+
+                    <h4>7.1 Enable Debug Visualization</h4>
+                    <p>In PIE (Play-In-Editor), open console and run:</p>
+                    <pre><code>showdebug abilitysystem    // Shows active abilities and tags
+hop.ComboDebug 1            // Shows combo state transitions
+showdebug animation         // Shows montage playback position (%)</code></pre>
+
+                    <h4>7.2 Test Checklist</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Test Case</th>
+                                <th>Expected Result</th>
+                                <th>✓</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Press attack once</td>
+                                <td>Attack1 animation plays</td>
+                                <td>☐</td>
+                            </tr>
+                            <tr>
+                                <td>Press attack during green window (60%-95%)</td>
+                                <td>Attack2 chains smoothly</td>
+                                <td>☐</td>
+                            </tr>
+                            <tr>
+                                <td>Press attack too early (before 60%)</td>
+                                <td>Input buffered, processes when window opens</td>
+                                <td>☐</td>
+                            </tr>
+                            <tr>
+                                <td>Press attack too late (after 95%)</td>
+                                <td>Combo resets to Attack1 OR ability ends</td>
+                                <td>☐</td>
+                            </tr>
+                            <tr>
+                                <td>Complete 4-hit combo</td>
+                                <td>Attack4 finisher plays, ability ends</td>
+                                <td>☐</td>
+                            </tr>
+                            <tr>
+                                <td>Spam attack button</td>
+                                <td>Inputs buffered, combo progresses at correct timing</td>
+                                <td>☐</td>
+                            </tr>
+                            <tr>
+                                <td>Get stunned mid-combo</td>
+                                <td>Combo interrupted, ability cancelled</td>
+                                <td>☐</td>
+                            </tr>
+                            <tr>
+                                <td>Check gameplay tags during combo</td>
+                                <td>Tags granted/removed correctly (State.Combo.Attacking.Hit1/2/3/4)</td>
+                                <td>☐</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>7.3 Performance Validation</h4>
+                    <pre><code>stat fps            // Should maintain 60+ FPS
+stat unit           // Frame time should be < 16ms
+stat memory         // Check for memory leaks during repeated combos</code></pre>
+                </div>
+
+                <!-- STEP 8: TROUBLESHOOTING -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Step 8: Common Issues & Solutions</h3>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Problem</th>
+                                <th>Likely Cause</th>
+                                <th>Solution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Combo window never opens</td>
+                                <td>AnimNotifyState not added to montage</td>
+                                <td>Add <code>ANS_ComboWindow</code> to montage at 60%-95%</td>
+                            </tr>
+                            <tr>
+                                <td>Input ignored during window</td>
+                                <td>Notify timing doesn't match graph window times</td>
+                                <td>Verify ComboWindowStart/End match notify position exactly</td>
+                            </tr>
+                            <tr>
+                                <td>Combo doesn't chain</td>
+                                <td>Edge TransitionInput not set</td>
+                                <td>Set <code>Transition Input Action = IA_Attack</code> on all edges</td>
+                            </tr>
+                            <tr>
+                                <td>Ability doesn't activate</td>
+                                <td>Ability not granted to character</td>
+                                <td>Check BeginPlay grants ability, verify with <code>showdebug abilitysystem</code></td>
+                            </tr>
+                            <tr>
+                                <td>Animation plays but combo doesn't progress</td>
+                                <td>HopComboManagerComponent not on character</td>
+                                <td>Add component to Character Blueprint</td>
+                            </tr>
+                            <tr>
+                                <td>Combo resets randomly</td>
+                                <td>ComboWindowEnd too small (< 0.9)</td>
+                                <td>Increase to 0.95 to give larger input window</td>
+                            </tr>
+                            <tr>
+                                <td>Input buffer not working</td>
+                                <td>HopInputBufferComponent missing</td>
+                                <td>Add component, set <code>bAllowInputBuffering = true</code> in graph</td>
+                            </tr>
+                            <tr>
+                                <td>Tags not granted</td>
+                                <td>Node tags not configured</td>
+                                <td>Add tags to montage node's "Granted Tags" list</td>
+                            </tr>
+                            <tr>
+                                <td>Finisher (Attack4) can be chained</td>
+                                <td>Combo window set on final node</td>
+                                <td>Remove combo window from Attack4_Finisher node</td>
+                            </tr>
+                            <tr>
+                                <td>Multiplayer desync</td>
+                                <td>Combo state not replicated</td>
+                                <td>Ensure AbilitySystemComponent.ReplicationMode = Mixed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- SYSTEM INTEGRATION SUMMARY -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📊 System Integration Summary</h3>
+                    </div>
+
+                    <h4>Complete Data Flow</h4>
+                    <pre><code>Player Input (IA_Attack)
+    ↓
+Enhanced Input System
+    ↓
+Character Blueprint (SetupPlayerInputComponent)
+    ↓
+Try Activate Ability by Class (GA_Sword_LightCombo)
+    ↓
+Gameplay Ability Activation
+    ↓
+HopComboManagerComponent.StartComboGraph(CG_Sword_LightCombo)
+    ↓
+Play Montage Node (Attack1_Light)
+    ↓
+Animation Montage Playback (AM_Sword_Slash_01)
+    ↓
+ANS_ComboWindow Notify Begin (at 60% playback)
+    ↓
+HopComboManagerComponent.OpenComboWindow()
+    ↓
+Player Presses Input (during window 60%-95%)
+    ↓
+HopInputBufferComponent captures input
+    ↓
+Evaluate Edge Transition Conditions
+    ↓
+Transition to Next Node (Attack2_Light)
+    ↓
+Increment Combo Count (ComboCount = 2)
+    ↓
+Grant New Tags (State.Combo.Attacking.Hit2)
+    ↓
+Repeat for Attack3 → Attack4 → Result
+    ↓
+OnComboCompleted Event Fired
+    ↓
+End Ability (GA_Sword_LightCombo)</code></pre>
+
+                    <h4>Gameplay Tags Used</h4>
+                    <ul>
+                        <li><code>Combo.Weapon.Sword</code> - Identifies this combo type</li>
+                        <li><code>State.Combo.Active</code> - Granted while combo is active</li>
+                        <li><code>State.Combo.Attacking.Hit1/2/3/4</code> - Current combo stage</li>
+                        <li><code>Damage.Physical.Slash.Combo1/2/3/4</code> - For damage scaling</li>
+                        <li><code>State.Combat.Melee.Attacking</code> - Blocks other actions</li>
+                        <li><code>State.Dead</code> - Blocks combo activation</li>
+                        <li><code>State.Stunned</code> - Interrupts active combo</li>
+                    </ul>
+
+                    <h4>Related Systems</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>System</th>
+                                <th>Integration Point</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Damage System</td>
+                                <td>OnComboStateChanged event</td>
+                                <td>Apply damage with combo scaling (Tutorial 1)</td>
+                            </tr>
+                            <tr>
+                                <td>Input Buffer</td>
+                                <td>HopInputBufferComponent</td>
+                                <td>Queue inputs outside combo window for smooth execution</td>
+                            </tr>
+                            <tr>
+                                <td>Animation System</td>
+                                <td>AnimNotifyState_ComboWindow</td>
+                                <td>Synchronize combo window with animation timing</td>
+                            </tr>
+                            <tr>
+                                <td>GAS (Gameplay Ability System)</td>
+                                <td>UHopGameplayAbility_ComboGraph</td>
+                                <td>Integrate combo with abilities, tags, effects</td>
+                            </tr>
+                            <tr>
+                                <td>VFX System</td>
+                                <td>Node Actions (Enter/Exit)</td>
+                                <td>Spawn particles, play sounds on each hit</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- NEXT STEPS -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🎯 Next Steps</h3>
+                    </div>
+
+                    <h4>Enhance Your Combo System</h4>
+                    <ul>
+                        <li>🎨 <strong>Add Branching Paths:</strong> Create alternate finishers (heavy vs light) using conduit nodes</li>
+                        <li>⚡ <strong>Add Special Attacks:</strong> Charge attacks, aerial combos, ground slams</li>
+                        <li>🔄 <strong>Create More Combos:</strong> Heavy combo (slower, more damage), ranged combo (bow)</li>
+                        <li>🎮 <strong>Directional Combos:</strong> Different combos for forward/backward/neutral inputs</li>
+                        <li>💥 <strong>Add Actions:</strong> Spawn VFX on Enter, apply buffs on Exit, play sounds on hit</li>
+                        <li>🛡️ <strong>Counter System:</strong> Parry → riposte combo (see Tutorial 4)</li>
+                        <li>🌐 <strong>Network Testing:</strong> Verify combo synchronization in multiplayer (see Tutorial 6)</li>
+                    </ul>
+
+                    <div class="alert alert-info">
+                        <strong>📚 Continue Learning:</strong>
+                        <ul>
+                            <li><a href="#tutorial-melee-weapon">Tutorial 1: Melee Weapon</a> - Complete weapon damage system</li>
+                            <li><a href="#tutorial-input-system">Tutorial 3: Input System</a> - Advanced input handling</li>
+                            <li><a href="combograph.html">Combo Graph Documentation</a> - Complete API reference</li>
+                            <li><a href="gameplay-tags.html">Gameplay Tags</a> - All combo-related tags explained</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>HOP Framework Documentation | Quick Start Tutorial</p>
+            <p>5 Phases | ~2 Hours | Complete Combat System ✅</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
